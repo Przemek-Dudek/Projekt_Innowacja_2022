@@ -5,7 +5,7 @@ require("@nomicfoundation/hardhat-toolbox");
 // testing the frontend.
 require("./tasks/faucet");
 
-const KEY = "fb92d6f15a0fb19e499eb54a5f21e819baacdfd0669caf77f052878d7533d832";
+const KEY = "";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
