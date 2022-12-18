@@ -43,9 +43,6 @@ contract Token {
      * the contract.
      */
 
-    function totalSupplyFunc() public returns (uint256) {
-        return totalSupply;
-    }
 
     function transfer(address to, uint256 amount) external {
         // Check if the transaction sender has enough tokens.
