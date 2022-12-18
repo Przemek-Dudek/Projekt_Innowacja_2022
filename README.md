@@ -1,3 +1,6 @@
+## Konfiguracja
+
+
 ## Uruchomienie
 
 Na początku trzeba sklonować repozytorium:
