@@ -26,7 +26,6 @@ contract Token {
     // The Transfer event helps off-chain aplications understand
     // what happens within your contract.
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
-
     /**
      * Contract initialization.
      */
@@ -43,6 +42,11 @@ contract Token {
      * The `external` modifier makes a function *only* callable from outside
      * the contract.
      */
+
+    function totalSupplyFunc() public returns (uint256) {
+        return totalSupply;
+    }
+
     function transfer(address to, uint256 amount) external {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false` then the
