@@ -1,5 +1,6 @@
 ## Konfiguracja
 
+W pliku hardhat.config.js w pole Key wpisujemy nasz numer walleta
 
 ## Uruchomienie
 
@@ -30,4 +31,3 @@ cd frontend
 npm install
 npm start
 ```
-
