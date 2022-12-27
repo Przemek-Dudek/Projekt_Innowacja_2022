@@ -25,6 +25,7 @@ async function main() {
   const Ticket = await ethers.getContractFactory("ticketsDeploy");
   const ticket = await Ticket.deploy();
   await ticket.deployed();
+  
 
   const Token = await ethers.getContractFactory("Token");
   const token = await Token.deploy(ticket.address);
