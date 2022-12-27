@@ -5,7 +5,7 @@ contract ticketsDeploy {
     struct Contracts {
         string explanation;
         address walletAddress;
-        uint256 numberOfTokens
+        uint256 numberOfTokens;
     }
 
     //memory służy do zapewnienia miejsca na jakąś zmienną w pamięci 
