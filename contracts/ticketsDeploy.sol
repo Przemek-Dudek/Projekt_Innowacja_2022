@@ -5,6 +5,7 @@ contract ticketsDeploy {
     struct Contracts {
         string explanation;
         address walletAddress;
+        uint256 numberOfTokens
     }
 
     //memory służy do zapewnienia miejsca na jakąś zmienną w pamięci 
@@ -16,9 +17,9 @@ contract ticketsDeploy {
 
     event AddTicket(address recipent, uint ticketID);
 
-    function addTicket(string calldata contractInfo, address wallet) public {
+    function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) public {
         uint ticketID = tickets.length;
-        tickets.push(Contracts(contractInfo,wallet));
+        tickets.push(Contracts(contractInfo,wallet,numberOfTokens));
         ticketsToOwner[ticketID] = msg.sender;
         emit AddTicket(msg.sender, ticketID);
     }
