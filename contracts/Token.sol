@@ -15,9 +15,9 @@ contract Token is ERC20Capped, ERC20Burnable{
     uint256 public maxSupply = 1000000;
     address  public owner;
 
-    constructor() ERC20("Transition Technologies", "$TTPSC") ERC20Capped(maxSupply * (10 ** decimals())) {
+    constructor(address contractAddress) ERC20("Transition Technologies", "$TTPSC") ERC20Capped(maxSupply * (10 ** decimals())) {
         owner = msg.sender;
-        _mint(owner, maxSupply * (10 ** decimals()));
+        _mint(contractAddress, maxSupply * (10 ** decimals()));
     }
 
     function _mint(address account, uint256 amount) internal virtual override(ERC20Capped, ERC20) {

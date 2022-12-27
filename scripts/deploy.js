@@ -22,8 +22,12 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
+  const Ticket = await ethers.getContractFactory("ticketsDeploy");
+  const ticket = await Ticket.deploy();
+  await ticket.deployed();
+
   const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy();
+  const token = await Token.deploy(ticket.address);
   await token.deployed();
 
   console.log("Token address:", token.address);
