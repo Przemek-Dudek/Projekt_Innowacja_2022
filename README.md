@@ -12,12 +12,6 @@ cd Projekt_Innowacja_2022
 npm install
 ```
 
-Teraz trzeba odpalić sieć testową w terminalu/powershellu:
-
-```sh
-npx hardhat node
-```
-
 Następnie w nowym terminalu/powershellu wpisać komendę:
 
 ```sh
