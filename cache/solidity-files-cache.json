@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\dataBase.sol": {
-      "lastModificationDate": 1672158787520,
-      "contentHash": "4d329ccebc7e662ba613a82b92f13912",
+      "lastModificationDate": 1672259123694,
+      "contentHash": "e5b8705488ba926b48bb9dc0818f9f6c",
       "sourceName": "contracts/dataBase.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -33,12 +33,12 @@
         "^0.8.9"
       ],
       "artifacts": [
-        "Owner"
+        "dataBase"
       ]
     },
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\ticketsDeploy.sol": {
-      "lastModificationDate": 1672158938434,
-      "contentHash": "f28faf5f6021a7258bd3eaa627517849",
+      "lastModificationDate": 1672257677124,
+      "contentHash": "05996a297749e6b250999dbef854f4cf",
       "sourceName": "contracts/ticketsDeploy.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -65,15 +65,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.8.0 <=0.8.17"
+        "^0.8.9"
       ],
       "artifacts": [
         "ticketsDeploy"
       ]
     },
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\Token.sol": {
-      "lastModificationDate": 1672158787519,
-      "contentHash": "277377034c81b3f1acededce711e8608",
+      "lastModificationDate": 1672257520361,
+      "contentHash": "3bdaa785f412246ce4d83bf841fe545e",
       "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -108,6 +108,44 @@
       ],
       "artifacts": [
         "Token"
+      ]
+    },
+    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Burnable.sol": {
+      "lastModificationDate": 1672158787729,
+      "contentHash": "d93133f793f86499d91f6200e8489848",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../ERC20.sol",
+        "../../../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20Burnable"
       ]
     },
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
@@ -184,44 +222,6 @@
       ],
       "artifacts": [
         "ERC20Capped"
-      ]
-    },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Burnable.sol": {
-      "lastModificationDate": 1672158787729,
-      "contentHash": "d93133f793f86499d91f6200e8489848",
-      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../ERC20.sol",
-        "../../../utils/Context.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "ERC20Burnable"
       ]
     },
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {

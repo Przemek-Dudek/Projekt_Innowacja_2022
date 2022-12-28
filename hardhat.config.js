@@ -8,7 +8,7 @@ require("./tasks/faucet");
 
 
 //Place for your private account key abcasd
-const KEY = "";
+const KEY = "fb92d6f15a0fb19e499eb54a5f21e819baacdfd0669caf77f052878d7533d832";
 
 
 
