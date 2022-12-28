@@ -39,8 +39,6 @@ async function main() {
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendFiles(token);
-  saveFrontendFiles(ticket);
-  saveFrontendFiles(dataBase);
 }
 
 function saveFrontendFiles(token) {
@@ -62,9 +60,13 @@ function saveFrontendFiles(token) {
 
   fs.writeFileSync(
     path.join(contractsDir, "Token.json"),
-    JSON.stringify(TokenArtifact, null, 2),
+    JSON.stringify(TokenArtifact, null, 2)
+  );
+  fs.writeFileSync(
     path.join(contractsDir, "ticketsDeploy.json"),
-    JSON.stringify(TicketArtifact, null, 2),
+    JSON.stringify(TicketArtifact, null, 2)
+  );
+  fs.writeFileSync(
     path.join(contractsDir, "dataBase.json"),
     JSON.stringify(DataArtifact, null, 2)
   );
