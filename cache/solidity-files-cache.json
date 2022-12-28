@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\dataBase.sol": {
-      "lastModificationDate": 1672259123694,
-      "contentHash": "e5b8705488ba926b48bb9dc0818f9f6c",
+      "lastModificationDate": 1672259307150,
+      "contentHash": "1881510ecdec9c8f7d54d2e4bb6be806",
       "sourceName": "contracts/dataBase.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -72,8 +72,8 @@
       ]
     },
     "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\Token.sol": {
-      "lastModificationDate": 1672257520361,
-      "contentHash": "3bdaa785f412246ce4d83bf841fe545e",
+      "lastModificationDate": 1672260930174,
+      "contentHash": "529a53a0195c2f426e358d65b6539068",
       "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.9",
