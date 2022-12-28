@@ -38,7 +38,7 @@ async function main() {
   console.log("Token address:", token.address);
 
   // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(token);
+  saveFrontendFiles(dataBase);
 }
 
 function saveFrontendFiles(token) {
