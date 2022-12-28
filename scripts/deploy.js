@@ -55,10 +55,16 @@ function saveFrontendFiles(token) {
   );
 
   const TokenArtifact = artifacts.readArtifactSync("Token");
+  // const TicketArtifact = artifacts.readArtifactSync("ticketsDeploy");
+  // const DataArtifact = artifacts.readArtifactSync("dataBase");
 
   fs.writeFileSync(
     path.join(contractsDir, "Token.json"),
     JSON.stringify(TokenArtifact, null, 2)
+    // path.join(contractsDir, "ticketsDeploy.json"),
+    // JSON.stringify(TokenArtifact, null, 2)
+    // path.join(contractsDir, "dataBase.json"),
+    // JSON.stringify(TokenArtifact, null, 2)
   );
 }
 
