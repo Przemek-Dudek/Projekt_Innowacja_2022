@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.9;
 
-contract Owner {
+contract DataBase {
     enum accountType{ PRACOWNIK, HR, ADMIN,HEAD_ADMIN }
     address  private owner;
    struct info {
