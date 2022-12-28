@@ -27,7 +27,7 @@ async function main() {
   await ticket.deployed();
 
   const DataBase = await ethers.getContractFactory("dataBase");
-  const dataBase = await DataBase.deploy();
+  const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
   await dataBase.deployed();
   
 
@@ -39,6 +39,8 @@ async function main() {
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendFiles(token);
+  saveFrontendFiles(ticket);
+  saveFrontendFiles(dataBase);
 }
 
 function saveFrontendFiles(token) {
@@ -55,16 +57,16 @@ function saveFrontendFiles(token) {
   );
 
   const TokenArtifact = artifacts.readArtifactSync("Token");
-  // const TicketArtifact = artifacts.readArtifactSync("ticketsDeploy");
-  // const DataArtifact = artifacts.readArtifactSync("dataBase");
+  const TicketArtifact = artifacts.readArtifactSync("ticketsDeploy");
+  const DataArtifact = artifacts.readArtifactSync("dataBase");
 
   fs.writeFileSync(
     path.join(contractsDir, "Token.json"),
-    JSON.stringify(TokenArtifact, null, 2)
-    // path.join(contractsDir, "ticketsDeploy.json"),
-    // JSON.stringify(TokenArtifact, null, 2)
-    // path.join(contractsDir, "dataBase.json"),
-    // JSON.stringify(TokenArtifact, null, 2)
+    JSON.stringify(TokenArtifact, null, 2),
+    path.join(contractsDir, "ticketsDeploy.json"),
+    JSON.stringify(TicketArtifact, null, 2),
+    path.join(contractsDir, "dataBase.json"),
+    JSON.stringify(DataArtifact, null, 2)
   );
 }
 
