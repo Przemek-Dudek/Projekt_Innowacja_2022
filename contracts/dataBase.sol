@@ -67,6 +67,12 @@ contract dataBase {
 
     }
 
+
+    function getString() public view returns(string memory) {
+        return _dataBase[msg.sender].firstName;
+    }
+
+
      function getType() public view returns (accountType)
     {
         return _dataBase[msg.sender].accountType;
