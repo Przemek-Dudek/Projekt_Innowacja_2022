@@ -53,6 +53,7 @@ export class Dapp extends React.Component {
       // The user's address and balance
       selectedAddress: undefined,
       balance: undefined,
+      userName: undefined,
       // The ID about transactions being sent, and any possible error with them
       txBeingSent: undefined,
       transactionError: undefined,
@@ -92,6 +93,8 @@ export class Dapp extends React.Component {
       return <Loading />;
     }
 
+
+
     // If everything is loaded, we render the application.
     return (
       <div className="container p-4">
@@ -101,7 +104,7 @@ export class Dapp extends React.Component {
               {this.state.tokenData.name} ({this.state.tokenData.symbol})
             </h1>
             <p>
-              Welcome <b>{this.state.selectedAddress}</b>, you have{" "}
+              Welcome {this.state.userName.toString()} <b>{this.state.selectedAddress}</b>, you have{" "}
               <b>
                 {this.state.balance.toString()} {this.state.tokenData.symbol}
               </b>
@@ -285,6 +288,21 @@ export class Dapp extends React.Component {
   async _updateBalance() {
     const balance = await this._token.balanceOf(this.state.selectedAddress);
     this.setState({ balance });
+  }
+
+  _getString() {
+    const dataBase = new ethers.Contract(
+      dataBaseAddress.DataBase,
+      DataBaseArtifact.abi,
+      this._provider.getSigner(0)
+    );
+    
+    dataBase.getString().then((result) => {
+      const userName = result;
+      this.setState({ userName })
+    }).catch((err) => {
+      console.log(err)
+    });
   }
 
   // This method sends an ethereum transaction to transfer tokens.
