@@ -35,13 +35,16 @@ async function main() {
   const token = await Token.deploy(ticket.address);
   await token.deployed();
 
+  ticket.setTokenAddress(token.address);
+
+
   console.log("Token address:", token.address);
 
   // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(dataBase);
+  saveFrontendFiles(token,ticket,dataBase);
 }
 
-function saveFrontendFiles(token) {
+function saveFrontendFiles(token,ticket,dataBase) {
   const fs = require("fs");
   const contractsDir = path.join(__dirname, "..", "frontend", "src", "contracts");
 
@@ -52,6 +55,14 @@ function saveFrontendFiles(token) {
   fs.writeFileSync(
     path.join(contractsDir, "contract-address.json"),
     JSON.stringify({ Token: token.address }, undefined, 2)
+  );
+  fs.writeFileSync(
+    path.join(contractsDir, "ticket-address.json"),
+    JSON.stringify({ Ticket: ticket.address }, undefined, 2)
+  );
+  fs.writeFileSync(
+    path.join(contractsDir, "dataBase-address.json"),
+    JSON.stringify({ DataBase: dataBase.address }, undefined, 2)
   );
 
   const TokenArtifact = artifacts.readArtifactSync("Token");

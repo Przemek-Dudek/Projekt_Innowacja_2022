@@ -7,6 +7,10 @@ import { ethers } from "ethers";
 // using them with ethers
 import TokenArtifact from "../contracts/Token.json";
 import contractAddress from "../contracts/contract-address.json";
+import ticketAddress from "../contracts/ticket-address.json";
+import TicketArtifact from "../contracts/ticketsDeploy.json";
+import dataBaseAddress from "../contracts/dataBase-address.json";
+import DataBaseArtifact from "../contracts/dataBase.json";
 
 // All the logic of this dapp is contained in the Dapp component.
 // These other components are just presentational ones: they don't have any
@@ -234,6 +238,20 @@ export class Dapp extends React.Component {
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
+
+    this._ticket = new ethers.Contract(
+      ticketAddress.Ticket,
+      TicketArtifact.abi,
+      this._provider.getSigner(0)
+    );
+
+    this._dataBase = new ethers.Contract(
+      dataBaseAddress.DataBase,
+      DataBaseArtifact.abi,
+      this._provider.getSigner(0)
+    );
+
+    
   }
 
   // The next two methods are needed to start and stop polling data. While

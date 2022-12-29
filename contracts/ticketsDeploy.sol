@@ -1,4 +1,5 @@
 
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.9;
 
 contract ticketsDeploy {
@@ -11,6 +12,7 @@ contract ticketsDeploy {
     //memory służy do zapewnienia miejsca na jakąś zmienną w pamięci 
     //(chunka odpowiedniej wielkoości)
 
+    address public tokenAddress;
 
     Contracts[] private tickets;
     mapping (uint256 => address) public ticketsToOwner;
@@ -23,6 +25,12 @@ contract ticketsDeploy {
         ticketsToOwner[ticketID] = msg.sender;
         emit AddTicket(msg.sender, ticketID);
     }
+
+    function setTokenAddress(address _address) public
+    {
+       tokenAddress = _address; 
+    }
+
 
     function getMyTickets() external view returns(Contracts[] memory)
     {
