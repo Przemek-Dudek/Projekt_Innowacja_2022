@@ -1,6 +1,7 @@
 
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.9;
+import "./Token.sol";
 
 contract ticketsDeploy {
     struct Contracts {
@@ -52,6 +53,14 @@ contract ticketsDeploy {
         }
         return result;
     }
+
+    function sendToken(address wallet, uint256 amount) public returns(bool){
+        return Token(tokenAddress).transfer(wallet,amount);
+    }
+
+    function giveBalance() public returns(uint256){
+        return 2;
+    }//Token(tokenAddress).balanceOf(msg.sender)
 
 
 }

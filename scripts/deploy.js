@@ -32,13 +32,13 @@ async function main() {
   
 
   const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy(dataBase.address);
+  const token = await Token.deploy(ticket.address);
   await token.deployed();
 
   ticket.setTokenAddress(token.address);
 
 
-  console.log("Token address:", token.address);
+  console.log("Token address:", ticket.address);
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendFiles(token,ticket,dataBase);
