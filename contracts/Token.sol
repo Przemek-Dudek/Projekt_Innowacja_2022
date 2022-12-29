@@ -14,7 +14,7 @@ contract Token is ERC20Capped, ERC20Burnable{
     address  public owner;
 
     constructor(address contractAddress) ERC20("Transition Technologies", "$TTPSC") ERC20Capped(maxSupply * (10 ** decimals())) {
-        owner = msg.sender;
+        owner = contractAddress;
         _mint(contractAddress, maxSupply * (10 ** decimals()));
     }
 
