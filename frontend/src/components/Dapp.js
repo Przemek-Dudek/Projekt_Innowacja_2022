@@ -89,7 +89,7 @@ export class Dapp extends React.Component {
 
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
-    if (!this.state.tokenData || !this.state.balance) {
+    if (!this.state.tokenData /*|| this.state.balance*/) {
       return <Loading />;
     }
 
@@ -295,12 +295,8 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    //const balance = await this._token.balanceOf(this.state.selectedAddress);
-    // const promise1 = Promise.resolve(this._token.balanceOf(this._ticket.address))
-    // promise1.then((result) => {console.log(result)})
-    const balance = this.state.balance + 1
+    const balance = await this._token.balanceOf(this._ticket.address);
     this.setState({ balance });
-    console.log(this.state.balance)
   }
 
   _getString() {
