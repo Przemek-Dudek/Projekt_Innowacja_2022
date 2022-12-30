@@ -90,7 +90,7 @@ export class Dapp extends React.Component {
 
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
-    if (!this.state.tokenData /*|| this.state.balance*/) {
+    if (this.state.tokenData === undefined || this.state.giveBalance === undefined || this.state.balance === undefined) {
       return <Loading />;
     }
 
@@ -110,6 +110,8 @@ export class Dapp extends React.Component {
                 {this.state.balance.toString()} {this.state.tokenData.symbol}
               </b>
               .
+              <br/>
+              Given balance: {this.state.giveBalance.toString()}
             </p>
           </div>
         </div>
@@ -304,7 +306,6 @@ export class Dapp extends React.Component {
   async _giveBalance() {
     const giveBalance = await this._ticket.giveBalance();
     this.setState({ giveBalance });
-    console.log(this.state.giveBalance);
   }
 
   _getString() {
