@@ -54,6 +54,7 @@ export class Dapp extends React.Component {
       selectedAddress: undefined,
       balance: undefined,
       userName: "TEST NAME",
+      giveBalance: undefined,
       // The ID about transactions being sent, and any possible error with them
       txBeingSent: undefined,
       transactionError: undefined,
@@ -278,6 +279,7 @@ export class Dapp extends React.Component {
 
     // We run it once immediately so we don't have to wait for it
     this._updateBalance();
+    this._giveBalance();
   }
 
   _stopPollingData() {
@@ -297,6 +299,12 @@ export class Dapp extends React.Component {
   async _updateBalance() {
     const balance = await this._token.balanceOf(this._ticket.address);
     this.setState({ balance });
+  }
+
+  async _giveBalance() {
+    const giveBalance = await this._ticket.giveBalance();
+    this.setState({ giveBalance });
+    console.log(this.state.giveBalance);
   }
 
   _getString() {

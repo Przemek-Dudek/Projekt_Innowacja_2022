@@ -59,7 +59,7 @@ contract ticketsDeploy {
     }
 
     function giveBalance() public returns(uint256){
-        return 2;
+        return 100;
     }//Token(tokenAddress).balanceOf(msg.sender)
 
 
