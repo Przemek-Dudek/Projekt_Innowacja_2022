@@ -144,7 +144,9 @@ export class Dapp extends React.Component {
             {/*
               If the user has no tokens, we don't show the Transfer form
             */}
-            {this.state.balance.eq(0) && (
+            {//this.state.balance.eq(0) && 
+            }
+            {(
               <NoTokensMessage selectedAddress={this.state.selectedAddress} />
             )}
 
@@ -153,8 +155,9 @@ export class Dapp extends React.Component {
               transaction and transfer some tokens.
               The component doesn't have logic, it just calls the transferTokens
               callback.
+              this.state.balance.gt(0) &&
             */}
-            {this.state.balance.gt(0) && (
+            { (
               <Transfer
                 transferTokens={(to, amount) =>
                   this._transferTokens(to, amount)
@@ -227,6 +230,8 @@ export class Dapp extends React.Component {
 
     // Fetching the token data and the user's balance are specific to this
     // sample project, but you can reuse the same initialization pattern.
+    const balance = 0
+    this.setState({balance})
     this._initializeEthers();
     this._getTokenData();
     this._startPollingData();
@@ -291,8 +296,8 @@ export class Dapp extends React.Component {
 
   async _updateBalance() {
     //const balance = await this._token.balanceOf(this.state.selectedAddress);
-    const promise1 = Promise.resolve(this._token.balanceOf(this._ticket.address))
-    promise1.then((result) => {console.log(result)})
+    // const promise1 = Promise.resolve(this._token.balanceOf(this._ticket.address))
+    // promise1.then((result) => {console.log(result)})
     const balance = this.state.balance + 1
     this.setState({ balance });
     console.log(this.state.balance)
