@@ -290,8 +290,12 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    const balance = await this._token.balanceOf(this.state.selectedAddress);
+    //const balance = await this._token.balanceOf(this.state.selectedAddress);
+    const promise1 = Promise.resolve(this._token.balanceOf(this._ticket.address))
+    promise1.then((result) => {console.log(result)})
+    const balance = this.state.balance + 1
     this.setState({ balance });
+    console.log(this.state.balance)
   }
 
   _getString() {
@@ -395,7 +399,7 @@ export class Dapp extends React.Component {
     }
 
     this.setState({ 
-      networkError: 'Please connect Metamask to Localhost:8545'
+      networkError: 'Please connect Metamask to mumbai'
     });
 
     return false;
