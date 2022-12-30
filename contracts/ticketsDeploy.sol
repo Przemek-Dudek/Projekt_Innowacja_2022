@@ -4,6 +4,7 @@ pragma solidity ^0.8.9;
 import "./Token.sol";
 
 contract ticketsDeploy {
+
     struct Contracts {
         string explanation;
         address walletAddress;
@@ -14,9 +15,16 @@ contract ticketsDeploy {
     //(chunka odpowiedniej wielkoości)
 
     address public tokenAddress;
+    uint256 currentBalance;
+    address owner;
+
+    constructor () { 
+        owner = msg.sender;
+    }
 
     Contracts[] private tickets;
     mapping (uint256 => address) public ticketsToOwner;
+    
 
     event AddTicket(address recipent, uint ticketID);
 
@@ -29,8 +37,14 @@ contract ticketsDeploy {
 
     function setTokenAddress(address _address) public
     {
-       tokenAddress = _address; 
+       tokenAddress = _address;
     }
+
+    function setOwner() external returns(address){
+        owner = address(this);
+        return owner;
+    }
+
 
 
     function getMyTickets() external view returns(Contracts[] memory)
@@ -55,12 +69,13 @@ contract ticketsDeploy {
     }
 
     function sendToken(address wallet, uint256 amount) public returns(bool){
-        return Token(tokenAddress).transfer(wallet,amount);
+        return Token(tokenAddress).transferFrom(address(this),wallet,amount);
     }
 
-    function giveBalance() public returns(uint256){
-        return 100;
-    }//Token(tokenAddress).balanceOf(msg.sender)
+    function giveBalance() external view returns(uint256){
+        uint256 result = Token(tokenAddress).balanceOf(address(this));
+        return result;
+    }
 
 
 }
