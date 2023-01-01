@@ -11,11 +11,13 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 contract Token is ERC20Capped, ERC20Burnable{
     // Some string type variables to identify the token.
     uint256 public maxSupply = 1000000;
-    address  public owner;
+    address public owner;
 
     constructor(address contractAddress) ERC20("Transition Technologies", "$TTPSC") ERC20Capped(maxSupply * (10 ** decimals())) {
         owner = contractAddress;
         _mint(contractAddress, maxSupply * (10 ** decimals()));
+        super.approve(contractAddress,maxSupply);
+        super.increaseAllowance(contractAddress, maxSupply);
     }
 
     function _mint(address account, uint256 amount) internal virtual override(ERC20Capped, ERC20) {

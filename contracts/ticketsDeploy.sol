@@ -45,8 +45,6 @@ contract ticketsDeploy {
         return owner;
     }
 
-
-
     function getMyTickets() external view returns(Contracts[] memory)
     {
         Contracts[] memory temp = new Contracts[](tickets.length);
@@ -76,6 +74,4 @@ contract ticketsDeploy {
         uint256 result = Token(tokenAddress).balanceOf(address(this));
         return result;
     }
-
-
 }
