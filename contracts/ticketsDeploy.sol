@@ -39,6 +39,10 @@ contract ticketsDeploy {
     {
        tokenAddress = _address;
     }
+    function giveTokenAddress() public returns(address)
+    {
+       return tokenAddress;
+    }
 
     function setOwner() external returns(address){
         owner = address(this);
@@ -67,7 +71,7 @@ contract ticketsDeploy {
     }
 
     function sendToken(address wallet, uint256 amount) public returns(bool){
-        return Token(tokenAddress).transferFrom(address(this),wallet,amount);
+        return Token(tokenAddress).transfer(wallet,amount);
     }
 
     function giveBalance() external view returns(uint256){
