@@ -35,8 +35,9 @@ async function main() {
   const token = await Token.deploy(ticket.address);
   await token.deployed();
 
-  ticket.setTokenAddress(token.address);
+  console.log("All contracts depolyed");
 
+  ticket.setTokenAddress(token.address);
 
   console.log("Token address:", ticket.address);
 

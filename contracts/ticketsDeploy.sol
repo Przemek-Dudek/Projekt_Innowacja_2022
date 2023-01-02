@@ -27,6 +27,7 @@ contract ticketsDeploy {
     
 
     event AddTicket(address recipent, uint ticketID);
+    event TransferSent(address from, address to, uint amount);
 
     function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) public {
         uint ticketID = tickets.length;
@@ -35,19 +36,28 @@ contract ticketsDeploy {
         emit AddTicket(msg.sender, ticketID);
     }
 
+    function sendToken(IERC20 token, address wallet, uint256 amount) public{
+        require(msg.sender == owner, "Only owner can withdraw funds");
+        uint256 balance = token.balanceOf(address(this));
+        require(amount <= balance, "balance is low");
+        token.transfer(wallet, amount);
+        emit TransferSent(msg.sender, wallet, amount);
+    }
+
     function setTokenAddress(address _address) public
     {
        tokenAddress = _address;
     }
-    function giveTokenAddress() public returns(address)
+    
+    function giveTokenAddress() external returns(address)
     {
        return tokenAddress;
     }
 
-    function setOwner() external returns(address){
-        owner = address(this);
-        return owner;
-    }
+    // function setOwner() external returns(address){
+    //     owner = address(this);
+    //     return owner;
+    // }
 
     function getMyTickets() external view returns(Contracts[] memory)
     {
@@ -70,12 +80,5 @@ contract ticketsDeploy {
         return result;
     }
 
-    function sendToken(address wallet, uint256 amount) public returns(bool){
-        return Token(tokenAddress).transfer(wallet,amount);
-    }
-
-    function giveBalance() external view returns(uint256){
-        uint256 result = Token(tokenAddress).balanceOf(address(this));
-        return result;
-    }
+    
 }
