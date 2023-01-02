@@ -1,5 +1,7 @@
 ## Konfiguracja
 
+Należy stworzyć plik o nazwie secured.js z miejscem na klucz ex.
+image.png
 W pliku hardhat.config.js w pole Key wpisujemy nasz numer walleta
 
 ## Uruchomienie
