@@ -90,9 +90,8 @@ export class Dapp extends React.Component {
 
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
-    console.log(this.state.tokenData);
-    console.log(this.state.giveBalance);
-    console.log(this.state.balance);
+    
+
     if (this.state.tokenData === undefined || this.state.giveBalance === undefined || this.state.balance === undefined) {
       return <Loading />;
     }
@@ -252,7 +251,7 @@ export class Dapp extends React.Component {
 
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
-    this._token = new ethers.Contract(
+    this._token = new  ethers.Contract(
       contractAddress.Token,
       TokenArtifact.abi,
       this._provider.getSigner(0)
