@@ -19,7 +19,6 @@ contract ticketsDeploy {
     address owner;
 
     constructor () { 
-        require(block.timestamp < _poolStartTime, "late");
         owner = msg.sender;
     }
 
@@ -30,7 +29,7 @@ contract ticketsDeploy {
     event AddTicket(address recipent, uint ticketID);
     event TransferSent(address from, address to, uint amount);
 
-    function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) public {
+    function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) external {
         uint ticketID = tickets.length;
         tickets.push(Contracts(contractInfo,wallet,numberOfTokens));
         ticketsToOwner[ticketID] = msg.sender;

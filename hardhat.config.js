@@ -8,14 +8,14 @@ require("./tasks/faucet");
 
 
 //Place for your private account key abcasd
-const { KEY } = require('./secured.js');
+const KEY = require('./secured.js');
 
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.9",
   networks: {
-    allowUnlimitedContractSize: true,
+    //allowUnlimitedContractSize: true,
     Mumbai: {
       allowUnlimitedContractSize: true,
       chainId: 0x13881, // We set 1337 to make interacting with MetaMask simpler
