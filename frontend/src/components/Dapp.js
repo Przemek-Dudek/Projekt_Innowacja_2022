@@ -346,7 +346,7 @@ export class Dapp extends React.Component {
 
       // We send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._ticket.sendToken(to, amount, {gasLimit: 3e7});
+      const tx = await this._ticket.sendToken(to, amount, {gasLimit: 320000000});
       //const tx = await this._token.transfer(to, amount);
       this.setState({ txBeingSent: tx.hash });
 
