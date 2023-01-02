@@ -23,6 +23,7 @@ import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
 import { ChoosePage } from "./ChoosePage";
+import { Account } from "./Account";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -110,7 +111,9 @@ export class Dapp extends React.Component {
     // If everything is loaded, we render the application.
     if(this.state.registration)
     {
-
+      return <Account 
+      
+      />
     }
     else
     {
