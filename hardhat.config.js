@@ -21,7 +21,7 @@ module.exports = {
       chainId: 0x13881, // We set 1337 to make interacting with MetaMask simpler
       url : 'https://matic-mumbai.chainstacklabs.com',
       accounts: [KEY],
-      gas: 2100000,
+      gas: 21000000,
       gasPrice: 8000000000
     }
   }
