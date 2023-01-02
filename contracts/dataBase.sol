@@ -41,6 +41,12 @@ contract dataBase {
         
     }
 
+    function length() external returns(uint)
+    {
+        uint size = addressIndices.length;
+        return size;
+    }
+
     function doesHeExist(string memory email) public view returns(bool)
     {
         for(uint i = 0; i < addressIndices.length;i++)

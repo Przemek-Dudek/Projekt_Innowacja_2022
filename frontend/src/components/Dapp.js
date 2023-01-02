@@ -95,7 +95,7 @@ export class Dapp extends React.Component {
     // a loading component.
 
 
-    if (this.state.tokenData === undefined || this.state.giveBalance === undefined || this.state.balance === undefined) {
+    if (this.state.tokenData === undefined) {
       return <Loading />;
     }
 
@@ -118,6 +118,7 @@ export class Dapp extends React.Component {
     else
     {
       return (
+        
       <div className="container p-4">
         <div className="row">
           <div className="col-12">
@@ -260,7 +261,7 @@ export class Dapp extends React.Component {
     this.setState({balance})
     this._initializeEthers();
     this._getTokenData();
-    this._startPollingData();
+    
 
     this._getString()
   }
@@ -300,11 +301,15 @@ export class Dapp extends React.Component {
   // don't need to poll it. If that's the case, you can just fetch it when you
   // initialize the app, as we do with the token data.
   _startPollingData() {
-    this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
+    if(!this.state.registration)
+    {
+      this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
 
     // We run it once immediately so we don't have to wait for it
     this._updateBalance();
     this._giveBalance();
+    }
+    
   }
 
   _stopPollingData() {
@@ -322,8 +327,7 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    const balance = 0
-    //await this._token.balanceOf(this.state.balance);
+    const balance = await this._token.balanceOf(this.state.balance);
     this.setState({ balance });
   }
 
@@ -342,6 +346,7 @@ export class Dapp extends React.Component {
     const registration = false;
     this.setState({ registration });
     console.log(this.state.registration)
+    this._startPollingData();
   }
 
   _getString() {
