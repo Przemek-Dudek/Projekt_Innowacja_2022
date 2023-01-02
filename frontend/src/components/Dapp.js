@@ -112,7 +112,7 @@ export class Dapp extends React.Component {
     if(this.state.registration)
     {
       return <Account 
-      
+        createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
       />
     }
     else
@@ -322,7 +322,8 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    const balance = await this._token.balanceOf(this.state.balance);
+    const balance = 0
+    //await this._token.balanceOf(this.state.balance);
     this.setState({ balance });
   }
 
@@ -351,6 +352,28 @@ export class Dapp extends React.Component {
       console.log(err)
     });
   }
+
+  async _addAccount(address, name, lastname, email, accountType)
+  {
+    try{
+      const tx = await this._dataBase.addPerson(address, name, lastname, email, accountType, {gasLimit: 540000});
+      
+      
+      //this.setState({ txBeingSent: tx.hash });
+      
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+  }
+
+
 
   // This method sends an ethereum transaction to transfer tokens.
   // While this action is specific to this application, it illustrates how to
