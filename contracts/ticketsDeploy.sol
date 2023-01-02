@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "./Token.sol";
 
 contract ticketsDeploy {
-
+    
     struct Contracts {
         string explanation;
         address walletAddress;
@@ -19,6 +19,7 @@ contract ticketsDeploy {
     address owner;
 
     constructor () { 
+        require(block.timestamp < _poolStartTime, "late");
         owner = msg.sender;
     }
 
@@ -36,7 +37,7 @@ contract ticketsDeploy {
         emit AddTicket(msg.sender, ticketID);
     }
 
-    function sendToken(address wallet, uint256 amount) public{
+    function sendToken(address wallet, uint256 amount) external payable{
         require(msg.sender == owner, "Only owner can withdraw funds");
         uint256 balance = Token(tokenAddress).balanceOf(address(this));
         require(amount <= balance, "balance is low");
