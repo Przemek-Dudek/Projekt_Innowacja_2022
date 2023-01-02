@@ -11,7 +11,6 @@ require("./tasks/faucet");
 const KEY = "";
 
 
-
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.9",
@@ -19,7 +18,9 @@ module.exports = {
     Mumbai: {
       chainId: 0x13881, // We set 1337 to make interacting with MetaMask simpler
       url : 'https://matic-mumbai.chainstacklabs.com',
-      accounts: [KEY]
+      accounts: [KEY],
+      gas: 2100000,
+      gasPrice: 8000000000
     }
   }
 };

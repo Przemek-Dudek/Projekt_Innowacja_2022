@@ -90,6 +90,9 @@ export class Dapp extends React.Component {
 
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
+    console.log(this.state.tokenData);
+    console.log(this.state.giveBalance);
+    console.log(this.state.balance);
     if (this.state.tokenData === undefined || this.state.giveBalance === undefined || this.state.balance === undefined) {
       return <Loading />;
     }
@@ -149,7 +152,8 @@ export class Dapp extends React.Component {
             */}
             {//this.state.balance.eq(0) && 
             }
-            {(
+            {this._token.balanceOf(this._ticket.address) == 0 &&
+            (
               <NoTokensMessage selectedAddress={this.state.selectedAddress} />
             )}
 
@@ -299,12 +303,12 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    const balance = await this._token.balanceOf(this._ticket.address);
+    const balance = await this._token.balanceOf(this.state.balance);
     this.setState({ balance });
   }
 
   async _giveBalance() {
-    const giveBalance = await this._ticket.giveBalance();
+    const giveBalance = await this._token.balanceOf(this._ticket.address);
     this.setState({ giveBalance });
   }
 
@@ -342,7 +346,7 @@ export class Dapp extends React.Component {
 
       // We send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._token.transfer(to, amount);
+      const tx = await this._ticket.sendToken(to, amount);
       this.setState({ txBeingSent: tx.hash });
 
       // We use .wait() to wait for the transaction to be mined. This method

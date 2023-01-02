@@ -36,11 +36,11 @@ contract ticketsDeploy {
         emit AddTicket(msg.sender, ticketID);
     }
 
-    function sendToken(IERC20 token, address wallet, uint256 amount) public{
+    function sendToken(address wallet, uint256 amount) public{
         require(msg.sender == owner, "Only owner can withdraw funds");
-        uint256 balance = token.balanceOf(address(this));
+        uint256 balance = Token(tokenAddress).balanceOf(address(this));
         require(amount <= balance, "balance is low");
-        token.transfer(wallet, amount);
+        Token(tokenAddress).transfer(wallet, amount);
         emit TransferSent(msg.sender, wallet, amount);
     }
 
@@ -48,7 +48,6 @@ contract ticketsDeploy {
     {
        tokenAddress = _address;
     }
-    
     function giveTokenAddress() external returns(address)
     {
        return tokenAddress;
