@@ -22,6 +22,7 @@ import { Transfer } from "./Transfer";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
+import { ChoosePage } from "./ChoosePage";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -59,6 +60,7 @@ export class Dapp extends React.Component {
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
+      registration: undefined
     };
 
     this.state = this.initialState;
@@ -90,16 +92,29 @@ export class Dapp extends React.Component {
 
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
-    
+
 
     if (this.state.tokenData === undefined || this.state.giveBalance === undefined || this.state.balance === undefined) {
       return <Loading />;
     }
 
-
+    if(this.state.registration === undefined)
+    {
+      return <ChoosePage 
+      register={() => this._register()} 
+      transfer={() => this._notRegister()}
+      />;
+    }
+    
 
     // If everything is loaded, we render the application.
-    return (
+    if(this.state.registration)
+    {
+
+    }
+    else
+    {
+      return (
       <div className="container p-4">
         <div className="row">
           <div className="col-12">
@@ -176,6 +191,8 @@ export class Dapp extends React.Component {
       </div>
     );
   }
+    }
+    
 
   componentWillUnmount() {
     // We poll the user's balance, so we have to stop doing that when Dapp
@@ -309,6 +326,18 @@ export class Dapp extends React.Component {
   async _giveBalance() {
     const giveBalance = await this._token.balanceOf(this._ticket.address);
     this.setState({ giveBalance });
+  }
+
+  async _register() {
+    const registration = true;
+    this.setState({ registration });
+    console.log(this.state.registration)
+  }
+
+  async _notRegister() {
+    const registration = false;
+    this.setState({ registration });
+    console.log(this.state.registration)
   }
 
   _getString() {
