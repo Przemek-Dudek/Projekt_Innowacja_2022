@@ -1,8 +1,10 @@
 ## Konfiguracja
 
-Należy stworzyć plik o nazwie secured.js z miejscem na klucz ex.
-image.png
-W pliku hardhat.config.js w pole Key wpisujemy nasz numer walleta
+Należy stworzyć plik o nazwie secured.js z treścią jak poniżej:
+
+```sh
+module.exports = 'place for your private key';
+```
 
 ## Uruchomienie
 
@@ -14,7 +16,7 @@ cd Projekt_Innowacja_2022
 npm install
 ```
 
-Następnie w nowym terminalu/powershellu wpisać komendę:
+Następnie w nowym terminalu/powershellu wpisać komendę (deployowanie kontraktów):
 
 ```sh
 npx hardhat run scripts/deploy.js --network Mumbai
