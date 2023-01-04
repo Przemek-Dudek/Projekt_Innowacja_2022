@@ -79,10 +79,9 @@ contract dataBase {
     }
 
 
-     function getType() public view returns (accountType)
+     function getType() external view returns (accountType)
     {
         return _dataBase[msg.sender].accountType;
-
     }
 
   

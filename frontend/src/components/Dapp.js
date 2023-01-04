@@ -24,6 +24,7 @@ import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
 import { ChoosePage } from "./ChoosePage";
 import { Account } from "./Account";
+import { Ticket } from "./Ticket";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -61,7 +62,8 @@ export class Dapp extends React.Component {
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
-      registration: undefined
+      registration: undefined,
+      accountType: undefined
     };
 
     this.state = this.initialState;
@@ -103,14 +105,17 @@ export class Dapp extends React.Component {
     if(this.state.registration === undefined)
     {
       return <ChoosePage 
-      register={() => this._register()} 
-      transfer={() => this._notRegister()}
+      register={() => this._register()}
+      transfer={() => this._transfer()}
+      ticket={() => this._addingTicket()}
+      currentUser={this.state.accountType}
       />;
     }
     
 
     // If everything is loaded, we render the application.
     console.log(this.state.registration)
+    console.log(this.state.accountType)
     if(this.state.registration)
     {
       return <Account 
@@ -120,7 +125,6 @@ export class Dapp extends React.Component {
     else
     {
       return (
-        
       <div className="container p-4">
         <div className="row">
           <div className="col-12">
@@ -180,7 +184,7 @@ export class Dapp extends React.Component {
             */}
             {//this.state.balance.eq(0) && 
             }
-            {this._token.balanceOf(this._ticket.address) == 0 &&
+            {this._token.balanceOf(this._ticket.address) === 0 &&
             (
               <NoTokensMessage selectedAddress={this.state.selectedAddress} />
             )}
@@ -252,6 +256,7 @@ export class Dapp extends React.Component {
     });
 
     this._getString()
+    this._getUserType()
   }
 
   _initialize(userAddress) {
@@ -274,6 +279,7 @@ export class Dapp extends React.Component {
     
 
     this._getString()
+    this._getUserType();
   }
 
   async _initializeEthers() {
@@ -299,8 +305,6 @@ export class Dapp extends React.Component {
       DataBaseArtifact.abi,
       this._provider.getSigner(0)
     );
-
-    
   }
 
   // The next two methods are needed to start and stop polling data. While
@@ -347,13 +351,28 @@ export class Dapp extends React.Component {
   }
 
   async _register() {
-    const registration = true;
+    const registration = "REGISTER";
     this.setState({ registration });
     console.log(this.state.registration)
   }
 
-  async _notRegister() {
-    const registration = false;
+  _getUserType(){
+    this._dataBase.getType().then((result) => {
+      const accountType = result
+      this.setState({accountType})
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  async _transfer() {
+    const registration = "TRANSFER";
+    this.setState({ registration });
+    console.log(this.state.registration)
+    this._startPollingData();
+  }
+  async _addingTicket() {
+    const registration = "TICKET";
     this.setState({ registration });
     console.log(this.state.registration)
     this._startPollingData();
@@ -388,7 +407,8 @@ export class Dapp extends React.Component {
     }
   }
 
-
+  async _addTicket(address, name, lastname, email, accountType)
+  {}
 
   // This method sends an ethereum transaction to transfer tokens.
   // While this action is specific to this application, it illustrates how to
