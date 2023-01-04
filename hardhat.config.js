@@ -18,10 +18,10 @@ module.exports = {
     //allowUnlimitedContractSize: true,
     Mumbai: {
       allowUnlimitedContractSize: true,
-      chainId: 0x13881, // We set 1337 to make interacting with MetaMask simpler
+      chainId: 80001, 
       url : 'https://matic-mumbai.chainstacklabs.com',
       accounts: [KEY],
-      gas: 21000000,
+      gas: 9007199254740,
       gasPrice: 8000000000
     }
   }

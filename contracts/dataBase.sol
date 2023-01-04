@@ -28,7 +28,7 @@ contract dataBase {
 
     function addPerson(address  user,string memory name,string memory lastName,string memory email, accountType  typeAccount) external returns(bool)
     {
-        if(_dataBase[msg.sender].accountType == accountType.PRACOWNIK)
+        if(_dataBase[msg.sender].accountType == accountType.PRACOWNIK || getActivate(user))
             return false;
         _dataBase[user].activate = true;
         _dataBase[user].firstName = name;
@@ -41,7 +41,7 @@ contract dataBase {
         
     }
 
-    function length() external returns(uint)
+    function length() external view returns(uint)
     {
         uint size = addressIndices.length;
         return size;
@@ -67,9 +67,9 @@ contract dataBase {
         return msg.sender;
     }
 
-    function getActivate() public view returns (bool)
+    function getActivate(address wallet) public view returns (bool)
     {
-        return _dataBase[msg.sender].activate;
+        return _dataBase[wallet].activate;
 
     }
 

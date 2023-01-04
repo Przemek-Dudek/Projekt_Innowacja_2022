@@ -67,6 +67,7 @@ export class Dapp extends React.Component {
     this.state = this.initialState;
   }
 
+
   render() {
     // Ethereum wallets inject the window.ethereum object. If it hasn't been
     // injected, we instruct the user to install MetaMask.
@@ -109,6 +110,7 @@ export class Dapp extends React.Component {
     
 
     // If everything is loaded, we render the application.
+    console.log(this.state.registration)
     if(this.state.registration)
     {
       return <Account 
@@ -125,14 +127,22 @@ export class Dapp extends React.Component {
             <h1>
               {this.state.tokenData.name} ({this.state.tokenData.symbol})
             </h1>
+            <h2>
+              Contract address: 
+              <h3>
+                <b>{this._ticket.address}</b>
+              </h3>
+            </h2>
             <p>
               Welcome {this.state.userName.toString()} <b>{this.state.selectedAddress}</b>, you have{" "}
               <b>
-                {this.state.balance.toString()} {this.state.tokenData.symbol}
+              {this.state.balance.toString()}
+                {/* {this.state.tokenData.symbol}
+                  Given balance: {this.state.giveBalance.toString()}*/}
               </b>
               .
               <br/>
-              Given balance: {this.state.giveBalance.toString()}
+              
             </p>
           </div>
         </div>
@@ -405,7 +415,7 @@ export class Dapp extends React.Component {
 
       // We send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._ticket.sendToken(to, amount, {gasLimit: 540000});
+      const tx = await this._ticket.sendToken(to, amount, {gasLimit: 169623});
       //const tx = await this._token.transfer(to, amount);
       this.setState({ txBeingSent: tx.hash });
 
