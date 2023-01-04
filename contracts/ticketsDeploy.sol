@@ -5,10 +5,11 @@ import "./Token.sol";
 
 contract ticketsDeploy {
     
-    struct Contracts {
+    struct Ticket {
         string explanation;
         address walletAddress;
         uint256 numberOfTokens;
+        bool approved;
     }
 
     //memory służy do zapewnienia miejsca na jakąś zmienną w pamięci 
@@ -22,7 +23,7 @@ contract ticketsDeploy {
         owner = msg.sender;
     }
 
-    Contracts[] private tickets;
+    Ticket[] private tickets;
     mapping (uint256 => address) public ticketsToOwner;
     
 
@@ -34,7 +35,7 @@ contract ticketsDeploy {
     }
     function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) external {
         uint ticketID = tickets.length;
-        tickets.push(Contracts(contractInfo,wallet,numberOfTokens));
+        tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false));
         ticketsToOwner[ticketID] = msg.sender;
         emit AddTicket(msg.sender, ticketID);
     }
@@ -53,9 +54,9 @@ contract ticketsDeploy {
     }
 
 
-    function getMyTickets() external view returns(Contracts[] memory)
+    function getMyTickets() external view returns(Ticket[] memory)
     {
-        Contracts[] memory temp = new Contracts[](tickets.length);
+        Ticket[] memory temp = new Ticket[](tickets.length);
         uint tempCounter = 0;
         for(uint i=0; i<tickets.length; ++i)
         {
@@ -66,7 +67,7 @@ contract ticketsDeploy {
              }
         }
 
-        Contracts[] memory result = new Contracts[](tempCounter);
+        Ticket[] memory result = new Ticket[](tempCounter);
         for(uint i=0; i<tempCounter; ++i)
         {
              result[i] = temp[i];
