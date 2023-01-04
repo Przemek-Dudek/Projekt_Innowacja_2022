@@ -10,6 +10,8 @@ contract ticketsDeploy {
         address walletAddress;
         uint256 numberOfTokens;
         bool approved;
+        string explanationIfNot;
+        uint256 id;
     }
 
     //memory służy do zapewnienia miejsca na jakąś zmienną w pamięci 
@@ -34,11 +36,25 @@ contract ticketsDeploy {
         emit Received(msg.sender, msg.value);
     }
     function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) external {
-        uint ticketID = tickets.length;
-        tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false));
+        uint256 ticketID = tickets.length;
+        tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false,"",ticketID));
         ticketsToOwner[ticketID] = msg.sender;
         emit AddTicket(msg.sender, ticketID);
     }
+
+    function approve(uint ticketID,bool decision, string memory _explanation) external 
+    {
+         tickets[ticketID].approved = decision;
+        if(decision)
+        {
+           // tu wywołamy send token jak już kiedyś będzie działać 
+        }
+        else {
+            tickets[ticketID].explanationIfNot = _explanation;
+        }
+    }
+
+    
 
     function sendToken(address wallet, uint256 amount) external payable{
         require(msg.sender == owner, "Only owner can withdraw funds");
