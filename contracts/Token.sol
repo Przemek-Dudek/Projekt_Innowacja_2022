@@ -14,13 +14,13 @@ contract Token is ERC20Capped, ERC20Burnable{
     address public owner;
 
     constructor(address contractAddress) ERC20("Transition Technologies", "$TTPSC") ERC20Capped(maxSupply * (10 ** decimals())) {
-        owner = contractAddress;
-        _mint(contractAddress, maxSupply/2 * (10 ** decimals()));
+        owner = payable(contractAddress);
+        _mint(payable(contractAddress), maxSupply * (10 ** decimals()));
     }
 
     function _mint(address account, uint256 amount) internal virtual override(ERC20Capped, ERC20) {
         require(ERC20.totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
-        super._mint(account, amount);
+        super._mint(payable(account), amount);
     }
 
 }

@@ -35,7 +35,7 @@ contract ticketsDeploy {
     receive() external payable {
         emit Received(msg.sender, msg.value);
     }
-    function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) external {
+    function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) external payable {
         uint256 ticketID = tickets.length;
         tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false,"",ticketID));
         ticketsToOwner[ticketID] = msg.sender;

@@ -1,9 +1,9 @@
 import React from "react";
 
-export function Account({addTicket}) {
+export function Ticket({addTicket}) {
     return (
         <div>
-            <h3>Set up an account</h3>
+            <h3>Dodane ticketu</h3>
             <form
               onSubmit={(event) => {
                 

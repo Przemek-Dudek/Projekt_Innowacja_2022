@@ -62,7 +62,7 @@ export class Dapp extends React.Component {
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
-      registration: undefined,
+      pageDisplay: undefined,
       accountType: undefined
     };
 
@@ -102,7 +102,7 @@ export class Dapp extends React.Component {
       return <Loading />;
     }
 
-    if(this.state.registration === undefined)
+    if(this.state.pageDisplay === undefined)
     {
       return <ChoosePage 
       register={() => this._register()}
@@ -114,15 +114,14 @@ export class Dapp extends React.Component {
     
 
     // If everything is loaded, we render the application.
-    console.log(this.state.registration)
-    console.log(this.state.accountType)
-    if(this.state.registration)
+
+    if(this.state.pageDisplay === "REGISTER")
     {
       return <Account 
         createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
       />
     }
-    else
+    else if(this.state.pageDisplay === "TRANSFER")
     {
       return (
       <div className="container p-4">
@@ -208,8 +207,15 @@ export class Dapp extends React.Component {
         </div>
       </div>
     );
-  }
     }
+    else if(this.state.pageDisplay === "TICKET")
+    {
+      return <Ticket 
+      addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
+      />
+    }
+
+  }
     
 
   componentWillUnmount() {
@@ -315,7 +321,7 @@ export class Dapp extends React.Component {
   // don't need to poll it. If that's the case, you can just fetch it when you
   // initialize the app, as we do with the token data.
   _startPollingData() {
-    if(!this.state.registration)
+    if(!this.state.pageDisplay)
     {
       this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
 
@@ -351,9 +357,9 @@ export class Dapp extends React.Component {
   }
 
   async _register() {
-    const registration = "REGISTER";
-    this.setState({ registration });
-    console.log(this.state.registration)
+    const pageDisplay = "REGISTER";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
   }
 
   _getUserType(){
@@ -366,15 +372,15 @@ export class Dapp extends React.Component {
   }
 
   async _transfer() {
-    const registration = "TRANSFER";
-    this.setState({ registration });
-    console.log(this.state.registration)
+    const pageDisplay = "TRANSFER";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
     this._startPollingData();
   }
   async _addingTicket() {
-    const registration = "TICKET";
-    this.setState({ registration });
-    console.log(this.state.registration)
+    const pageDisplay = "TICKET";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
     this._startPollingData();
   }
 
@@ -407,8 +413,25 @@ export class Dapp extends React.Component {
     }
   }
 
-  async _addTicket(address, name, lastname, email, accountType)
-  {}
+  async _addTicket(shortInfo,email ,nubmerToGain)
+  {
+    try{
+      const tx = await this._ticket.addTicket(shortInfo, this._dataBase.getAddressFromEmail(email), nubmerToGain, {gasLimit: 540000});
+      
+      
+      //this.setState({ txBeingSent: tx.hash });
+      
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+  }
 
   // This method sends an ethereum transaction to transfer tokens.
   // While this action is specific to this application, it illustrates how to
