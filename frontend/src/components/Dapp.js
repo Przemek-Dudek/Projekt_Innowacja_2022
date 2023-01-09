@@ -25,6 +25,7 @@ import { NoTokensMessage } from "./NoTokensMessage";
 import { ChoosePage } from "./ChoosePage";
 import { Account } from "./Account";
 import { Ticket } from "./Ticket";
+import { PreviousPage } from "./PreviousPage";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -117,9 +118,25 @@ export class Dapp extends React.Component {
 
     if(this.state.pageDisplay === "REGISTER")
     {
-      return <Account 
-        createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
-      />
+      // return <Account 
+      //   createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+      // />
+      return (
+        <div>
+             {(
+                <Account 
+                  createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+                />
+              )}
+              {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+        </div>
+      );
+      
+
     }
     else if(this.state.pageDisplay === "TRANSFER")
     {
@@ -127,6 +144,11 @@ export class Dapp extends React.Component {
       <div className="container p-4">
         <div className="row">
           <div className="col-12">
+          {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
             <h1>
               {this.state.tokenData.name} ({this.state.tokenData.symbol})
             </h1>
@@ -210,11 +232,23 @@ export class Dapp extends React.Component {
     }
     else if(this.state.pageDisplay === "TICKET")
     {
-      return <Ticket 
-      addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
-      />
-    }
+      return (
+        <div>
+             {(
+                <Ticket 
+                addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
+                /> 
+              )}
+              {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+        </div>
+      );
 
+         
+        }
   }
     
 
@@ -382,6 +416,13 @@ export class Dapp extends React.Component {
     this.setState({ pageDisplay });
     console.log(this.state.pageDisplay)
     this._startPollingData();
+  }
+
+  async _pageReset(){
+    const pageDisplay = undefined;
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
+    this._stopPollingData();
   }
 
   _getString() {

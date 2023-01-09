@@ -50,7 +50,7 @@ export function Account({createAccount}) {
                 </select>
             </div>
             <div className="form-group">
-                <input className="btn btn-primary" type="submit" value="Register" />
+                <input className="btn btn-primary" type="button" value="Register" />
             </div>
             </form>
         </div>
