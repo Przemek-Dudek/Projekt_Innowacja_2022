@@ -347,7 +347,7 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    const balance = await this._token.balanceOf(this.state.balance);
+    const balance = await this._token.balanceOf(this.state.selectedAddress);
     this.setState({ balance });
   }
 
@@ -458,7 +458,7 @@ export class Dapp extends React.Component {
 
       // We send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._ticket.sendToken(to, amount, {gasLimit: 169623});
+      const tx = await this._ticket.sendToken(to, parseInt(amount), {gasLimit: 169623});
       //const tx = await this._token.transfer(to, amount);
       this.setState({ txBeingSent: tx.hash });
 
