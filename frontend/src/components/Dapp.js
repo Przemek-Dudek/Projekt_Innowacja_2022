@@ -22,6 +22,10 @@ import { Transfer } from "./Transfer";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
+import { ChoosePage } from "./ChoosePage";
+import { Account } from "./Account";
+import { Ticket } from "./Ticket";
+import { PreviousPage } from "./PreviousPage";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -54,14 +58,18 @@ export class Dapp extends React.Component {
       selectedAddress: undefined,
       balance: undefined,
       userName: "TEST NAME",
+      giveBalance: undefined,
       // The ID about transactions being sent, and any possible error with them
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
+      pageDisplay: undefined,
+      accountType: undefined
     };
 
     this.state = this.initialState;
   }
+
 
   render() {
     // Ethereum wallets inject the window.ethereum object. If it hasn't been
@@ -89,26 +97,77 @@ export class Dapp extends React.Component {
 
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
-    if (!this.state.tokenData || !this.state.balance) {
+
+
+    if (this.state.tokenData === undefined) {
       return <Loading />;
     }
 
-
+    if(this.state.pageDisplay === undefined)
+    {
+      return <ChoosePage 
+      register={() => this._register()}
+      transfer={() => this._transfer()}
+      ticket={() => this._addingTicket()}
+      currentUser={this.state.accountType}
+      />;
+    }
+    
 
     // If everything is loaded, we render the application.
-    return (
+
+    if(this.state.pageDisplay === "REGISTER")
+    {
+      // return <Account 
+      //   createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+      // />
+      return (
+        <div>
+             {(
+                <Account 
+                  createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+                />
+              )}
+              {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+        </div>
+      );
+      
+
+    }
+    else if(this.state.pageDisplay === "TRANSFER")
+    {
+      return (
       <div className="container p-4">
         <div className="row">
           <div className="col-12">
+          {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
             <h1>
               {this.state.tokenData.name} ({this.state.tokenData.symbol})
             </h1>
+            <h2>
+              Contract address: 
+              <h3>
+                <b>{this._ticket.address}</b>
+              </h3>
+            </h2>
             <p>
               Welcome {this.state.userName.toString()} <b>{this.state.selectedAddress}</b>, you have{" "}
               <b>
-                {this.state.balance.toString()} {this.state.tokenData.symbol}
+              {this.state.balance.toString()}
+                {/* {this.state.tokenData.symbol}
+                  Given balance: {this.state.giveBalance.toString()}*/}
               </b>
               .
+              <br/>
+              
             </p>
           </div>
         </div>
@@ -144,7 +203,10 @@ export class Dapp extends React.Component {
             {/*
               If the user has no tokens, we don't show the Transfer form
             */}
-            {this.state.balance.eq(0) && (
+            {//this.state.balance.eq(0) && 
+            }
+            {this._token.balanceOf(this._ticket.address) === 0 &&
+            (
               <NoTokensMessage selectedAddress={this.state.selectedAddress} />
             )}
 
@@ -153,8 +215,9 @@ export class Dapp extends React.Component {
               transaction and transfer some tokens.
               The component doesn't have logic, it just calls the transferTokens
               callback.
+              this.state.balance.gt(0) &&
             */}
-            {this.state.balance.gt(0) && (
+            { (
               <Transfer
                 transferTokens={(to, amount) =>
                   this._transferTokens(to, amount)
@@ -166,7 +229,28 @@ export class Dapp extends React.Component {
         </div>
       </div>
     );
+    }
+    else if(this.state.pageDisplay === "TICKET")
+    {
+      return (
+        <div>
+             {(
+                <Ticket 
+                addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
+                /> 
+              )}
+              {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+        </div>
+      );
+
+         
+        }
   }
+    
 
   componentWillUnmount() {
     // We poll the user's balance, so we have to stop doing that when Dapp
@@ -212,6 +296,7 @@ export class Dapp extends React.Component {
     });
 
     this._getString()
+    this._getUserType()
   }
 
   _initialize(userAddress) {
@@ -227,11 +312,14 @@ export class Dapp extends React.Component {
 
     // Fetching the token data and the user's balance are specific to this
     // sample project, but you can reuse the same initialization pattern.
+    const balance = 0
+    this.setState({balance})
     this._initializeEthers();
     this._getTokenData();
-    this._startPollingData();
+    
 
     this._getString()
+    this._getUserType();
   }
 
   async _initializeEthers() {
@@ -240,7 +328,7 @@ export class Dapp extends React.Component {
 
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
-    this._token = new ethers.Contract(
+    this._token = new  ethers.Contract(
       contractAddress.Token,
       TokenArtifact.abi,
       this._provider.getSigner(0)
@@ -257,8 +345,6 @@ export class Dapp extends React.Component {
       DataBaseArtifact.abi,
       this._provider.getSigner(0)
     );
-
-    
   }
 
   // The next two methods are needed to start and stop polling data. While
@@ -269,10 +355,15 @@ export class Dapp extends React.Component {
   // don't need to poll it. If that's the case, you can just fetch it when you
   // initialize the app, as we do with the token data.
   _startPollingData() {
-    this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
+    if(!this.state.pageDisplay)
+    {
+      this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
 
     // We run it once immediately so we don't have to wait for it
     this._updateBalance();
+    this._giveBalance();
+    }
+    
   }
 
   _stopPollingData() {
@@ -294,6 +385,46 @@ export class Dapp extends React.Component {
     this.setState({ balance });
   }
 
+  async _giveBalance() {
+    const giveBalance = await this._token.balanceOf(this._ticket.address);
+    this.setState({ giveBalance });
+  }
+
+  async _register() {
+    const pageDisplay = "REGISTER";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
+  }
+
+  _getUserType(){
+    this._dataBase.getType().then((result) => {
+      const accountType = result
+      this.setState({accountType})
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  async _transfer() {
+    const pageDisplay = "TRANSFER";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
+    this._startPollingData();
+  }
+  async _addingTicket() {
+    const pageDisplay = "TICKET";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
+    this._startPollingData();
+  }
+
+  async _pageReset(){
+    const pageDisplay = undefined;
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
+    this._stopPollingData();
+  }
+
   _getString() {
     this._dataBase.getString().then((result) => {
       const userName = result;
@@ -301,6 +432,46 @@ export class Dapp extends React.Component {
     }).catch((err) => {
       console.log(err)
     });
+  }
+
+  async _addAccount(address, name, lastname, email, accountType)
+  {
+    try{
+      const tx = await this._dataBase.addPerson(address, name, lastname, email, accountType, {gasLimit: 540000});
+      
+      
+      //this.setState({ txBeingSent: tx.hash });
+      
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+  }
+
+  async _addTicket(shortInfo,email ,nubmerToGain)
+  {
+    try{
+      const tx = await this._ticket.addTicket(shortInfo, this._dataBase.getAddressFromEmail(email), nubmerToGain, {gasLimit: 540000});
+      
+      
+      //this.setState({ txBeingSent: tx.hash });
+      
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
   }
 
   // This method sends an ethereum transaction to transfer tokens.
@@ -328,7 +499,8 @@ export class Dapp extends React.Component {
 
       // We send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._token.transfer(to, amount);
+      const tx = await this._ticket.sendToken(to, parseInt(amount), {gasLimit: 169623});
+      //const tx = await this._token.transfer(to, amount);
       this.setState({ txBeingSent: tx.hash });
 
       // We use .wait() to wait for the transaction to be mined. This method
@@ -395,7 +567,7 @@ export class Dapp extends React.Component {
     }
 
     this.setState({ 
-      networkError: 'Please connect Metamask to Localhost:8545'
+      networkError: 'Please connect Metamask to mumbai'
     });
 
     return false;
