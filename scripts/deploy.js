@@ -37,9 +37,11 @@ async function main() {
 
   console.log("All contracts depolyed");
 
-  ticket.setTokenAddress(token.address);
+  await ticket.setTokenAddress(token.address, {gasLimit: 540000});
+  console.log("Adres z funkcji: ",(await ticket.giveTokenAddress({gasLimit: 540000})).toString())
+  console.log("Token address: ",token.address)
 
-  console.log("Token address:", ticket.address);
+  //console.log("Token address:", ticket.address);
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendFiles(token,ticket,dataBase);

@@ -69,6 +69,11 @@ contract ticketsDeploy {
        tokenAddress = _address;
     }
 
+    function giveTokenAddress() external view returns(address)
+    {
+        return tokenAddress;
+    }
+
 
     function getMyTickets() external view returns(Ticket[] memory)
     {
