@@ -99,11 +99,15 @@ export class Dapp extends React.Component {
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
 
-
+    
     if (this.state.tokenData === undefined) {
       return <Loading />;
     }
-
+    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
+    {
+      this._ticket.setTokenAddress(this._token.address)
+      this.isTokenAddressSet = true
+    }
     if(this.state.pageDisplay === undefined)
     {
       return <ChoosePage 
@@ -297,11 +301,7 @@ export class Dapp extends React.Component {
     });
     this._getString()
     this._getUserType()
-    if(this.accountType === 3 && this.isTokenAddressSet === undefined)
-    {
-      this._ticket.setTokenAddress(this._token.address)
-      this.isTokenAddressSet = true
-    }
+    
   }
 
   _initialize(userAddress) {
