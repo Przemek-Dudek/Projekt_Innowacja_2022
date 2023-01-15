@@ -36,7 +36,7 @@ async function main() {
   await token.deployed();
 
   console.log("All contracts depolyed");
-
+  console.log("Token address: ",token.address)
   await ticket.setTokenAddress(token.address, {gasLimit: 540000});
   console.log("Adres z funkcji: ",(await ticket.giveTokenAddress({gasLimit: 540000})).toString())
   console.log("Token address: ",token.address)

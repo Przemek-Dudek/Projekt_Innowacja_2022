@@ -64,7 +64,8 @@ export class Dapp extends React.Component {
       transactionError: undefined,
       networkError: undefined,
       pageDisplay: undefined,
-      accountType: undefined
+      accountType: undefined,
+      isTokenAddressSet: undefined
     };
 
     this.state = this.initialState;
@@ -294,9 +295,13 @@ export class Dapp extends React.Component {
       this._stopPollingData();
       this._resetState();
     });
-
     this._getString()
     this._getUserType()
+    if(this.accountType === 3 && this.isTokenAddressSet === undefined)
+    {
+      this._ticket.setTokenAddress(this._token.address)
+      this.isTokenAddressSet = true
+    }
   }
 
   _initialize(userAddress) {
