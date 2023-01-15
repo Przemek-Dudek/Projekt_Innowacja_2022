@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Account({createAccount}) {
+export function Account({createAccount, user}) {
     return (
         <div>
             <h3>Set up an account</h3>
@@ -38,17 +38,21 @@ export function Account({createAccount}) {
                 <label>E-mail</label>
                 <input className="form-control" type="email" name="email" required />
             </div>
+            
             <div className="form-group">
                 <label>Account type</label>
+              
                 <select className="form-select" name="typeAccount" required >
                     <option value="1">PRACOWNIK</option>
+                {user >= 1 &&(
                     <option value="2">HR</option>
+                )}
+                {user >= 2 &&(
                     <option value="3">ADMIN</option>
-                    <option value="4">HEAD_ADMIN</option>
-                    
-                    
+                )}
                 </select>
             </div>
+            
             <div className="form-group">
                 <input className="btn btn-primary" type="button" value="Register" />
             </div>
@@ -56,3 +60,4 @@ export function Account({createAccount}) {
         </div>
     )
 }
+/**/

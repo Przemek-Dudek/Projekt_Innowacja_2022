@@ -103,11 +103,11 @@ export class Dapp extends React.Component {
     if (this.state.tokenData === undefined) {
       return <Loading />;
     }
-    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
-    {
-      this._ticket.setTokenAddress(this._token.address)
-      this.isTokenAddressSet = true
-    }
+    // if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
+    // {
+    //   this._ticket.setTokenAddress(this._token.address)
+    //   this.isTokenAddressSet = true
+    // }
     if(this.state.pageDisplay === undefined)
     {
       return <ChoosePage 
@@ -121,7 +121,7 @@ export class Dapp extends React.Component {
 
     // If everything is loaded, we render the application.
 
-    if(this.state.pageDisplay === "REGISTER")
+    if( this.state.pageDisplay === "REGISTER")
     {
       // return <Account 
       //   createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
@@ -131,8 +131,9 @@ export class Dapp extends React.Component {
              {(
                 <Account 
                   createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+                  user={this.state.accountType}
                 />
-              )}
+              )};
               {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}

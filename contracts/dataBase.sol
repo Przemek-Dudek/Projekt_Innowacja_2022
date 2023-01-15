@@ -26,7 +26,7 @@ contract dataBase {
         addressIndices.push(owner);
     }
 
-    function addPerson(address  user,string memory name,string memory lastName,string memory email, accountType  typeAccount) external returns(bool)
+    function addPerson(address user, string memory name, string memory lastName, string memory email, accountType  typeAccount) external returns(bool)
     {
         if(_dataBase[msg.sender].accountType == accountType.PRACOWNIK || getActivate(user))
             return false;
