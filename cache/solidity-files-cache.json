@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\dataBase.sol": {
-      "lastModificationDate": 1672337758109,
-      "contentHash": "b7d7a936186093b104227b3de6dfcd04",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\dataBase.sol": {
+      "lastModificationDate": 1673036533959,
+      "contentHash": "552a3924375dd2bd9081e732f870a1c2",
       "sourceName": "contracts/dataBase.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -36,9 +36,9 @@
         "dataBase"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\ticketsDeploy.sol": {
-      "lastModificationDate": 1672420603834,
-      "contentHash": "55399550a1255e0f5b6f177da31d5e22",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\ticketsDeploy.sol": {
+      "lastModificationDate": 1673036533959,
+      "contentHash": "72abcd6a9c2c4f014304211bac08c032",
       "sourceName": "contracts/ticketsDeploy.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -73,9 +73,9 @@
         "ticketsDeploy"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\Token.sol": {
-      "lastModificationDate": 1672592700958,
-      "contentHash": "b3f2fe83a04f7f5c0c4f4e5f67165b89",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\contracts\\Token.sol": {
+      "lastModificationDate": 1673036533958,
+      "contentHash": "5bf35472fe2aeeb2fdf5f1988639dd3e",
       "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -112,9 +112,9 @@
         "Token"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
-      "lastModificationDate": 1672158787727,
-      "contentHash": "a5bfd27b60951ae5277dca1dc60e23a8",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
+      "lastModificationDate": 1673037476463,
+      "contentHash": "834a0dde221759af42b030253315b086",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -151,9 +151,9 @@
         "ERC20"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Capped.sol": {
-      "lastModificationDate": 1672158787729,
-      "contentHash": "cc962e661964354b0971e775fbe03b86",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Capped.sol": {
+      "lastModificationDate": 1673037476464,
+      "contentHash": "da89e343119284763a5a135243cdb338",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -188,9 +188,9 @@
         "ERC20Capped"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Burnable.sol": {
-      "lastModificationDate": 1672158787729,
-      "contentHash": "d93133f793f86499d91f6200e8489848",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Burnable.sol": {
+      "lastModificationDate": 1673037476463,
+      "contentHash": "a1c7f80ae26f5b2d7d563475627fbf25",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -226,44 +226,9 @@
         "ERC20Burnable"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
-      "lastModificationDate": 1672158787728,
-      "contentHash": "da337b36f786d26e7e0826fa874f8d27",
-      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC20"
-      ]
-    },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1672158787761,
-      "contentHash": "e7f98c33ad1d39d8a6661bf0804fae36",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1673037476423,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -296,9 +261,44 @@
         "Context"
       ]
     },
-    "E:\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
-      "lastModificationDate": 1672158787735,
-      "contentHash": "7e3e6992395030ccb281dc67c1a8ae2f",
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
+      "lastModificationDate": 1673037476534,
+      "contentHash": "ad7c2d0af148c8f9f097d65deeb4da6b",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "C:\\Users\\pkdud\\Documents\\Projekt_TTPSC\\Projekt_Innowacja_2022\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
+      "lastModificationDate": 1673037476535,
+      "contentHash": "909ab67fc5c25033fe6cd364f8c056f9",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
       "solcConfig": {
         "version": "0.8.9",
