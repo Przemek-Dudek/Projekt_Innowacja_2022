@@ -26,6 +26,7 @@ import { ChoosePage } from "./ChoosePage";
 import { Account } from "./Account";
 import { Ticket } from "./Ticket";
 import { PreviousPage } from "./PreviousPage";
+import { TicketsToApprove } from "./TicketsToApprove";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -114,6 +115,7 @@ export class Dapp extends React.Component {
       register={() => this._register()}
       transfer={() => this._transfer()}
       ticket={() => this._addingTicket()}
+      ticketAccept={() => this.ticketAccepting()}
       currentUser={this.state.accountType}
       />;
     }
@@ -254,7 +256,24 @@ export class Dapp extends React.Component {
       );
 
          
-        }
+    }
+    else if(this.state.pageDisplay === "TICKETACC")
+    {
+      return (
+        <div>
+             {(
+                <TicketsToApprove 
+                
+                /> 
+              )}
+              {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+        </div>
+      );
+    }
   }
     
 
@@ -419,6 +438,15 @@ export class Dapp extends React.Component {
   }
   async _addingTicket() {
     const pageDisplay = "TICKET";
+    this.setState({ pageDisplay });
+    console.log(this.state.pageDisplay)
+    this._startPollingData();
+  }
+
+  
+
+  async ticketAccepting() {
+    const pageDisplay = "TICKETACC";
     this.setState({ pageDisplay });
     console.log(this.state.pageDisplay)
     this._startPollingData();

@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html, body {
+    height: 100vh;
+}
+
+button {
+    margin: 0 10px;
+    width: 100px;
+    height: 30px;
+    background: ghostwhite;
+    border: 1px solid #121618;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: ease-in-out 200ms;
+}
+
+button:hover {
+    background: #121618;
+    color: ghostwhite;
+}
+
+textarea {
+    width: 400px;
+    height: 300px;
+    resize: none;
+    outline: none;
+    border: 1px solid #121618;
+    background: ghostwhite;
+    padding: 5px;
+    font-size: 21px;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: row wrap;
+}
+
+.container .raports {
+    width: 400px;
+    height: 600px;
+    background: #2d3436;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 10px;
+}
+
+.raports .raport {
+    width: calc(100% - 25px);
+    height: 40px;
+    background: #bdc3c7;
+    margin: auto;
+    border-radius: 5px;
+    margin: 10px auto;
+    transition: ease-in-out 200ms;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.raports .raport:hover {
+    background: #7f8c8d;
+    transform: scale(1.05);
+}
+
+.container .raports::-webkit-scrollbar {
+    width: 7px;
+    background: ghostwhite;
+    border-radius: 7px;
+}
+   
+.container .raports::-webkit-scrollbar-track {
+    border-radius: 7px;
+}
+
+.container .raports::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    outline: none;
+}
+
+.container .form-group {
+    width: 600px;
+    height: auto;
+    background: ghostwhite;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    padding: 20px 0;
+}
+
+.form-group .info {
+    width: 400px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.form-group .form-data {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.form-data .btns {
+    width: 300px;
+    height: auto;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+}
