@@ -66,7 +66,8 @@ export class Dapp extends React.Component {
       networkError: undefined,
       pageDisplay: undefined,
       accountType: undefined,
-      isTokenAddressSet: undefined
+      isTokenAddressSet: undefined,
+      ticketsArray: undefined
     };
 
     this.state = this.initialState;
@@ -259,11 +260,13 @@ export class Dapp extends React.Component {
     }
     else if(this.state.pageDisplay === "TICKETACC")
     {
+      this.giveAllTickets()
+      console.log(this.state.ticketsArray)
       return (
         <div>
              {(
                 <TicketsToApprove 
-                
+                  tickets={this.state.ticketsArray}
                 /> 
               )}
               {(
@@ -469,8 +472,13 @@ export class Dapp extends React.Component {
   }
 
   async giveAllTickets() {
-    const ticketsArray = this._ticket.getAllTickets()
-    console.log(ticketsArray)
+    this._ticket.getAllTickets().then((result) => {
+      const ticketsArray = result;
+      this.setState({ ticketsArray })
+    }).catch((err) => {
+      console.log(err)
+    });
+    
   }
 
   async _addAccount(address, name, lastname, email, accountType)

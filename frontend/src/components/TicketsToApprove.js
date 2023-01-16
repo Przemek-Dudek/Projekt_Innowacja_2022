@@ -1,8 +1,12 @@
-import React from "react";
+import { useEffect, useRef, React} from "react";
 import "../index.css";
-export function TicketsToApprove({lala}) {
+export function TicketsToApprove({tickets}) {
 
-    var cb = document.getElementById('reject').checked
+    let isChecked = false
+    function handleChange(e) {
+        isChecked = true;
+        // do whatever you want with isChecked value
+      }
     // const ticket = [
     //     {
     //         explanation: "abc2",
@@ -44,19 +48,24 @@ export function TicketsToApprove({lala}) {
     
     // const approveButton = document.querySelector('.approve');
     // const rejectButton = document.querySelector('.reject');
-    // const raports = document.querySelector('.raports').children;
-    
-    // for (let i = 0; i < raports.length; i++) {
-    //     raports.item(i).addEventListener('click', () => {
+
+    // for (let i = 0; i < ticket.length; i++) {
+    //     const raport = document.createElement('div');
+    //     raport.className = 'raport';
+    //     raport.textContent = "Zgłoszenie " + (i + 1);
+    //     document.querySelector('.raports').appendChild(raport);
+
+    //     raport.addEventListener('click', (element) => {
     //         const hay = document.querySelector('.info-hay-value');
     //         const name = document.querySelector('.info-name-value');
     //         const reason = document.querySelector('.info-reason-value');
-    
+
     //         hay.textContent = ticket[i].numberOfTokens;
     //         name.textContent = data[i].name;
     //         reason.textContent = ticket[i].explanation;
     //     }, false);
     // }
+    
 
     return (
         <div class="container">
@@ -66,7 +75,6 @@ export function TicketsToApprove({lala}) {
             <div class="raport">zgloszenie 3</div>
             <div class="raport">zgloszenie 3</div>
             <div class="raport">zgloszenie 3</div>
-
         </div>
         <div class="form-group">
             <div class="info">
@@ -83,24 +91,36 @@ export function TicketsToApprove({lala}) {
             <div class="Radio">
                     
                 <div>
-                    <input type="checkbox" id="reject" name="reject" value="yes" />
+                    <input type="checkbox" id="reject" name="reject" value="yes" onClick={
+                        //  {
+                        //     if(isChecked){
+                        //         isChecked = false
+                        //     }
+                        //     else{
+                        //         isChecked = true
+                        //     }
+                            isChecked ? isChecked = false : isChecked = true
+
+                        
+                        } />
+                    
                     <label for="reject">Reject</label>
                 </div>
                     
             </div>
             <div class="form-data">
-                {cb &&(
+                {/* {isChecked &&( */}
                 <form action="">
                     <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
                     <div class="btns">
                         
-                        {cb &&(
+                        {/* {isChecked &&( */}
                             <button class="reject">Reject</button>
-                        )}
+                        
                     </div>
-                </form >)}
-                {!cb &&(
-                <button class="approve">Approve</button>)}
+                </form >
+                {/* {!isChecked &&( */}
+                <button class="approve">Approve</button>
             </div>  
         </div>
     </div>

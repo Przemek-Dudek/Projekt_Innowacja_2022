@@ -76,7 +76,23 @@ contract ticketsDeploy {
 
     function getAllTickets() external view returns(Ticket[] memory)
     {
-        return tickets;
+        Ticket[] memory temp = new Ticket[](tickets.length);
+        uint tempCounter = 0;
+        for(uint i=0; i<tickets.length; ++i)
+        {
+             if(tickets[i].approved == false)
+             {
+                 temp[tempCounter] = tickets[i];
+                 tempCounter++;
+             }
+        }
+
+        Ticket[] memory result = new Ticket[](tempCounter);
+        for(uint i=0; i<tempCounter; ++i)
+        {
+             result[i] = temp[i];
+        }
+        return result;
     }
 
     function getMyTickets() external view returns(Ticket[] memory)
