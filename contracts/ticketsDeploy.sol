@@ -74,6 +74,10 @@ contract ticketsDeploy {
         return tokenAddress;
     }
 
+    function getAllTickets() external view returns(Ticket[] memory)
+    {
+        return tickets;
+    }
 
     function getMyTickets() external view returns(Ticket[] memory)
     {

@@ -468,6 +468,11 @@ export class Dapp extends React.Component {
     });
   }
 
+  async giveAllTickets() {
+    const ticketsArray = this._ticket.getAllTickets()
+    console.log(ticketsArray)
+  }
+
   async _addAccount(address, name, lastname, email, accountType)
   {
     try{

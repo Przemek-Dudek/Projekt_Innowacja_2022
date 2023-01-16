@@ -106,12 +106,13 @@ textarea {
     margin-bottom: 10px;
 }
 
-.form-group .form-data {
+.form-group .form-data  {
     width: 100%;
     height: auto;
     display: flex;
     justify-content: center;
 }
+
 
 .form-data .btns {
     width: 300px;

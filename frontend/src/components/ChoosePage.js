@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser }) {
   return (
     <div>
