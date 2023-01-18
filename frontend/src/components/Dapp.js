@@ -283,7 +283,15 @@ export class Dapp extends React.Component {
               <div class="container">
         <div class="raports" >
             {this.state.ticketsArray.length > 0 &&(
-              this.state.ticketsArray[0].toString()
+              this.state.ticketsArray.map((struct, index) => {
+                return(
+                  <div key={index}>
+                    <p>Struct {index + 1}:</p>
+                    <p>Field 1: {struct.explanation}</p>
+                    <p>Field 2: {struct.walletAddress}</p>
+                  </div>
+                )
+              })
             )}
             {/* <div class="raport">zgloszenie 1</div>
             <div class="raport">zgloszenie 2</div>
