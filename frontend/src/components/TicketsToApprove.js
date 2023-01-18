@@ -1,4 +1,4 @@
-import { useEffect, useRef, React} from "react";
+import { useState, useEffect, useRef, React, useMemo} from "react";
 import "../index.css";
 export function TicketsToApprove({tickets}) {
 
@@ -7,45 +7,7 @@ export function TicketsToApprove({tickets}) {
         isChecked = true;
         // do whatever you want with isChecked value
       }
-    // const ticket = [
-    //     {
-    //         explanation: "abc2",
-    //         address: 0x1234567890,
-    //         numberOfTokens: 3,
-    //         approved: undefined,
-    //         explanationIfNot: undefined,
-    //         Id: 0
-    //     },
-    //     {
-    //         explanation: "abc",
-    //         address: 0x0987654321,
-    //         numberOfTokens: 7,
-    //         approved: undefined,
-    //         explanationIfNot: undefined,
-    //         Id: 1
-    //     },
-    //     {
-    //         explanation: "ta",
-    //         address: 0x1029384756,
-    //         numberOfTokens: 1,
-    //         approved: undefined,
-    //         explanationIfNot: undefined,
-    //         Id: 2
-    //     }
-    // ];
-    
-    // const data = [
-    //     {
-    //         name: "Jan Kowalski"
-    //     },
-    //     {
-    //         name: "Shavo Odadjian"
-    //     },
-    //     {
-    //         name: "Denzel Curry"
-    //     }
-    // ]
-    
+   
     // const approveButton = document.querySelector('.approve');
     // const rejectButton = document.querySelector('.reject');
 
@@ -65,16 +27,70 @@ export function TicketsToApprove({tickets}) {
     //         reason.textContent = ticket[i].explanation;
     //     }, false);
     // }
+
+      
+    // let rapports = useRef(null)
+    // useEffect(() => {
+    //         for (let i = 0; i < tickets.length; i++) {
+    //             const raport = document.createElement('div');
+    //             raport.className = 'raport';
+    //             raport.textContent = "Zgłoszenie " + (i + 1);
+    //             rapports.current.appendChild(raport);
+
+    //             return () => rapports.current.removeChild(rapports.current.children.lastChld);
+        
+    //             // raport.addEventListener('click', (element) => {
+    //             //     const hay = document.querySelector('.info-hay-value');
+    //             //     const name = document.querySelector('.info-name-value');
+    //             //     const reason = document.querySelector('.info-reason-value');
+        
+    //             //     hay.textContent = tickets[i].numberOfTokens;
+    //             //     name.textContent = data[i].name;
+    //             //     reason.textContent = tickets[i].explanation;
+    //             // }, false);
+    //         }
+    // }, [])
     
+
+
+
+    // let rapportsRef = useRef([]);
+
+    // const rapports = useMemo(() => {
+    // const rapports = []
+    // for (let i = 0; i < tickets.length; i++) {
+    //     const raport = document.createElement('div');
+    //     raport.className = 'raport';
+    //     raport.textContent = "Zgłoszenie " + (i + 1);
+    //     rapports.push(raport);
+    // }
+    // rapportsRef.current = rapports;
+    // return rapports;
+    // }, [tickets])
+
+
+    // useEffect(() => {
+    //     for (let i = 0; i < rapportsRef.current.length; i++) {
+    //         rapports.current.appendChild(rapportsRef.current[i]);
+    //     }
+    // }, [rapportsRef]);
+
+    const [arr,setArr] = useState([tickets]);
+    console.log(arr);
 
     return (
         <div class="container">
-        <div class="raports">
-            <div class="raport">zgloszenie 1</div>
+        <div class="raports" >
+            {
+                arr.map((val, i) =>
+                    <h3 key="i">{val}</h3>
+                )
+            }
+            {/* <div class="raport">zgloszenie 1</div>
             <div class="raport">zgloszenie 2</div>
             <div class="raport">zgloszenie 3</div>
             <div class="raport">zgloszenie 3</div>
-            <div class="raport">zgloszenie 3</div>
+            <div class="raport">zgloszenie 3</div> */}
         </div>
         <div class="form-group">
             <div class="info">

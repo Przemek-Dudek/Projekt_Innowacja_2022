@@ -1,4 +1,5 @@
 import React from "react";
+//import { useState} from "react";
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
@@ -67,7 +68,7 @@ export class Dapp extends React.Component {
       pageDisplay: undefined,
       accountType: undefined,
       isTokenAddressSet: undefined,
-      ticketsArray: undefined
+      ticketsArray: []
     };
 
     this.state = this.initialState;
@@ -243,16 +244,17 @@ export class Dapp extends React.Component {
     {
       return (
         <div>
-             {(
-                <Ticket 
-                addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
-                /> 
-              )}
               {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
                 />
               )}
+             {(
+                <Ticket 
+                addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
+                /> 
+              )}
+              
         </div>
       );
 
@@ -261,21 +263,88 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "TICKETACC")
     {
       this.giveAllTickets()
-      console.log(this.state.ticketsArray)
-      return (
+      if(this.state.ticketsArray !== undefined)
+      {
+        //const [arr,setArr] = useState(this.state.ticketsArray);
+        console.log(this.state.ticketsArray)
+        return (
         <div>
-             {(
-                <TicketsToApprove 
-                  tickets={this.state.ticketsArray}
-                /> 
-              )}
               {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
                 />
               )}
+              
+             {/* {(
+                <TicketsToApprove 
+                  tickets={this.state.ticketsArray}
+                /> 
+              )} */}
+              <div class="container">
+        <div class="raports" >
+            {this.state.ticketsArray.length > 0 &&(
+              this.state.ticketsArray[0].toString()
+            )}
+            {/* <div class="raport">zgloszenie 1</div>
+            <div class="raport">zgloszenie 2</div>
+            <div class="raport">zgloszenie 3</div>
+            <div class="raport">zgloszenie 3</div>
+            <div class="raport">zgloszenie 3</div> */}
+        </div>
+        <div class="form-group">
+            <div class="info">
+                <div class="info-hay">
+                    <b>Kwota: </b> <span class="info-hay-value"></span>
+                </div>
+                <div class="info-name">
+                    <b>Imie i nazwisko: </b> <span class="info-name-value"></span>
+                </div>
+                <div class="info-reason">
+                    <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
+                </div>
+            </div>
+            <div class="Radio">
+                    
+                <div>
+                    <input type="checkbox" id="reject" name="reject" value="yes" //onClick={
+                        //  {
+                        //     if(isChecked){
+                        //         isChecked = false
+                        //     }
+                        //     else{
+                        //         isChecked = true
+                        //     }
+                            //isChecked ? isChecked = false : isChecked = true
+
+                        
+                        //} 
+                        />
+                    
+                    <label for="reject">Reject</label>
+                </div>
+                    
+            </div>
+            <div class="form-data">
+                {/* {isChecked &&( */}
+                <form action="">
+                    <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
+                    <div class="btns">
+                        
+                        {/* {isChecked &&( */}
+                            <button class="reject">Reject</button>
+                        
+                    </div>
+                </form >
+                {/* {!isChecked &&( */}
+                <button class="approve">Approve</button>
+            </div>  
+        </div>
+    </div>
+              
         </div>
       );
+      }
+      
     }
   }
     
@@ -436,13 +505,11 @@ export class Dapp extends React.Component {
   async _transfer() {
     const pageDisplay = "TRANSFER";
     this.setState({ pageDisplay });
-    console.log(this.state.pageDisplay)
     this._startPollingData();
   }
   async _addingTicket() {
     const pageDisplay = "TICKET";
     this.setState({ pageDisplay });
-    console.log(this.state.pageDisplay)
     this._startPollingData();
   }
 
@@ -451,14 +518,12 @@ export class Dapp extends React.Component {
   async ticketAccepting() {
     const pageDisplay = "TICKETACC";
     this.setState({ pageDisplay });
-    console.log(this.state.pageDisplay)
     this._startPollingData();
   }
 
   async _pageReset(){
     const pageDisplay = undefined;
     this.setState({ pageDisplay });
-    console.log(this.state.pageDisplay)
     this._stopPollingData();
   }
 
@@ -471,9 +536,9 @@ export class Dapp extends React.Component {
     });
   }
 
-  async giveAllTickets() {
-    this._ticket.getAllTickets().then((result) => {
-      const ticketsArray = result;
+  giveAllTickets() {
+      this._ticket.getAllTickets().then((result) => {
+        const ticketsArray = result;
       this.setState({ ticketsArray })
     }).catch((err) => {
       console.log(err)
