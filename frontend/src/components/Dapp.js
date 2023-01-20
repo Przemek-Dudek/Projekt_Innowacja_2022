@@ -265,6 +265,13 @@ export class Dapp extends React.Component {
       this.giveAllTickets()
       if(this.state.ticketsArray !== undefined)
       {
+        let choice = 1;
+        document.querySelectorAll('.raport').forEach(div => {
+          div.addEventListener('click', event => {
+            choice = event.target.dataset.index
+            console.log(choice)
+          });
+        });
         return (
         <div>
               {(
@@ -277,20 +284,16 @@ export class Dapp extends React.Component {
             {this.state.ticketsArray.length > 0 &&(
               this.state.ticketsArray.map((struct, index) => {
                 return(
-                  <div key={index}>
-                    <div class="raport">Zgłoszenie {index + 1}</div>
-                    {/* <p>Field 1: {struct.explanation}</p>
-                    <p>Field 2: {struct.walletAddress}</p> */}
-                  </div>
+                    <div class="raport" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
                 )
               })
             )}
         </div>
         <div class="form-group">
             <div class="info">
-                {/* <div class="info-hay"> */}
                 {this.state.ticketsArray.length > 0 &&(
-                  this.state.ticketsArray.slice(0,1).map((struct, index) => { //Dodac zmienna okreslająca który konkretnie ticket drukowac, i wrzucic do slice
+                  this.state.ticketsArray.slice(choice-1,choice).map((struct, index) => { 
+                    //Dodac zmienna okreslająca który konkretnie ticket drukowac, i wrzucic do slice
                     return(
                       <div class="info-hay" key={index}>
                         <div class="info-hay"><b>Kwota: </b> {parseInt(struct.numberOfTokens)} <span class="info-hay-value"></span></div>
