@@ -265,8 +265,6 @@ export class Dapp extends React.Component {
       this.giveAllTickets()
       if(this.state.ticketsArray !== undefined)
       {
-        //const [arr,setArr] = useState(this.state.ticketsArray);
-        console.log(this.state.ticketsArray)
         return (
         <div>
               {(
@@ -274,30 +272,19 @@ export class Dapp extends React.Component {
                   prevPage={() => this._pageReset()}
                 />
               )}
-              
-             {/* {(
-                <TicketsToApprove 
-                  tickets={this.state.ticketsArray}
-                /> 
-              )} */}
-              <div class="container">
+      <div class="container">
         <div class="raports" >
             {this.state.ticketsArray.length > 0 &&(
               this.state.ticketsArray.map((struct, index) => {
                 return(
                   <div key={index}>
-                    <p>Struct {index + 1}:</p>
-                    <p>Field 1: {struct.explanation}</p>
-                    <p>Field 2: {struct.walletAddress}</p>
+                    <div class="raport">Zgłoszenie {index + 1}</div>
+                    {/* <p>Field 1: {struct.explanation}</p>
+                    <p>Field 2: {struct.walletAddress}</p> */}
                   </div>
                 )
               })
             )}
-            {/* <div class="raport">zgloszenie 1</div>
-            <div class="raport">zgloszenie 2</div>
-            <div class="raport">zgloszenie 3</div>
-            <div class="raport">zgloszenie 3</div>
-            <div class="raport">zgloszenie 3</div> */}
         </div>
         <div class="form-group">
             <div class="info">
@@ -314,40 +301,22 @@ export class Dapp extends React.Component {
             <div class="Radio">
                     
                 <div>
-                    <input type="checkbox" id="reject" name="reject" value="yes" //onClick={
-                        //  {
-                        //     if(isChecked){
-                        //         isChecked = false
-                        //     }
-                        //     else{
-                        //         isChecked = true
-                        //     }
-                            //isChecked ? isChecked = false : isChecked = true
-
-                        
-                        //} 
-                        />
+                    <input type="checkbox" id="reject" name="reject" value="yes" />
                     
                     <label for="reject">Reject</label>
                 </div>
                     
             </div>
             <div class="form-data">
-                {/* {isChecked &&( */}
                 <form action="">
                     <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
                     <div class="btns">
-                        
-                        {/* {isChecked &&( */}
-                            <button class="reject">Reject</button>
-                        
+                        <button class="reject">Sumbit</button>
                     </div>
                 </form >
-                {/* {!isChecked &&( */}
-                <button class="approve">Approve</button>
             </div>  
         </div>
-    </div>
+      </div>
               
         </div>
       );
