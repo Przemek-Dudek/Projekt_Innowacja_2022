@@ -290,7 +290,7 @@ export class Dapp extends React.Component {
             <div class="info">
                 {/* <div class="info-hay"> */}
                 {this.state.ticketsArray.length > 0 &&(
-                  this.state.ticketsArray.map((struct, index) => {
+                  this.state.ticketsArray.slice(0,1).map((struct, index) => { //Dodac zmienna okreslająca który konkretnie ticket drukowac, i wrzucic do slice
                     return(
                       <div class="info-hay" key={index}>
                         <div class="info-hay"><b>Kwota: </b> {parseInt(struct.numberOfTokens)} <span class="info-hay-value"></span></div>
