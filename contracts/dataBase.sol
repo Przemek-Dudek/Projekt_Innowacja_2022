@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.12;
 
 contract dataBase {
     enum accountType{ PRACOWNIK, HR, ADMIN,HEAD_ADMIN }
@@ -75,7 +75,10 @@ contract dataBase {
 
 
     function getString() public view returns(string memory) {
-        return _dataBase[msg.sender].firstName;
+        string memory fullName = string.concat(_dataBase[msg.sender].firstName,' ');
+        fullName = string.concat(fullName,_dataBase[msg.sender].lastName);
+        
+        return fullName;
     }
 
 

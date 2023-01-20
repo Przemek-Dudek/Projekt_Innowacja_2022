@@ -288,15 +288,32 @@ export class Dapp extends React.Component {
         </div>
         <div class="form-group">
             <div class="info">
-                <div class="info-hay">
-                    <b>Kwota: </b> <span class="info-hay-value"></span>
-                </div>
-                <div class="info-name">
+                {/* <div class="info-hay"> */}
+                {this.state.ticketsArray.length > 0 &&(
+                  this.state.ticketsArray.map((struct, index) => {
+                    return(
+                      <div class="info-hay" key={index}>
+                        <div class="info-hay"><b>Kwota: </b> {parseInt(struct.numberOfTokens)} <span class="info-hay-value"></span></div>
+                        <div class="info-name">
+                            <b>Imie i nazwisko: </b> {this.state.userName}<span class="info-name-value"></span>
+                        </div>
+                        <div class="info-reason">
+                            <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
+                        </div>
+                        {/* <p>Field 1: {struct.explanation}</p>
+                        <p>Field 2: {struct.walletAddress}</p> */}
+                      </div>
+                    )
+                  })
+                )}
+                    {/* <b>Kwota: </b> <span class="info-hay-value"></span> */}
+                {/* </div> */}
+                {/* <div class="info-name">
                     <b>Imie i nazwisko: </b> <span class="info-name-value"></span>
                 </div>
                 <div class="info-reason">
                     <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
-                </div>
+                </div> */}
             </div>
             <div class="Radio">
                     
