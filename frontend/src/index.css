@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 html, body {
@@ -10,19 +12,21 @@ html, body {
 }
 
 button {
-    margin: 0 10px;
-    width: 100px;
-    height: 30px;
-    background: ghostwhite;
-    border: 1px solid #121618;
+    width: 150px;
+    height: 40px;
+    outline: none;
+    background: transparent;
+    border: 2px solid rgb(0, 151, 230);
+    color: rgb(0, 151, 230);
+    font-weight: 900;
+    letter-spacing: 2px;
+    border-radius: 30px;
     cursor: pointer;
-    border-radius: 100px;
-    transition: ease-in-out 200ms;
 }
 
 button:hover {
-    background: #121618;
-    color: ghostwhite;
+    background: rgb(0, 151, 230);
+    color: rgb(255, 255, 255);
 }
 
 textarea {
@@ -40,9 +44,8 @@ textarea {
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    flex-flow: row wrap;
 }
 
 .container .raports {

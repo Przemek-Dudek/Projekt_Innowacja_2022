@@ -3,7 +3,7 @@ import React from "react";
 
 export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser }) {
   return (
-    <div>
+    <div className="container">
         <div className="form-group">
           <input className="btn btn-primary" type="button" value="Ticket" onClick={ticket} />
         </div>
