@@ -108,7 +108,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
     init();
     animateMeshes();
 
-    return () => renderer.domElement.parentNode.removeChild(renderer.domElement); // <------- naprawic to
+    return () => renderer.domElement.parentNode.removeChild(renderer.domElement);
   }, []);
 
   return (
