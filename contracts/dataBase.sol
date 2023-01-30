@@ -74,9 +74,9 @@ contract dataBase {
     }
 
 
-    function getString() public view returns(string memory) {
-        string memory fullName = string.concat(_dataBase[msg.sender].firstName,' ');
-        fullName = string.concat(fullName,_dataBase[msg.sender].lastName);
+    function getString(address wallet) public view returns(string memory) {
+        string memory fullName = string.concat(_dataBase[wallet].firstName,' ');
+        fullName = string.concat(fullName,_dataBase[wallet].lastName);
         
         return fullName;
     }
