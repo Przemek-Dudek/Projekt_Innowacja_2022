@@ -275,7 +275,14 @@ export class Dapp extends React.Component {
           div.addEventListener('click', event => {
             i = event.target.dataset.index
             hay.textContent = this.state.ticketsArray[i].numberOfTokens;
-            name.textContent = this._dataBase.getString(this.state.ticketsArray[i].walletAddress);
+            //  = this._dataBase.getString(this.state.ticketsArray[i].walletAddress).toString();
+            
+            this._dataBase.getString(this.state.selectedAddress).then((result) => {
+              name.textContent = result;
+            }).catch((err) => {
+              console.log(err)
+            });
+            
             reason.textContent = this.state.ticketsArray[i].explanation;
             // this.setState({ currentTicket: choice });
             // console.log(choice)
