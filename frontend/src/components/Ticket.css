@@ -1,0 +1,13 @@
+.container-box form {
+    min-width: 400px;
+}
+
+.container-box form .form-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-box form .form-group:last-child {
+    padding: 15px 0;
+    justify-content: center;
+}

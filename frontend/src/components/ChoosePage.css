@@ -1,0 +1,38 @@
+.container-choose-box {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255,255,255);
+background: linear-gradient(33deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(0,151,230,1) 100%);
+    flex-flow: column wrap;
+}
+
+.container-choose-box .form-group {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.container-choose-box .form-group input {
+    width: 200px;
+    height: 60px;
+    outline: none;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 60px;
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+    letter-spacing: 4px;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.container-choose-box .form-group input:hover {
+    background: rgb(255, 255, 255);
+    color: rgb(0, 151, 230);
+    border: 1px solid rgb(255, 255, 255);
+}

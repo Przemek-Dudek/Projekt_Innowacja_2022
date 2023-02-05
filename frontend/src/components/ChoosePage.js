@@ -1,26 +1,27 @@
 import React from "react";
-
+import "./ChoosePage.css"
 
 export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser }) {
   return (
     <div className="container">
-        <div className="form-group">
+      <div className="container-choose-box">
+      <div className="form-group">
           <input className="btn btn-primary" type="button" value="Ticket" onClick={ticket} />
         </div>
         <div className="form-group">
-          <input className="btn btn-warning" type="button" value="Registration" onClick={register} />
+          <input className="btn btn-warning" type="button" value="Register" onClick={register} />
         </div>
-        { currentUser === 3 && (
+          { currentUser === 3 && (
+            <div className="form-group">
+            <input className="btn btn-warning" type="button" value="Transfer" onClick={transfer} />
+          </div>
+          )}
+          { (currentUser >= 1)&& (
           <div className="form-group">
-          <input className="btn btn-warning" type="button" value="Transfer" onClick={transfer} />
+          <input className="btn btn-primary" type="button" value="Acceptance" onClick={ticketAccept} />
         </div>
         )}
-        { (currentUser >= 1)&& (
-          <div className="form-group">
-          <input className="btn btn-primary" type="button" value="Ticket acceptance" onClick={ticketAccept} />
-        </div>
-        )}
-        
+      </div>      
     </div>
   );
 }

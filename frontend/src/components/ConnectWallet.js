@@ -140,7 +140,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
           </header>
         </div>
         <div className="connect-box">
-          <button type="button" onClick={connectWallet}>
+          <button type="button" className="button" onClick={connectWallet}>
             Connect Wallet
           </button>
         </div>

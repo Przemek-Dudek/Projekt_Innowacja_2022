@@ -9,9 +9,10 @@
 
 html, body {
     height: 100vh;
+    overflow: hidden;
 }
 
-button {
+.button {
     width: 150px;
     height: 40px;
     outline: none;
@@ -24,7 +25,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.button:hover {
     background: rgb(0, 151, 230);
     color: rgb(255, 255, 255);
 }
@@ -40,7 +41,23 @@ textarea {
     font-size: 21px;
 }
 
-.container {
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=text], input[type=number], input[type=email] {
+    width: 200px;
+    height: 30px;
+    padding: 0 5px;
+    outline: none;
+    border: 1.5px solid rgb(236, 240, 241);
+    background: rgb(236, 240, 241);
+    border-radius: 30px;
+}
+
+ .container {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -48,7 +65,7 @@ textarea {
     align-items: center;
 }
 
-.container .raports {
+/* .container .raports {
     width: 400px;
     height: 600px;
     background: #2d3436;
@@ -123,4 +140,4 @@ textarea {
     margin: 10px auto;
     display: flex;
     justify-content: center;
-}
+} */
