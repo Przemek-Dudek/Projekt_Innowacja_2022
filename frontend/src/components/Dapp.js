@@ -133,17 +133,17 @@ export class Dapp extends React.Component {
       // />
       return (
         <div>
-             {(
-                <Account 
-                  createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
-                  user={this.state.accountType}
-                />
-              )};
               {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
                 />
               )}
+              {(
+                <Account 
+                  createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+                  user={this.state.accountType}
+                />
+              )};
         </div>
       );
       
@@ -152,83 +152,38 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "TRANSFER")
     {
       return (
-      <div className="container p-4">
-        <div className="row">
-          <div className="col-12">
-          {(
+        <div>
+              {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
                 />
               )}
-            <h1>
-              {this.state.tokenData.name} ({this.state.tokenData.symbol})
-            </h1>
-            <h2>
-              Contract address: 
-              <h3>
-                <b>{this._ticket.address}</b>
-              </h3>
-            </h2>
-            <p>
-              Welcome {this.state.userName.toString()} <b>{this.state.selectedAddress}</b>, you have{" "}
-              <b>
-              {this.state.balance.toString()}
-                {/* {this.state.tokenData.symbol}
-                  Given balance: {this.state.giveBalance.toString()}*/}
-              </b>
-              .
-              <br/>
-              
-            </p>
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="row">
-          <div className="col-12">
-            {/*
-              Sending a transaction isn't an immediate action. You have to wait
-              for it to be mined.
-              If we are waiting for one, we show a message here.
-            */}
+            <div className="container-info">
+              <h1>
+                {this.state.tokenData.name} ({this.state.tokenData.symbol})
+              </h1>
+              <h3> Contract address: <b>{this._ticket.address}</b> </h3>
+              <p>
+                Welcome {this.state.userName.toString()} <b>{this.state.selectedAddress}</b>, you have{" "} <b> {this.state.balance.toString()}</b>
+              </p>
+            </div>
+            
             {this.state.txBeingSent && (
               <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
             )}
 
-            {/*
-              Sending a transaction can fail in multiple ways.
-              If that happened, we show a message here.
-            */}
             {this.state.transactionError && (
               <TransactionErrorMessage
                 message={this._getRpcErrorMessage(this.state.transactionError)}
                 dismiss={() => this._dismissTransactionError()}
               />
             )}
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-12">
-            {/*
-              If the user has no tokens, we don't show the Transfer form
-            */}
-            {//this.state.balance.eq(0) && 
-            }
-            {this._token.balanceOf(this._ticket.address) === 0 &&
-            (
+            {this._token.balanceOf(this._ticket.address) === 0 && (
               <NoTokensMessage selectedAddress={this.state.selectedAddress} />
             )}
 
-            {/*
-              This component displays a form that the user can use to send a
-              transaction and transfer some tokens.
-              The component doesn't have logic, it just calls the transferTokens
-              callback.
-              this.state.balance.gt(0) &&
-            */}
-            { (
+            {(
               <Transfer
                 transferTokens={(to, amount) =>
                   this._transferTokens(to, amount)
@@ -236,10 +191,8 @@ export class Dapp extends React.Component {
                 tokenSymbol={this.state.tokenData.symbol}
               />
             )}
-          </div>
-        </div>
-      </div>
-    );
+            </div>
+    )
     }
     else if(this.state.pageDisplay === "TICKET")
     {
@@ -289,13 +242,13 @@ export class Dapp extends React.Component {
           });
         });
         return (
-        <div>
-              {(
-                <PreviousPage 
-                  prevPage={() => this._pageReset()}
-                />
-              )}
-      <div class="container">
+          <div>
+            {(
+              <PreviousPage 
+                prevPage={() => this._pageReset()}
+              />
+            )}
+      {/* <div class="container">
         <div class="raports" >
             {this.state.ticketsArray.length > 0 &&(
               this.state.ticketsArray.map((struct, index) => {
@@ -335,12 +288,13 @@ export class Dapp extends React.Component {
                 </form >
             </div>  
         </div>
-      </div>
-              
+      </div> */}
+            {(
+              <TicketsToApprove tickets={this.state.ticketsArray}/>  
+            )}
         </div>
-      );
+      )
       }
-      
     }
   }
     
@@ -535,7 +489,7 @@ export class Dapp extends React.Component {
   giveAllTickets() {
       this._ticket.getAllTickets().then((result) => {
         const ticketsArray = result;
-      this.setState({ ticketsArray })
+        this.setState({ ticketsArray })
     }).catch((err) => {
       console.log(err)
     });

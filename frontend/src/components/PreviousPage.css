@@ -2,7 +2,8 @@
     width: 60px;
     height: 25px;
     position: fixed;
-    margin: 15px 0 0 20px;
+    top: 15px;
+    left: 15px;
     background: transparent;
     border: 2px solid rgb(0, 151, 230);
     color: rgb(0, 151, 230);
@@ -16,5 +17,5 @@
 }
 
 .prev-button:hover {
-    margin-left: 5px;
+    left: 10px
 }

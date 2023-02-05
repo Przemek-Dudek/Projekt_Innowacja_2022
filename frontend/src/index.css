@@ -12,6 +12,12 @@ html, body {
     overflow: hidden;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .button {
     width: 150px;
     height: 40px;
@@ -47,7 +53,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
-input[type=text], input[type=number], input[type=email] {
+input[type=text], input[type=number], input[type=email], select, option {
     width: 200px;
     height: 30px;
     padding: 0 5px;
@@ -59,10 +65,26 @@ input[type=text], input[type=number], input[type=email] {
 
  .container {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.container-info {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    text-align: center;
+}
+
+@media only screen and (max-width: 675px) {
+    .container-info {
+        transform: scale(0.7);
+    }
 }
 
 /* .container .raports {

@@ -33,6 +33,6 @@ background: linear-gradient(33deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0
 
 .container-choose-box .form-group input:hover {
     background: rgb(255, 255, 255);
-    color: rgb(0, 151, 230);
+    color: rgb(76, 181, 238);
     border: 1px solid rgb(255, 255, 255);
 }

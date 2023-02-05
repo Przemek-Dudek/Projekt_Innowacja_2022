@@ -7,7 +7,7 @@
     justify-content: space-between;
 }
 
-.container-box form .form-group:last-child {
+.container-box form .form-group.btn {
     padding: 15px 0;
     justify-content: center;
 }
