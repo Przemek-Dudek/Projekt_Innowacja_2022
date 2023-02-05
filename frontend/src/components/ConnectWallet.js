@@ -75,7 +75,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
 
           const mesh = new THREE.Mesh(
               new THREE.BoxGeometry(s, s, s),
-              new THREE.MeshPhongMaterial({color: '#3498db'})
+              new THREE.MeshPhongMaterial({color: 'yellow'})
           );
 
           mesh.position.set(positionX, positionY, positionZ);

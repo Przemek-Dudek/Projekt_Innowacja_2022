@@ -68,7 +68,8 @@ export class Dapp extends React.Component {
       pageDisplay: undefined,
       accountType: undefined,
       isTokenAddressSet: undefined,
-      ticketsArray: []
+      ticketsArray: [],
+      currentTicket: 0
     };
 
     this.state = this.initialState;
@@ -258,18 +259,33 @@ export class Dapp extends React.Component {
         </div>
       );
 
-         
     }
     else if(this.state.pageDisplay === "TICKETACC")
     {
       this.giveAllTickets()
       if(this.state.ticketsArray !== undefined)
       {
-        let choice = 1;
+        let i = 0;
+        const hay = document.querySelector('.info-hay-value');
+        const name = document.querySelector('.info-name-value');
+        const reason = document.querySelector('.info-reason-value');
+
+        
         document.querySelectorAll('.raport').forEach(div => {
           div.addEventListener('click', event => {
-            choice = event.target.dataset.index
-            console.log(choice)
+            i = event.target.dataset.index
+            hay.textContent = this.state.ticketsArray[i].numberOfTokens;
+            //  = this._dataBase.getString(this.state.ticketsArray[i].walletAddress).toString();
+            
+            this._dataBase.getString(this.state.selectedAddress).then((result) => {
+              name.textContent = result;
+            }).catch((err) => {
+              console.log(err)
+            });
+            
+            reason.textContent = this.state.ticketsArray[i].explanation;
+            // this.setState({ currentTicket: choice });
+            // console.log(choice)
           });
         });
         return (
@@ -284,40 +300,23 @@ export class Dapp extends React.Component {
             {this.state.ticketsArray.length > 0 &&(
               this.state.ticketsArray.map((struct, index) => {
                 return(
-                    <div class="raport" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
+                  <div class="raport" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
                 )
               })
             )}
         </div>
         <div class="form-group">
-            <div class="info">
-                {this.state.ticketsArray.length > 0 &&(
-                  this.state.ticketsArray.slice(choice-1,choice).map((struct, index) => { 
-                    //Dodac zmienna okreslająca który konkretnie ticket drukowac, i wrzucic do slice
-                    return(
-                      <div class="info-hay" key={index}>
-                        <div class="info-hay"><b>Kwota: </b> {parseInt(struct.numberOfTokens)} <span class="info-hay-value"></span></div>
-                        <div class="info-name">
-                            <b>Imie i nazwisko: </b> {this.state.userName}<span class="info-name-value"></span>
-                        </div>
-                        <div class="info-reason">
-                            <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
-                        </div>
-                        {/* <p>Field 1: {struct.explanation}</p>
-                        <p>Field 2: {struct.walletAddress}</p> */}
-                      </div>
-                    )
-                  })
-                )}
-                    {/* <b>Kwota: </b> <span class="info-hay-value"></span> */}
-                {/* </div> */}
-                {/* <div class="info-name">
+          <div class="info">
+                <div class="info-hay">
+                    <b>Siano: </b> <span class="info-hay-value"></span>
+                </div>
+                <div class="info-name">
                     <b>Imie i nazwisko: </b> <span class="info-name-value"></span>
                 </div>
                 <div class="info-reason">
                     <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
-                </div> */}
-            </div>
+                </div>
+          </div>
             <div class="Radio">
                     
                 <div>
@@ -525,7 +524,7 @@ export class Dapp extends React.Component {
   }
 
   _getString() {
-    this._dataBase.getString().then((result) => {
+    this._dataBase.getString(this.state.selectedAddress).then((result) => {
       const userName = result;
       this.setState({ userName })
     }).catch((err) => {
