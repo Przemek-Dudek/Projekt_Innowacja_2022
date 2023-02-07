@@ -242,13 +242,13 @@ export class Dapp extends React.Component {
           });
         });
         return (
-          <div>
+      <div>
             {(
               <PreviousPage 
                 prevPage={() => this._pageReset()}
               />
             )}
-      {/* <div class="container">
+      <div class="container">
         <div class="raports" >
             {this.state.ticketsArray.length > 0 &&(
               this.state.ticketsArray.map((struct, index) => {
@@ -288,11 +288,8 @@ export class Dapp extends React.Component {
                 </form >
             </div>  
         </div>
-      </div> */}
-            {(
-              <TicketsToApprove tickets={this.state.ticketsArray}/>  
-            )}
-        </div>
+      </div>
+    </div>
       )
       }
     }

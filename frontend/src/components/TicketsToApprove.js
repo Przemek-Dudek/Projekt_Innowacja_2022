@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, React} from "react";
 import * as THREE from 'three';
 import "./TicketsToApprove.css"
 
-export function TicketsToApprove({tickets}) {
+export function TicketsToApprove({ }) {
     const canvas = useRef(null);
     useEffect(() => {
         // Sizes
@@ -112,51 +112,10 @@ export function TicketsToApprove({tickets}) {
     function handleChange(e) {
         isChecked = true;
     }
-
-    const [arr,setArr] = useState([tickets]);
     // console.log(arr);
 
     return (
         <div className="container">
-            <div className="raports" >
-                {
-                    arr.map((val) =>
-                        <h3 key="i">{val}</h3>
-                    )
-                }
-            </div>
-            <div className="form-group">
-                <div className="info">
-                    <div className="info-hay">
-                        <b>Kwota: </b> <span className="info-hay-value"></span>
-                    </div>
-                    <div className="info-name">
-                        <b>Imie i nazwisko: </b> <span className="info-name-value"></span>
-                    </div>
-                    <div className="info-reason">
-                        <b>Uzasadnienie: </b> <span className="info-reason-value"></span>
-                    </div>
-                </div>
-                <div className="radio">
-                    <div>
-                        <input type="checkbox" id="reject" name="reject" value="yes" onClick={
-                            isChecked ? isChecked = false : isChecked = true
-                        }/>
-                        
-                        <label htmlFor="reject">Reject</label>
-                    </div>
-                        
-                </div>
-                <div className="form-data">
-                    <form action="">
-                        <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
-                        <div className="btns">
-                            <button className="reject">Reject</button>
-                        </div>
-                    </form >
-                    <button className="approve">Approve</button>
-                </div>  
-            </div>
             <div className="canvas"ref={canvas}></div>
         </div>
     )

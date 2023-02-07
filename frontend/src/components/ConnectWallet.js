@@ -120,7 +120,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
             </a>
         </div>
         <div className="nav-cont-2">
-            <p>TwojaStara</p>
+            <p>Projekt</p>
         </div>
       </nav>
 
