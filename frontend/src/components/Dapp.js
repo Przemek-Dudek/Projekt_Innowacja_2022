@@ -139,6 +139,22 @@ export class Dapp extends React.Component {
                 />
               )}
               {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+              
+            {this.state.txBeingSent && (
+              <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+            )}
+
+            {this.state.transactionError && (
+              <TransactionErrorMessage
+                message={this._getRpcErrorMessage(this.state.transactionError)}
+                dismiss={() => this._dismissTransactionError()}
+              />
+            )}
+              {(
                 <Account 
                   createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
                   user={this.state.accountType}
@@ -203,6 +219,17 @@ export class Dapp extends React.Component {
                   prevPage={() => this._pageReset()}
                 />
               )}
+              
+            {this.state.txBeingSent && (
+              <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+            )}
+
+            {this.state.transactionError && (
+              <TransactionErrorMessage
+                message={this._getRpcErrorMessage(this.state.transactionError)}
+                dismiss={() => this._dismissTransactionError()}
+              />
+            )}
              {(
                 <Ticket 
                 addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
@@ -222,13 +249,14 @@ export class Dapp extends React.Component {
         const hay = document.querySelector('.info-hay-value');
         const name = document.querySelector('.info-name-value');
         const reason = document.querySelector('.info-reason-value');
+        const id = document.querySelector('.info-id-value');
 
         
         document.querySelectorAll('.raport').forEach(div => {
           div.addEventListener('click', event => {
             i = event.target.dataset.index
+            id.textContent = Number(event.target.dataset.index) + 1
             hay.textContent = this.state.ticketsArray[i].numberOfTokens;
-            //  = this._dataBase.getString(this.state.ticketsArray[i].walletAddress).toString();
             
             this._dataBase.getString(this.state.selectedAddress).then((result) => {
               name.textContent = result;
@@ -237,17 +265,26 @@ export class Dapp extends React.Component {
             });
             
             reason.textContent = this.state.ticketsArray[i].explanation;
-            // this.setState({ currentTicket: choice });
-            // console.log(choice)
           });
         });
         return (
       <div>
-            {(
-              <PreviousPage 
-                prevPage={() => this._pageReset()}
-              />
-            )}
+        {(
+          <PreviousPage 
+            prevPage={() => this._pageReset()}
+          />
+        )}
+              
+        {this.state.txBeingSent && (
+          <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+        )}
+
+        {this.state.transactionError && (
+          <TransactionErrorMessage
+            message={this._getRpcErrorMessage(this.state.transactionError)}
+            dismiss={() => this._dismissTransactionError()}
+          />
+        )}
       <div class="container">
         <div class="raports" >
             {this.state.ticketsArray.length > 0 &&(
@@ -260,6 +297,9 @@ export class Dapp extends React.Component {
         </div>
         <div class="form-group">
           <div class="info">
+                <div class="info-id">
+                    <b>Zgłoszenie: </b> <span class="info-id-value"> </span>
+                </div>
                 <div class="info-hay">
                     <b>Siano: </b> <span class="info-hay-value"></span>
                 </div>
@@ -270,26 +310,26 @@ export class Dapp extends React.Component {
                     <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
                 </div>
           </div>
-            <div class="Radio">
-                    
-                <div>
-                    <input type="checkbox" id="reject" name="reject" value="yes" />
-                    
-                    <label for="reject">Reject</label>
-                </div>
-                    
-            </div>
-            <div class="form-data">
-                <form action="">
-                    <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
-                    <div class="btns">
-                        <button class="reject">Sumbit</button>
-                    </div>
-                </form >
-            </div>  
+          <div class="Radio">
+                  
+              <div>
+                  <input type="checkbox" id="reject" name="reject" value="yes" />
+                  
+                  <label for="reject">Reject</label>
+              </div>
+                  
+          </div>
+          <div class="form-data">
+              <form action="">
+                  <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
+                  <div class="btns">
+                      <button class="reject">Sumbit</button>
+                  </div>
+              </form >
+          </div>  
+          </div>
         </div>
       </div>
-    </div>
       )
       }
     }
@@ -496,10 +536,11 @@ export class Dapp extends React.Component {
   async _addAccount(address, name, lastname, email, accountType)
   {
     try{
+      this._dismissTransactionError();
+
       const tx = await this._dataBase.addPerson(address, name, lastname, email, accountType, {gasLimit: 540000});
       
-      
-      //this.setState({ txBeingSent: tx.hash });
+      this.setState({ txBeingSent: tx.hash });
       
       const receipt = await tx.wait();
 
@@ -510,17 +551,22 @@ export class Dapp extends React.Component {
     catch(error)
     {
       console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
     }
   }
 
   async _addTicket(shortInfo,email ,nubmerToGain)
   {
     try{
+      this._dismissTransactionError();
+
       const tx = await this._ticket.addTicket(shortInfo, this._dataBase.getAddressFromEmail(email), nubmerToGain, {gasLimit: 540000});
       
-      
-      //this.setState({ txBeingSent: tx.hash });
-      
+      this.setState({ txBeingSent: tx.hash });
+
       const receipt = await tx.wait();
 
       if (receipt.status === 0) {
@@ -530,6 +576,10 @@ export class Dapp extends React.Component {
     catch(error)
     {
       console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
     }
   }
 

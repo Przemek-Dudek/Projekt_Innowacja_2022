@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Dapp } from "./components/Dapp";
 //import "./index.css";
-
+import "bootstrap/dist/css/bootstrap.css";
 // We import bootstrap here, but you can remove if you want
 import "./index.css";
 

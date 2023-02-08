@@ -124,7 +124,12 @@ export function Ticket({addTicket}) {
 
                         if (email && amount && explanation) {
                             addTicket(explanation, email, amount)
+                            
                         }
+                        formData.delete('email')
+                        formData.delete("amount")
+                        formData.delete("explanation")
+                        
 
                     }}
                 >
