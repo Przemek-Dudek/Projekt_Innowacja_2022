@@ -107,11 +107,11 @@ export class Dapp extends React.Component {
     if (this.state.tokenData === undefined) {
       return <Loading />;
     }
-    // if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
-    // {
-    //   this._ticket.setTokenAddress(this._token.address)
-    //   this.isTokenAddressSet = true
-    // }
+    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined && !this.isTokenAddressSet)
+    {
+      this._ticket.setTokenAddress(this._token.address)
+      this.isTokenAddressSet = true
+    }
     if(this.state.pageDisplay === undefined)
     {
       return <ChoosePage 
@@ -312,9 +312,14 @@ export class Dapp extends React.Component {
           </div>
           <div class="Radio">
               <div>
+                {this.state.ticketsArray.length > 0 &&(
                   <input type="checkbox" id="reject" name="reject" value="yes" />
-                  
+                )}
+                {this.state.ticketsArray.length > 0 &&(
                   <label for="reject">Reject</label>
+                )}
+                  
+                  
               </div> 
           </div>
           <div class="form-data">
@@ -331,8 +336,13 @@ export class Dapp extends React.Component {
                 const id = document.querySelector('.info-id-value');
 
                 if (explanation && hay && name && reason && id) {
-                    this._acceptTicket(Number(id.textContent),checked,explanation)
+                    this._acceptTicket(Number(id.textContent),!checked,explanation)
                 }
+                else if(!explanation)
+                {
+                  this._acceptTicket(Number(id.textContent) - 1,!checked, "")
+                }
+                console.log(Number(id.textContent) - 1);
 
                 hay.textContent = ""
                 id.textContent = ""
@@ -345,16 +355,17 @@ export class Dapp extends React.Component {
                     <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
                     
                   )}
-                  {isChosen && checked &&(
+                  {console.log()}
+                  {isChosen && this.state.ticketsArray.length > 0 &&(
                     <div class="btns">
-                        <button class="reject" type="submit">Reject</button>
+                        <button class="reject" type="submit">Submit</button>
                     </div>
                   )}
-                  {isChosen && !checked &&(
+                  {/* {isChosen && !checked &&(
                     <div class="btns">
                         <button class="accpet" type="submit">Accept</button>
                     </div>
-                  )}
+                  )} */}
               </form >
           </div>  
           </div>

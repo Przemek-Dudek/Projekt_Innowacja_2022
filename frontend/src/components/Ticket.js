@@ -126,7 +126,7 @@ export function Ticket({addTicket}) {
                             addTicket(explanation, email, amount)
                             
                         }
-                        formData.delete('email')
+                        //formData.append('email')
                         formData.delete("amount")
                         formData.delete("explanation")
                         

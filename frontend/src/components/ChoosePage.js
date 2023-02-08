@@ -1,7 +1,7 @@
 import React from "react";
 import "./ChoosePage.css"
 
-export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser }) {
+export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser, market }) {
   return (
     <div className="container">
       <div className="container-choose-box">
@@ -10,6 +10,9 @@ export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUse
         </div>
         <div className="form-group">
           <input className="btn btn-warning" type="button" value="Register" onClick={register} />
+        </div>
+        <div className="form-group">
+          <input className="btn btn-warning" type="button" value="Market Place" onClick={market} />
         </div>
           { currentUser === 3 && (
             <div className="form-group">
