@@ -138,11 +138,6 @@ export class Dapp extends React.Component {
                   prevPage={() => this._pageReset()}
                 />
               )}
-              {(
-                <PreviousPage 
-                  prevPage={() => this._pageReset()}
-                />
-              )}
               
             {this.state.txBeingSent && (
               <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
@@ -250,9 +245,9 @@ export class Dapp extends React.Component {
         const name = document.querySelector('.info-name-value');
         const reason = document.querySelector('.info-reason-value');
         const id = document.querySelector('.info-id-value');
-
+        const isChosen = hay !== "" ? true : false;
         
-        document.querySelectorAll('.raport').forEach(div => {
+        document.querySelectorAll('.raportA').forEach(div => {
           div.addEventListener('click', event => {
             i = event.target.dataset.index
             id.textContent = Number(event.target.dataset.index) + 1
@@ -267,6 +262,11 @@ export class Dapp extends React.Component {
             reason.textContent = this.state.ticketsArray[i].explanation;
           });
         });
+
+
+        const checked = document.querySelector('#reject:checked') !== null;
+
+
         return (
       <div>
         {(
@@ -285,12 +285,12 @@ export class Dapp extends React.Component {
             dismiss={() => this._dismissTransactionError()}
           />
         )}
-      <div class="container">
-        <div class="raports" >
+      <div class="containerA">
+        <div class="raportsA" >
             {this.state.ticketsArray.length > 0 &&(
               this.state.ticketsArray.map((struct, index) => {
                 return(
-                  <div class="raport" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
+                  <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
                 )
               })
             )}
@@ -311,20 +311,50 @@ export class Dapp extends React.Component {
                 </div>
           </div>
           <div class="Radio">
-                  
               <div>
                   <input type="checkbox" id="reject" name="reject" value="yes" />
                   
                   <label for="reject">Reject</label>
-              </div>
-                  
+              </div> 
           </div>
           <div class="form-data">
-              <form action="">
-                  <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
-                  <div class="btns">
-                      <button class="reject">Sumbit</button>
-                  </div>
+              <form
+               onSubmit={(event) => {
+                    
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const explanation = formData.get("reason")
+                const hay = document.querySelector('.info-hay-value');
+                const name = document.querySelector('.info-name-value');
+                const reason = document.querySelector('.info-reason-value');
+                const id = document.querySelector('.info-id-value');
+
+                if (explanation && hay && name && reason && id) {
+                    this._acceptTicket(Number(id.textContent),checked,explanation)
+                }
+
+                hay.textContent = ""
+                id.textContent = ""
+                reason.textContent = ""
+                name.textContent = ""
+
+            }}
+            >
+                  {isChosen && checked &&(
+                    <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
+                    
+                  )}
+                  {isChosen && checked &&(
+                    <div class="btns">
+                        <button class="reject" type="submit">Reject</button>
+                    </div>
+                  )}
+                  {isChosen && !checked &&(
+                    <div class="btns">
+                        <button class="accpet" type="submit">Accept</button>
+                    </div>
+                  )}
               </form >
           </div>  
           </div>
@@ -583,6 +613,30 @@ export class Dapp extends React.Component {
     }
   }
 
+  async _acceptTicket(ticketID, decision ,explanation)
+  {
+    try{
+      this._dismissTransactionError();
+
+      const tx = await this._ticket.approve(ticketID, decision,explanation, {gasLimit: 540000});
+      
+      this.setState({ txBeingSent: tx.hash });
+
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
+    }
+  }
   // This method sends an ethereum transaction to transfer tokens.
   // While this action is specific to this application, it illustrates how to
   // send a transaction.

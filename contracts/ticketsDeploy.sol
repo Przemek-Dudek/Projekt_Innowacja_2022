@@ -47,7 +47,7 @@ contract ticketsDeploy {
          tickets[ticketID].approved = decision;
         if(decision)
         {
-           // tu wywołamy send token jak już kiedyś będzie działać 
+            Token(tokenAddress).transfer(tickets[ticketID].walletAddress, tickets[ticketID].numberOfTokens);
         }
         else {
             tickets[ticketID].explanationIfNot = _explanation;

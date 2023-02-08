@@ -146,11 +146,11 @@ export function Account({createAccount, user}) {
                         <input className="form-control" type="email" name="email" required />
                     </div>
                     
-                    <div className="form-group">
+                    <div className="form-group" >
                         <label>Account type</label>
                     
-                        <select className="form-select" name="typeAccount" required >
-                            <option value="1">PRACOWNIK</option>
+                        <select className="form-select" name="typeAccount" height="60px" required >
+                            <option value="1" >PRACOWNIK</option>
                         {user >= 1 &&(
                             <option value="2">HR</option>
                         )}

@@ -63,7 +63,7 @@ input[type=text], input[type=number], input[type=email], select, option {
     border-radius: 30px;
 }
 
- .container {
+ .containerA {
     width: 100vw;
     height: 100%;
     display: flex;
@@ -87,7 +87,7 @@ input[type=text], input[type=number], input[type=email], select, option {
     }
 }
 
-/* .container .raports {
+.containerA .raportsA {
     width: 400px;
     height: 600px;
     background: #2d3436;
@@ -96,7 +96,7 @@ input[type=text], input[type=number], input[type=email], select, option {
     border-radius: 10px;
 }
 
-.raports .raport {
+.raportsA .raportA {
     width: calc(100% - 25px);
     height: 40px;
     background: #bdc3c7;
@@ -110,27 +110,27 @@ input[type=text], input[type=number], input[type=email], select, option {
     align-items: center;
 }
 
-.raports .raport:hover {
+.raportsA .raportA:hover {
     background: #7f8c8d;
     transform: scale(1.05);
 }
 
-.container .raports::-webkit-scrollbar {
+.containerA .raportsA::-webkit-scrollbar {
     width: 7px;
     background: ghostwhite;
     border-radius: 7px;
 }
    
-.container .raports::-webkit-scrollbar-track {
+.containerA .raportsA::-webkit-scrollbar-track {
     border-radius: 7px;
 }
 
-.container .raports::-webkit-scrollbar-thumb {
+.containerA .raportsA::-webkit-scrollbar-thumb {
     background: #bdc3c7;
     outline: none;
 }
 
-.container .form-group {
+.containerA .form-group {
     width: 600px;
     height: auto;
     background: ghostwhite;
@@ -162,4 +162,4 @@ input[type=text], input[type=number], input[type=email], select, option {
     margin: 10px auto;
     display: flex;
     justify-content: center;
-} */
+}
