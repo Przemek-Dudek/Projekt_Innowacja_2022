@@ -30,6 +30,8 @@
     "solidity-coverage": "^0.7.21"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0"
+    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "openzeppelin-solidity": "^3.4.2"
   }
 }

@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-
 // This is the main building block for smart contracts.
 contract Token is ERC20Capped, ERC20Burnable{
     // Some string type variables to identify the token.
@@ -22,5 +21,4 @@ contract Token is ERC20Capped, ERC20Burnable{
         require(ERC20.totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
         super._mint(payable(account), amount);
     }
-
 }
