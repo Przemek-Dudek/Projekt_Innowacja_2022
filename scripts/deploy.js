@@ -70,7 +70,7 @@ function saveFrontendFiles(token, ticket, dataBase, market) {
     JSON.stringify({ DataBase: dataBase.address }, undefined, 2)
   );
   fs.writeFileSync(
-    path.join(contractsDir, "Market-address.json"),
+    path.join(contractsDir, "market-address.json"),
     JSON.stringify({ Market: market.address }, undefined, 2)
   );
 
