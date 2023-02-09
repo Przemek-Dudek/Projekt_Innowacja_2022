@@ -35,19 +35,21 @@ async function main() {
   const token = await Token.deploy(ticket.address);
   await token.deployed();
 
+  const Market = await ethers.getContractFactory("Market");
+  const market = await Market.deploy();
+  await market.deployed();
+
   console.log("All contracts depolyed");
   console.log("Token address: ",token.address)
   await ticket.setTokenAddress(token.address, {gasLimit: 540000});
-  console.log("Adres z funkcji: ",(await ticket.giveTokenAddress({gasLimit: 540000})).toString())
-  console.log("Token address: ",token.address)
+  //console.log("Adres z funkcji: ",(await ticket.giveTokenAddress({gasLimit: 540000})).toString())
 
-  //console.log("Token address:", ticket.address);
 
   // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(token,ticket,dataBase);
+  saveFrontendFiles(token,ticket,dataBase,market);
 }
 
-function saveFrontendFiles(token,ticket,dataBase) {
+function saveFrontendFiles(token, ticket, dataBase, market) {
   const fs = require("fs");
   const contractsDir = path.join(__dirname, "..", "frontend", "src", "contracts");
 
@@ -67,10 +69,15 @@ function saveFrontendFiles(token,ticket,dataBase) {
     path.join(contractsDir, "dataBase-address.json"),
     JSON.stringify({ DataBase: dataBase.address }, undefined, 2)
   );
+  fs.writeFileSync(
+    path.join(contractsDir, "market-address.json"),
+    JSON.stringify({ Market: market.address }, undefined, 2)
+  );
 
   const TokenArtifact = artifacts.readArtifactSync("Token");
   const TicketArtifact = artifacts.readArtifactSync("ticketsDeploy");
   const DataArtifact = artifacts.readArtifactSync("dataBase");
+  const MarketArtifact = artifacts.readArtifactSync("Market");
 
   fs.writeFileSync(
     path.join(contractsDir, "Token.json"),
@@ -83,6 +90,10 @@ function saveFrontendFiles(token,ticket,dataBase) {
   fs.writeFileSync(
     path.join(contractsDir, "dataBase.json"),
     JSON.stringify(DataArtifact, null, 2)
+  );
+  fs.writeFileSync(
+    path.join(contractsDir, "Market.json"),
+    JSON.stringify(MarketArtifact, null, 2)
   );
 }
 
