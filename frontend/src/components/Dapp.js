@@ -12,8 +12,8 @@ import ticketAddress from "../contracts/ticket-address.json";
 import TicketArtifact from "../contracts/ticketsDeploy.json";
 import dataBaseAddress from "../contracts/dataBase-address.json";
 import DataBaseArtifact from "../contracts/dataBase.json";
-import MarketAddress from "../contracts/Market.json";
-import MarketArtifact from "../contracts/market-address.json";
+import MarketAddress from "../contracts/market-address.json";
+import MarketArtifact from "../contracts/Market.json";
 
 import { NoWalletDetected } from "./NoWalletDetected";
 import { ConnectWallet } from "./ConnectWallet";
@@ -342,20 +342,40 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "MARKET")
     {
       this.giveAllProducts();
-
-      return(
-        <div class="containerA">
-          <div class="raportsA" >
-              {this.state.products.length > 0 &&(
-                this.state.products.map((struct, index) => {
-                  return(
-                    <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
-                  )
-                })
-              )}
+      if(this.products !== undefined)
+      {
+        return(
+          <div>
+              {(
+              <PreviousPage 
+                prevPage={() => this._pageReset()}
+              />
+            )}
+    
+            <div class="containerA">
+              <div class="raportsA" >
+                  {this.state.products.length > 0 &&(
+                    this.state.products.map((struct, index) => {
+                      return(
+                        <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+            
+          )
+      }
+      else
+      {
+        return(
+          <div>
+            <p>Problemos</p>
           </div>
-        </div>
-      )
+        )
+      }
+      
       
     }
   }
