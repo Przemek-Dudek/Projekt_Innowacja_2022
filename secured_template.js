@@ -1,1 +1,1 @@
-module.exports = '80e2e5ee3f2f0d105b25d9d35060066269a0803d5302685b4a381cc0836e4094';
+module.exports = 'Your private key here';
