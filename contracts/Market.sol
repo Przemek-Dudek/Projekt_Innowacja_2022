@@ -19,7 +19,7 @@ contract Market {
     Product[] private products;
     
 
-    function addProductt(string memory _name, uint256 _cost,string memory _url) external  returns(bool) {
+    function addProduct(string memory _name, uint256 _cost,string memory _url) external  returns(bool) {
         for(uint256 i = 0; i < products.length;i++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))
