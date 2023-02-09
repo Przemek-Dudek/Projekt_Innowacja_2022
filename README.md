@@ -1,9 +1,9 @@
 ## Konfiguracja
 
-Należy stworzyć plik o nazwie secured.js z treścią jak poniżej:
+Należy zmodyfikowac nazwe pliku secured_template.js na secured.js oraz dodac swoj prywatny klucz jak poniżej:
 
 ```sh
-module.exports = 'place for your private key';
+module.exports = 'Your private key here';
 ```
 
 ## Uruchomienie
