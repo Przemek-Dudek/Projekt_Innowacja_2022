@@ -26,7 +26,6 @@ import { ChoosePage } from "./ChoosePage";
 import { Account } from "./Account";
 import { Ticket } from "./Ticket";
 import { PreviousPage } from "./PreviousPage";
-import { TicketsToApprove } from "./TicketsToApprove";
 
 
 const HARDHAT_NETWORK_ID = '80001';
@@ -77,7 +76,10 @@ export class Dapp extends React.Component {
     if (this.state.tokenData === undefined) {
       return <Loading />;
     }
-    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined && !this.isTokenAddressSet)
+
+    console.log(this._ticket.giveTokenAddress())
+    console.log(this._token.address)
+    if(this.state.accountType === 3 && this._token.address !== this._ticket.giveTokenAddress())
     {
       this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
@@ -371,6 +373,11 @@ export class Dapp extends React.Component {
       {
         return(
           <div>
+            {(
+              <PreviousPage 
+                prevPage={() => this._pageReset()}
+              />
+            )}
             <p>Problemos</p>
           </div>
         )
