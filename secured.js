@@ -1,1 +1,0 @@
-module.exports = 'place for your private key';
