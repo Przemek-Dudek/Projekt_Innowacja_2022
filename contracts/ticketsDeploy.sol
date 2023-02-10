@@ -44,7 +44,7 @@ contract ticketsDeploy {
 
     function approve(uint ticketID,bool decision, string memory _explanation) external 
     {
-         tickets[ticketID].approved = decision;
+        tickets[ticketID].approved = decision;
         if(decision)
         {
             Token(tokenAddress).transfer(tickets[ticketID].walletAddress, tickets[ticketID].numberOfTokens);

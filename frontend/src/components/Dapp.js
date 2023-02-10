@@ -26,6 +26,8 @@ import { ChoosePage } from "./ChoosePage";
 import { Account } from "./Account";
 import { Ticket } from "./Ticket";
 import { PreviousPage } from "./PreviousPage";
+import { Button } from "./Button";
+import { AddProduct } from "./AddProduct";
 
 
 const HARDHAT_NETWORK_ID = '80001';
@@ -77,13 +79,12 @@ export class Dapp extends React.Component {
       return <Loading />;
     }
 
-    console.log(this._ticket.giveTokenAddress())
-    console.log(this._token.address)
-    if(this.state.accountType === 3 && this._token.address !== this._ticket.giveTokenAddress())
+    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
     {
       this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
     }
+
     if(this.state.pageDisplay === undefined)
     {
       return <ChoosePage 
@@ -252,32 +253,35 @@ export class Dapp extends React.Component {
             dismiss={() => this._dismissTransactionError()}
           />
         )}
-      <div class="containerA">
-        <div class="raportsA" >
-            {this.state.ticketsArray.length > 0 &&(
-              this.state.ticketsArray.map((struct, index) => {
-                return(
-                  <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
-                )
-              })
-            )}
-        </div>
-        <div class="form-group">
-          <div class="info">
-                <div class="info-id">
-                    <b>Zgłoszenie: </b> <span class="info-id-value"> </span>
-                </div>
-                <div class="info-hay">
-                    <b>Siano: </b> <span class="info-hay-value"></span>
-                </div>
-                <div class="info-name">
-                    <b>Imie i nazwisko: </b> <span class="info-name-value"></span>
-                </div>
-                <div class="info-reason">
-                    <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
-                </div>
+
+      
+
+        <div class="containerA">
+          <div class="raportsA" >
+              {this.state.ticketsArray.length > 0 &&(
+                this.state.ticketsArray.map((struct, index) => {
+                  return(
+                    <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
+                  )
+                })
+              )}
           </div>
-          <div class="Radio">
+          <div class="form-group">
+            <div class="info">
+                  <div class="info-id">
+                      <b>Zgłoszenie: </b> <span class="info-id-value"> </span>
+                  </div>
+                  <div class="info-hay">
+                      <b>Siano: </b> <span class="info-hay-value"></span>
+                  </div>
+                  <div class="info-name">
+                      <b>Imie i nazwisko: </b> <span class="info-name-value"></span>
+                  </div>
+                  <div class="info-reason">
+                      <b>Uzasadnienie: </b> <span class="info-reason-value"></span>
+                  </div>
+            </div>
+            <div class="Radio">
               <div>
                 {this.state.ticketsArray.length > 0 &&(
                   <input type="checkbox" id="reject" name="reject" value="yes" />
@@ -288,10 +292,10 @@ export class Dapp extends React.Component {
                   
                   
               </div> 
-          </div>
-          <div class="form-data">
+            </div>
+            <div class="form-data">
               <form
-               onSubmit={(event) => {
+              onSubmit={(event) => {
                     
                 event.preventDefault();
 
@@ -334,9 +338,9 @@ export class Dapp extends React.Component {
                     </div>
                   )} */}
               </form >
-          </div>  
+            </div>  
+            </div>
           </div>
-        </div>
       </div>
       )
       }
@@ -372,18 +376,48 @@ export class Dapp extends React.Component {
       else
       {
         return(
-          <div>
+          <div className="container">
             {(
               <PreviousPage 
                 prevPage={() => this._pageReset()}
               />
             )}
-            <p>Problemos</p>
+            <Button 
+              something={() => this._addProduct()}
+            />
+            <p>Market jest pusty</p>
           </div>
         )
       }
       
       
+    }
+    else if(this.state.pageDisplay === "PRODUCT")
+    {
+      <div>
+              {(
+                <PreviousPage 
+                  prevPage={() => this._pageReset()}
+                />
+              )}
+              
+            {this.state.txBeingSent && (
+              <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+            )}
+
+            {this.state.transactionError && (
+              <TransactionErrorMessage
+                message={this._getRpcErrorMessage(this.state.transactionError)}
+                dismiss={() => this._dismissTransactionError()}
+              />
+            )}
+            {(
+              <AddProduct 
+              addProduct={(name, cost, url) => this.addProduct(name, cost, url)}
+              /> 
+            )}
+              
+        </div>
     }
   }
     
@@ -536,6 +570,13 @@ export class Dapp extends React.Component {
     this._startPollingData();
   }
 
+  async _addProduct() {
+    const pageDisplay = "PRODUCT";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
+
   async _pageReset(){
     const pageDisplay = undefined;
     this.setState({ pageDisplay });
@@ -602,6 +643,31 @@ export class Dapp extends React.Component {
       this._dismissTransactionError();
 
       const tx = await this._ticket.addTicket(shortInfo, this._dataBase.getAddressFromEmail(email), nubmerToGain, {gasLimit: 540000});
+      
+      this.setState({ txBeingSent: tx.hash });
+
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
+    }
+  }
+
+  async addProduct(name, cost, url)
+  {
+    try{
+      this._dismissTransactionError();
+
+      const tx = await this._market.addProduct(name, cost, url, {gasLimit: 540000});
       
       this.setState({ txBeingSent: tx.hash });
 
