@@ -1,6 +1,7 @@
 import React from "react";
 import "./ChoosePage.css"
 
+
 export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser, market }) {
   return (
     <div className="container">

@@ -1,6 +1,8 @@
 import React from "react";
 //import { useState} from "react";
 
+import "./marketPlace.css"
+
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
 
@@ -348,28 +350,75 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "MARKET")
     {
       this.giveAllProducts();
-      if(this.products !== undefined)
+      if(this.state.products !== undefined)
       {
         return(
-          <div>
-              {(
-              <PreviousPage 
-                prevPage={() => this._pageReset()}
-              />
+          <div className="mainMarketPlace">
+            {(
+            <PreviousPage 
+              prevPage={() => this._pageReset()}
+            />
             )}
+            <Button 
+              something={() => this._addProduct()}
+            />
     
-            <div class="containerA">
-              <div class="raportsA" >
-                  {this.state.products.length > 0 &&(
-                    this.state.products.map((struct, index) => {
-                      return(
-                        <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
-                      )
-                    })
-                  )}
-                </div>
-              </div>
+            <div className="mainMarketPlace">
+              {this.state.products.length > 0 &&(
+                this.state.products.map((struct, index) => {
+                  if (index % 3 === 0) {
+                    return (
+                      <div className="boxBody" key={index} style={{ clear: 'both' }}>
+                        <div className="box" key={index} data-index={index}>
+                          <div className="boxTitle">Nazwa produktu</div>
+                          <div className="boxImage">
+                              <img src="product.jpg" alt="product"/>
+                          </div>
+                          <div className="boxFooter">
+                              <div className="boxDescription">Opis produktu</div>
+                              <button className="boxButton">Kup teraz</button>
+                          </div>
+                        </div>
+                        {this.state.products[index + 1] && (
+                          <div
+                            className="box"
+                            key={index + 1}
+                            data-index={index + 1}
+                          >
+                            <div className="boxTitle">Nazwa produktu</div>
+                            <div className="boxImage">
+                                <img src="product.jpg" alt="product"/>
+                            </div>
+                            <div className="boxFooter">
+                                <div className="boxDescription">Opis produktu</div>
+                                <button className="boxButton">Kup teraz</button>
+                            </div>
+                          </div>
+                        )}
+                        {this.state.products[index + 2] && (
+                          <div
+                            className="box"
+                            key={index + 2}
+                            data-index={index + 2}
+                          >
+                            <div className="boxTitle">Nazwa produktu</div>
+                            <div className="boxImage">
+                                <img src="product.jpg" alt="product"/>
+                            </div>
+                            <div className="boxFooter">
+                                <div className="boxDescription">Opis produktu</div>
+                                <button className="boxButton">Kup teraz</button>
+                            </div>
+                          </div>
+                          
+                        )}
+                      </div>
+                    );
+                  }
+                })
+              )}
             </div>
+          </div>
             
           )
       }
@@ -394,30 +443,33 @@ export class Dapp extends React.Component {
     }
     else if(this.state.pageDisplay === "PRODUCT")
     {
-      <div>
-              {(
-                <PreviousPage 
-                  prevPage={() => this._pageReset()}
-                />
-              )}
-              
-            {this.state.txBeingSent && (
-              <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
-            )}
+      return(
+        <div>
+        {(
+          <PreviousPage 
+            prevPage={() => this.marketPlace()}
+          />
+        )}
+          
+        {this.state.txBeingSent && (
+          <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+        )}
 
-            {this.state.transactionError && (
-              <TransactionErrorMessage
-                message={this._getRpcErrorMessage(this.state.transactionError)}
-                dismiss={() => this._dismissTransactionError()}
-              />
-            )}
-            {(
-              <AddProduct 
-              addProduct={(name, cost, url) => this.addProduct(name, cost, url)}
-              /> 
-            )}
-              
-        </div>
+        {this.state.transactionError && (
+          <TransactionErrorMessage
+            message={this._getRpcErrorMessage(this.state.transactionError)}
+            dismiss={() => this._dismissTransactionError()}
+          />
+        )}
+        {(
+          <AddProduct 
+          addProduct={(name, cost, url) => this.addProduct(name, cost, url)}
+          /> 
+        )}
+            
+      </div>
+      )
+     
     }
   }
     
