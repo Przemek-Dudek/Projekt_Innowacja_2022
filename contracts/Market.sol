@@ -42,7 +42,7 @@ contract Market {
     {
         require(products.length > 0);
 
-         if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
+        if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
             revert("Name cannot be empty");
         }
 
@@ -58,18 +58,27 @@ contract Market {
         revert("No such product exists");
     }
 
-    function editProduct(string memory _name, uint256 _cost) external  returns(bool)
+    function editProduct(string memory _name, uint256 _newCost, string memory _newName) external
     {
-         for(uint256 i = 0; i < products.length;i++)
+        if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
+            revert("Name cannot be empty");
+        }
+
+        for(uint256 i = 0; i < products.length;i++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))
                 {
-                    products[i].cost = _cost;
-                    return true;
+                    products[i].cost = _newCost;
+
+                    if(keccak256(abi.encodePacked(_newName)) != keccak256(abi.encodePacked(""))) {
+                        products[i].name = _newName;
+                    }
+                    
+                    return;
                 }
         }
     
-        return false;
+        revert("No such product exists");
     }
 
     function getProducts() external view returns(Product[] memory)

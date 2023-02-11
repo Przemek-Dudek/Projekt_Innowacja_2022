@@ -263,4 +263,103 @@ describe("Token Deployment", function () {
 
         await expect(market.deleteProduct("product")).to.be.rejected;
     });
+
+    //editProduct
+
+    it("Checking behavior of editProduct() with 0 products", async function() {
+        const { market } = await loadFixture(deployTokenFixture);  
+        await expect(market.editProduct("name", 10, "newname")).to.be.rejected;
+    });
+
+    it("Checking behavior of editProduct() with no product name", async function() {
+        const { market } = await loadFixture(deployTokenFixture);
+        await market.addProduct("Item 1", Number(4), "url1.jpg");
+        
+        await expect(market.editProduct("", 4, "newName")).to.be.rejectedWith("Name cannot be empty");
+    });
+
+    it("Checking behavior of editProduct() with negative cost", async function() {
+        const { market } = await loadFixture(deployTokenFixture);
+        await market.addProduct("Item 1", Number(4), "url1.jpg");
+        
+        await expect(market.editProduct("Item 1", -4, "newName")).to.be.rejected;
+    });
+
+    it("Checking behavior of editProduct() with no new product name", async function() {
+        const { market } = await loadFixture(deployTokenFixture);
+        await market.addProduct("Item 1", Number(4), "url1.jpg");
+        
+        products = await market.getProducts();
+
+        expect(products[0].name).to.equal("Item 1");
+        expect(products[0].cost).to.equal(Number(4));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        await market.editProduct("Item 1", 12, "");
+
+        products = await market.getProducts();
+
+        expect(products[0].name).to.equal("Item 1");
+        expect(products[0].cost).to.equal(Number(12));
+        expect(products[0].url).to.equal("url1.jpg");
+    });
+
+    it("Checking behavior of editProduct() - full usage", async function() {
+        const { market } = await loadFixture(deployTokenFixture);
+        await market.addProduct("Item 1", Number(4), "url1.jpg");
+        await market.addProduct("Item 2", Number(12), "url2.jpg");
+        await market.addProduct("Item 3", Number(36), "url3.jpg");
+        
+        products = await market.getProducts();
+
+        expect(products.length).to.equal(3);
+
+        expect(products[0].name).to.equal("Item 1");
+        expect(products[0].cost).to.equal(Number(4));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        expect(products[1].name).to.equal("Item 2");
+        expect(products[1].cost).to.equal(Number(12));
+        expect(products[1].url).to.equal("url2.jpg");
+
+        expect(products[2].name).to.equal("Item 3");
+        expect(products[2].cost).to.equal(Number(36));
+        expect(products[2].url).to.equal("url3.jpg");
+
+        await market.editProduct("Item 1", 16, "newName 1");
+
+        products = await market.getProducts();
+
+        expect(products.length).to.equal(3);
+
+        expect(products[0].name).to.equal("newName 1");
+        expect(products[0].cost).to.equal(Number(16));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        expect(products[1].name).to.equal("Item 2");
+        expect(products[1].cost).to.equal(Number(12));
+        expect(products[1].url).to.equal("url2.jpg");
+
+        expect(products[2].name).to.equal("Item 3");
+        expect(products[2].cost).to.equal(Number(36));
+        expect(products[2].url).to.equal("url3.jpg");
+
+        await market.editProduct("Item 2", 0, "newName 2");
+
+        products = await market.getProducts();
+
+        expect(products.length).to.equal(3);
+
+        expect(products[0].name).to.equal("newName 1");
+        expect(products[0].cost).to.equal(Number(16));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        expect(products[1].name).to.equal("newName 2");
+        expect(products[1].cost).to.equal(Number(0));
+        expect(products[1].url).to.equal("url2.jpg");
+
+        expect(products[2].name).to.equal("Item 3");
+        expect(products[2].cost).to.equal(Number(36));
+        expect(products[2].url).to.equal("url3.jpg");
+    });
   });
