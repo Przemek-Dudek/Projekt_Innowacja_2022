@@ -196,6 +196,7 @@ export class Dapp extends React.Component {
               />
             )}
              {(
+                
                 <Ticket 
                 addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
                 /> 
