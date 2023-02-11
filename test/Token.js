@@ -44,42 +44,8 @@ describe("Token Deployment", function () {
 });
 
 
-//transakcja nie dziala
-/*describe("Transaction", function () {
-    async function deployTokenFixture() {
-      const [addr1, addr2] = await ethers.getSigners();
-  
-      const Ticket = await ethers.getContractFactory("ticketsDeploy");
-      const ticket = await Ticket.deploy();
-      await ticket.deployed();
-
-      const DataBase = await ethers.getContractFactory("dataBase");
-      const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
-      await dataBase.deployed();
-      
-      const Token = await ethers.getContractFactory("Token");
-      const token = await Token.deploy(ticket.address);
-      await token.deployed();
-  
-      const Market = await ethers.getContractFactory("Market");
-      const market = await Market.deploy();
-      await market.deployed();
-  
-      return { addr1, addr2, ticket, dataBase, token, market };
-    }
-  
-    it("Should transfer tokens between accounts", async function () {
-      const { token, ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
-    
-      await expect(token.connect(ticket).transfer(addr1.address, 50)).to.changeTokenBalances(token, [ticket, addr1], [-50, 50]);
-    
-      await expect(token.connect(addr1).transfer(addr2.address, 50)).to.changeTokenBalances(token, [addr1, addr2], [-50, 50]);
-    });
-  });*/
-
-
   //Tu beda testy do ticketDeploy
-  /*describe("Tickets", function () {
+  describe("Tickets", function () {
     async function deployTokenFixture() {
       const [addr1, addr2] = await ethers.getSigners();
   
@@ -102,8 +68,29 @@ describe("Token Deployment", function () {
       return { addr1, addr2, ticket, dataBase, token, market };
     }
   
+    it("Checking behavior of sendToken() executed by wrong adress", async function () {
+        const { token, ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
     
-  });*/
+        await expect(ticket.sendToken(addr1.address, 50)).to.be.rejected;
+    });
+
+
+    it("Checking behavior of sendToken()", async function () {
+        const { token, ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
+    
+
+        //problem z niewlasciwym msgsenderem
+        await ticket.connect(ticket.address).sendToken(addr1.address, 50);
+
+        const ownerBalance = await token.balanceOf(ticket.address);
+        const addr1Balance = await token.balanceOf(addr1.address);
+
+        expect(ownerBalance).to.equal(await token.totalSupply() - 50);
+        expect(addr1Balance).to.equal(50);
+    });
+
+    
+  });
 
   describe("Market" , function() {
     async function deployTokenFixture() {
@@ -362,4 +349,6 @@ describe("Token Deployment", function () {
         expect(products[2].cost).to.equal(Number(36));
         expect(products[2].url).to.equal("url3.jpg");
     });
+
+    //transaction tests here
   });

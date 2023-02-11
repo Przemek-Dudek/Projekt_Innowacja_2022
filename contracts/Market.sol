@@ -60,6 +60,7 @@ contract Market {
 
     function editProduct(string memory _name, uint256 _newCost, string memory _newName) external
     {
+        //Jak nie chcesz nowej nazwy w miejscu _newName wstaw pusty string ""
         if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
             revert("Name cannot be empty");
         }

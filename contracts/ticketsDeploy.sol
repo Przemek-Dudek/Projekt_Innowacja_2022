@@ -35,14 +35,15 @@ contract ticketsDeploy {
     receive() external payable {
         emit Received(msg.sender, msg.value);
     }
-    function addTicket(string calldata contractInfo, address wallet,uint256 numberOfTokens) external payable {
+
+    function addTicket(string calldata contractInfo, address wallet, uint256 numberOfTokens) external payable {
         uint256 ticketID = tickets.length;
         tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false,"",ticketID));
         ticketsToOwner[ticketID] = msg.sender;
         emit AddTicket(msg.sender, ticketID);
     }
 
-    function approve(uint ticketID,bool decision, string memory _explanation) external 
+    function approve(uint ticketID, bool decision, string memory _explanation) external 
     {
         tickets[ticketID].approved = decision;
         if(decision)
@@ -58,7 +59,10 @@ contract ticketsDeploy {
 
     function sendToken(address wallet, uint256 amount) external payable{
         require(msg.sender == owner, "Only owner can withdraw funds");
+        require(amount > 0);
+
         uint256 balance = Token(tokenAddress).balanceOf(address(this));
+
         require(amount <= balance, "balance is low");
         Token(tokenAddress).transfer(wallet, amount);
         //emit TransferSent(msg.sender, wallet, amount);
