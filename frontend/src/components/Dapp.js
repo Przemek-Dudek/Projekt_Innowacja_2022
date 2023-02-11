@@ -55,7 +55,8 @@ export class Dapp extends React.Component {
       isTokenAddressSet: undefined,
       ticketsArray: [],
       currentTicket: 0,
-      products: []
+      products: [],
+      allEmails: []
     };
 
     this.state = this.initialState;
@@ -195,10 +196,12 @@ export class Dapp extends React.Component {
                 dismiss={() => this._dismissTransactionError()}
               />
             )}
+            {this.getAllEmails()}
              {(
                 
                 <Ticket 
                 addTicket={(shortInfo, email, nubmerToGain) => this._addTicket(shortInfo, email, nubmerToGain)}
+                mail={this.state.allEmails}
                 /> 
               )}
               
@@ -776,6 +779,16 @@ export class Dapp extends React.Component {
     this._market.getProducts().then((result) => {
       const products = result;
       this.setState({ products })
+    }).catch((err) =>{
+      console.log(err)
+    })
+  }
+
+  getAllEmails()
+  {
+    this._dataBase.getAllEmails().then((result) => {
+      const allEmails = result;
+      this.setState({ allEmails })
     }).catch((err) =>{
       console.log(err)
     })
