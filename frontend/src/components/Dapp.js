@@ -365,7 +365,7 @@ export class Dapp extends React.Component {
                 text={"Dodaj produkt"}
               />
               <Button 
-                something={() => this._addProduct()}
+                something={() => this._editProduct()}
                 text={"Edytuj produkty"}
               />
               <Button 
@@ -446,6 +446,7 @@ export class Dapp extends React.Component {
             )}
             <Button 
               something={() => this._addProduct()}
+              text={"Dodaj produkt"}
             />
             <p>Market jest pusty</p>
           </div>
@@ -486,8 +487,21 @@ export class Dapp extends React.Component {
     }
     else if(this.state.pageDisplay === "EDITPRODUCT")
     {
+      this.giveAllProducts();
       return(
-        <div></div>
+        <div>
+          <div className="form-group" >
+            <label>Account type</label>
+            <select className="form-select" name="product" required >
+              {this.state.products.map((struct, index) => {
+                return(
+                  <option value={index} >{struct.name}</option>
+                )
+              })}
+              
+            </select>
+          </div>
+        </div>
       )
     }
   }
@@ -647,6 +661,11 @@ export class Dapp extends React.Component {
     this._startPollingData();
   }
 
+  async _editProduct() {
+    const pageDisplay = "EDITPRODUCT";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
 
   async _pageReset(){
     const pageDisplay = undefined;
