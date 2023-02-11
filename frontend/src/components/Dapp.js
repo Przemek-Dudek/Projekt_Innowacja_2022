@@ -83,7 +83,7 @@ export class Dapp extends React.Component {
 
     if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
     {
-      this._ticket.setTokenAddress(this._token.address)
+      //this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
     }
 
@@ -359,9 +359,21 @@ export class Dapp extends React.Component {
               prevPage={() => this._pageReset()}
             />
             )}
-            <Button 
-              something={() => this._addProduct()}
-            />
+            <div className="buttons">
+              <Button 
+                something={() => this._addProduct()}
+                text={"Dodaj produkt"}
+              />
+              <Button 
+                something={() => this._addProduct()}
+                text={"Edytuj produkty"}
+              />
+              <Button 
+                something={() => this._addProduct()}
+                text={"Usuń produkty"}
+              />
+            </div>
+            
     
             <div className="mainMarketPlace">
               {this.state.products.length > 0 &&(
@@ -370,13 +382,13 @@ export class Dapp extends React.Component {
                     return (
                       <div className="boxBody" key={index} style={{ clear: 'both' }}>
                         <div className="box" key={index} data-index={index}>
-                          <div className="boxTitle">Nazwa produktu</div>
+                          <div className="boxTitle">{this.state.products[index].name}</div>
                           <div className="boxImage">
                               <img src="product.jpg" alt="product"/>
                           </div>
                           <div className="boxFooter">
-                              <div className="boxDescription">Opis produktu</div>
-                              <button className="boxButton">Kup teraz</button>
+                              <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
+                              <button className="boxButton">Kup</button>
                           </div>
                         </div>
                         {this.state.products[index + 1] && (
@@ -385,12 +397,12 @@ export class Dapp extends React.Component {
                             key={index + 1}
                             data-index={index + 1}
                           >
-                            <div className="boxTitle">Nazwa produktu</div>
+                            <div className="boxTitle">{this.state.products[index + 1].name}</div>
                             <div className="boxImage">
                                 <img src="product.jpg" alt="product"/>
                             </div>
                             <div className="boxFooter">
-                                <div className="boxDescription">Opis produktu</div>
+                                <div className="boxDescription">{Number(this.state.products[index + 1].cost)} $TTPSC</div>
                                 <button className="boxButton">Kup teraz</button>
                             </div>
                           </div>
@@ -401,12 +413,13 @@ export class Dapp extends React.Component {
                             key={index + 2}
                             data-index={index + 2}
                           >
-                            <div className="boxTitle">Nazwa produktu</div>
+                            <div className="boxTitle">{this.state.products[index + 2].name}</div>
                             <div className="boxImage">
                                 <img src="product.jpg" alt="product"/>
+                                {console.log(struct.url)}
                             </div>
                             <div className="boxFooter">
-                                <div className="boxDescription">Opis produktu</div>
+                                <div className="boxDescription">{Number(this.state.products[index + 2].cost)} $TTPSC</div>
                                 <button className="boxButton">Kup teraz</button>
                             </div>
                           </div>

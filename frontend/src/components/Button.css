@@ -1,9 +1,10 @@
-.btn-product {
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.buttons .btn-product {
     width: auto;
     height: auto;
-    position: fixed;
-    top: 1%;
-    left: 50%;
     background: transparent;
     border: 2px solid rgb(0, 151, 230);
     color: rgb(0, 151, 230);
@@ -14,8 +15,4 @@
     cursor: pointer;
     border-radius: 25px;
     transition: 0.3s ease;
-}
-
-.prev-button:hover {
-    left: 10px
 }
