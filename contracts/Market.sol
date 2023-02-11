@@ -60,7 +60,7 @@ contract Market {
 
     function editProduct(string memory _name, uint256 _newCost, string memory _newName) external
     {
-        if(keccak256(abi.encodePacked(_newName)) == keccak256(abi.encodePacked(""))) {
+        if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
             revert("Name cannot be empty");
         }
 
@@ -69,7 +69,11 @@ contract Market {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))
                 {
                     products[i].cost = _newCost;
-                    products[i].name = _newName;
+
+                    if(keccak256(abi.encodePacked(_newName)) != keccak256(abi.encodePacked(""))) {
+                        products[i].name = _newName;
+                    }
+                    
                     return;
                 }
         }
