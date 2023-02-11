@@ -484,6 +484,12 @@ export class Dapp extends React.Component {
       )
      
     }
+    else if(this.state.pageDisplay === "EDITPRODUCT")
+    {
+      return(
+        <div></div>
+      )
+    }
   }
     
 
