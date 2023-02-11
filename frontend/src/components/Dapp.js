@@ -366,11 +366,11 @@ export class Dapp extends React.Component {
               />
               <Button 
                 something={() => this._editProduct()}
-                text={"Edytuj produkty"}
+                text={"Edytuj produkt"}
               />
               <Button 
-                something={() => this._addProduct()}
-                text={"Usuń produkty"}
+                something={() => this._deleteProduct()}
+                text={"Usuń produkt"}
               />
             </div>
             
@@ -503,8 +503,6 @@ export class Dapp extends React.Component {
 
                 const formData = new FormData(event.target);
                 const product = formData.get("product")
-                console.log(product)
-                console.log(this.state.products[product].name)
                 const cost = formData.get("cost")
 
                 if (product && cost) {
@@ -535,7 +533,51 @@ export class Dapp extends React.Component {
         </div>
       )
     }
+    else if(this.state.pageDisplay === "DELETEPRODUCT")
+    {
+      this.giveAllProducts()
+      return(
+        <div>
+          {(
+          <PreviousPage 
+            prevPage={() => this.marketPlace()}
+          />
+          )}
+          <div className="container">
+            <div className="container-box">
+              <form
+              onSubmit={(event) => {
+                    
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const product = formData.get("product")
+
+                if (product) {
+                    this.deleteProduct(this.state.products[product].name)
+                }
+
+            }}>
+                <div className="form-group" >
+                  <label>Nazwa przedmiotu</label>
+                  <select className="form-select" name="product" required >
+                    {this.state.products.map((struct, index) => {
+                      return(
+                        <option value={index} >{struct.name}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div className="form-group btn">
+                    <input className="button" type="submit" value="Usuń"/>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
   }
+  
     
 
   componentWillUnmount() {
@@ -697,6 +739,12 @@ export class Dapp extends React.Component {
     this._startPollingData();
   }
 
+  async _deleteProduct() {
+    const pageDisplay = "DELETEPRODUCT";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
   async _pageReset(){
     const pageDisplay = undefined;
     this.setState({ pageDisplay });
@@ -813,6 +861,31 @@ export class Dapp extends React.Component {
       this._dismissTransactionError();
 
       const tx = await this._market.editProduct(name, cost, {gasLimit: 540000});
+      
+      this.setState({ txBeingSent: tx.hash });
+
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
+    }
+  }
+
+  async deleteProduct(name)
+  {
+    try{
+      this._dismissTransactionError();
+
+      const tx = await this._market.deleteProduct(name, {gasLimit: 540000});
       
       this.setState({ txBeingSent: tx.hash });
 
