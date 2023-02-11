@@ -42,6 +42,10 @@ contract Market {
     {
         require(products.length > 0);
 
+         if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
+            revert("Name cannot be empty");
+        }
+
         for(uint256 i = 0; i < products.length; i++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))    
@@ -83,6 +87,8 @@ contract Market {
                  tempCounter++;
              }
         }
+
+        require(tempCounter > 0);
 
         Product[] memory result = new Product[](tempCounter);
         for(uint i=0; i<tempCounter; ++i)
