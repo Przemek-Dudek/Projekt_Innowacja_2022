@@ -23,7 +23,7 @@ contract Market {
         if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
             revert("Name cannot be empty");
         }
-        
+
         if(keccak256(abi.encodePacked(_url)) == keccak256(abi.encodePacked(""))) {
             revert("URL cannot be empty");
         }
@@ -40,16 +40,20 @@ contract Market {
 
     function deleteProduct(string memory _name) external 
     {
-        for(uint256 i = 0; i < products.length;i++)
+        require(products.length > 0);
+
+        for(uint256 i = 0; i < products.length; i++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))    
             {
                  delete products[i];
-                 break;
+                 return;
             }
         }
-         
+        
+        revert("No such product exists");
     }
+
     function editProduct(string memory _name, uint256 _cost) external  returns(bool)
     {
          for(uint256 i = 0; i < products.length;i++)
