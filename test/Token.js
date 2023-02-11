@@ -196,7 +196,7 @@ describe("Token Deployment", function () {
         await market.addProduct("Item 2", Number(12), "url2.jpg");
         await market.addProduct("Item 3", Number(36), "url3.jpg");
 
-        const products = await market.getProducts();
+        products = await market.getProducts();
 
         expect(products.length).to.equal(3);
 
@@ -214,7 +214,7 @@ describe("Token Deployment", function () {
         
         await market.deleteProduct("Item 3");
 
-        const products = await market.getProducts();
+        products = await market.getProducts();
 
         expect(products[0].name).to.equal("Item 1");
         expect(products[0].cost).to.equal(Number(4));
@@ -223,6 +223,76 @@ describe("Token Deployment", function () {
         expect(products[1].name).to.equal("Item 2");
         expect(products[1].cost).to.equal(Number(12));
         expect(products[1].url).to.equal("url2.jpg");
+    });
+
+    it("Checking behavior of deleteProduct() - middle product on the list", async function() {
+        const { market } = await loadFixture(deployTokenFixture);
+        await market.addProduct("Item 1", Number(4), "url1.jpg");
+        await market.addProduct("Item 2", Number(12), "url2.jpg");
+        await market.addProduct("Item 3", Number(36), "url3.jpg");
+
+        products = await market.getProducts();
+
+        expect(products.length).to.equal(3);
+
+        expect(products[0].name).to.equal("Item 1");
+        expect(products[0].cost).to.equal(Number(4));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        expect(products[1].name).to.equal("Item 2");
+        expect(products[1].cost).to.equal(Number(12));
+        expect(products[1].url).to.equal("url2.jpg");
+
+        expect(products[2].name).to.equal("Item 3");
+        expect(products[2].cost).to.equal(Number(36));
+        expect(products[2].url).to.equal("url3.jpg");
+        
+        await market.deleteProduct("Item 2");
+
+        products = await market.getProducts();
+
+        expect(products[0].name).to.equal("Item 1");
+        expect(products[0].cost).to.equal(Number(4));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        expect(products[1].name).to.equal("Item 3");
+        expect(products[1].cost).to.equal(Number(36));
+        expect(products[1].url).to.equal("url3.jpg");
+    });
+
+    it("Checking behavior of deleteProduct() - first product on the list", async function() {
+        const { market } = await loadFixture(deployTokenFixture);
+        await market.addProduct("Item 1", Number(4), "url1.jpg");
+        await market.addProduct("Item 2", Number(12), "url2.jpg");
+        await market.addProduct("Item 3", Number(36), "url3.jpg");
+
+        products = await market.getProducts();
+
+        expect(products.length).to.equal(3);
+
+        expect(products[0].name).to.equal("Item 1");
+        expect(products[0].cost).to.equal(Number(4));
+        expect(products[0].url).to.equal("url1.jpg");
+
+        expect(products[1].name).to.equal("Item 2");
+        expect(products[1].cost).to.equal(Number(12));
+        expect(products[1].url).to.equal("url2.jpg");
+
+        expect(products[2].name).to.equal("Item 3");
+        expect(products[2].cost).to.equal(Number(36));
+        expect(products[2].url).to.equal("url3.jpg");
+        
+        await market.deleteProduct("Item 1");
+
+        products = await market.getProducts();
+
+        expect(products[0].name).to.equal("Item 2");
+        expect(products[0].cost).to.equal(Number(12));
+        expect(products[0].url).to.equal("url2.jpg");
+
+        expect(products[1].name).to.equal("Item 3");
+        expect(products[1].cost).to.equal(Number(36));
+        expect(products[1].url).to.equal("url3.jpg");
     });
 
   });

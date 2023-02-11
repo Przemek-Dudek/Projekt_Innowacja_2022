@@ -42,12 +42,12 @@ contract Market {
     {
         require(products.length > 0);
 
-        for(uint256 i = 0; i < products.length;i++)
+        for(uint256 i = 0; i < products.length; i++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))    
             {
                  delete products[i];
-                 break;
+                 return;
             }
         }
         
