@@ -2,7 +2,7 @@ import {React, useEffect, useRef} from "react";
 import * as THREE from 'three';
 import "./Ticket.css"
 
-export function Ticket({addTicket}) {
+export function Ticket({addTicket, mail}) {
     const canvas = useRef(null);
     useEffect(() => {
         // Sizes
@@ -111,7 +111,7 @@ export function Ticket({addTicket}) {
     return (
         <div className="container">
             <div className="container-box">
-                <h2>Dodane ticketu</h2>
+                <h2>Dodanie ticketu</h2>
                 <form
                     onSubmit={(event) => {
                         
@@ -133,9 +133,15 @@ export function Ticket({addTicket}) {
 
                     }}
                 >
-                <div className="form-group">
-                    <label>Kogo zgłaszasz (email)</label>
-                    <input className="form-control" type="email" name="email" required />
+                <div className="form-group" >
+                  <label>Nazwa przedmiotu</label>
+                  <select className="form-select" name="email" required >
+                    {mail.map((struct, index) => {
+                      return(
+                        <option value={index} >{struct}</option>
+                      )
+                    })}
+                  </select>
                 </div>
                 <div className="form-group">
                     <label>Kwota</label>
