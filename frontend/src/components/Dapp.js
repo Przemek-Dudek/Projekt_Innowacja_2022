@@ -416,7 +416,6 @@ export class Dapp extends React.Component {
                             <div className="boxTitle">{this.state.products[index + 2].name}</div>
                             <div className="boxImage">
                                 <img src="product.jpg" alt="product"/>
-                                {console.log(struct.url)}
                             </div>
                             <div className="boxFooter">
                                 <div className="boxDescription">{Number(this.state.products[index + 2].cost)} $TTPSC</div>
@@ -490,16 +489,48 @@ export class Dapp extends React.Component {
       this.giveAllProducts();
       return(
         <div>
-          <div className="form-group" >
-            <label>Account type</label>
-            <select className="form-select" name="product" required >
-              {this.state.products.map((struct, index) => {
-                return(
-                  <option value={index} >{struct.name}</option>
-                )
-              })}
-              
-            </select>
+          {(
+          <PreviousPage 
+            prevPage={() => this.marketPlace()}
+          />
+          )}
+          <div className="container">
+            <div className="container-box">
+              <form
+              onSubmit={(event) => {
+                    
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const product = formData.get("product")
+                console.log(product)
+                console.log(this.state.products[product].name)
+                const cost = formData.get("cost")
+
+                if (product && cost) {
+                    this.editProduct(this.state.products[product].name, cost)
+                }
+
+            }}>
+                <div className="form-group" >
+                  <label>Nazwa przedmiotu</label>
+                  <select className="form-select" name="product" required >
+                    {this.state.products.map((struct, index) => {
+                      return(
+                        <option value={index} >{struct.name}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div className="form-group">
+                    <label>Nowa kwota</label>
+                    <input className="form-control" type="number" name="cost" required />
+                </div>
+                <div className="form-group btn">
+                    <input className="button" type="submit" value="Zmień"/>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )
@@ -618,7 +649,6 @@ export class Dapp extends React.Component {
   async _register() {
     const pageDisplay = "REGISTER";
     this.setState({ pageDisplay });
-    console.log(this.state.pageDisplay)
   }
 
   _getUserType(){
@@ -758,6 +788,31 @@ export class Dapp extends React.Component {
       this._dismissTransactionError();
 
       const tx = await this._market.addProduct(name, cost, url, {gasLimit: 540000});
+      
+      this.setState({ txBeingSent: tx.hash });
+
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
+    }
+  }
+
+  async editProduct(name, cost)
+  {
+    try{
+      this._dismissTransactionError();
+
+      const tx = await this._market.editProduct(name, cost, {gasLimit: 540000});
       
       this.setState({ txBeingSent: tx.hash });
 
