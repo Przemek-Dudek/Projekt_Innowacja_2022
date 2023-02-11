@@ -67,10 +67,20 @@ contract dataBase {
         return msg.sender;
     }
 
+    function getAllEmails() external view returns(string[] memory)
+    {
+        string[] memory emailTab = new string[](addressIndices.length);
+        for(uint i = 0; i<addressIndices.length; ++i)
+        {
+            emailTab[i] = _dataBase[addressIndices[i]].email;
+        }
+
+        return emailTab;
+    } 
+
     function getActivate(address wallet) public view returns (bool)
     {
         return _dataBase[wallet].activate;
-
     }
 
 
