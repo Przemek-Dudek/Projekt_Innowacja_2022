@@ -20,8 +20,13 @@ contract Market {
     
 
     function addProduct(string memory _name, uint256 _cost,string memory _url) external  returns(bool) {
-        require(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("")));
-        require(keccak256(abi.encodePacked(_url)) == keccak256(abi.encodePacked("")));
+        if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
+            revert("Name cannot be empty");
+        }
+        
+        if(keccak256(abi.encodePacked(_url)) == keccak256(abi.encodePacked(""))) {
+            revert("URL cannot be empty");
+        }
 
         for(uint256 i = 0; i < products.length;i++)
         {
