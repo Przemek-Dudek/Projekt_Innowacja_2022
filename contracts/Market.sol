@@ -20,6 +20,9 @@ contract Market {
     
 
     function addProduct(string memory _name, uint256 _cost,string memory _url) external  returns(bool) {
+        require(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("")));
+        require(keccak256(abi.encodePacked(_url)) == keccak256(abi.encodePacked("")));
+
         for(uint256 i = 0; i < products.length;i++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[i].name)))
@@ -58,6 +61,9 @@ contract Market {
 
     function getProducts() external view returns(Product[] memory)
     {
+        //ten require sprawdza czy więcej niż 0 produktów, do wywalenia jeśli się coś w związku z tym sypie
+        require(products.length > 0);
+
         Product[] memory temp = new Product[](products.length);
         uint tempCounter = 0;
         for(uint i=0; i<products.length; ++i)
