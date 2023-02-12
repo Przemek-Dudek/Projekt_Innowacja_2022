@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.12;
-
+import "./Token.sol";
 
 contract Market {
     
@@ -11,12 +11,45 @@ contract Market {
         string url;
     }
     address owner;
+    address tokenAddress;
+    address ticketAddress;
 
-    constructor () { 
+    constructor (address _tokenAddress,address _ticketAddress) { 
+        ticketAddress = _ticketAddress;
+        tokenAddress = _tokenAddress;
         owner = msg.sender;
     }
 
     Product[] private products;
+    mapping (address => Product[]) public userProducts;
+
+    function buyProduct(string memory _name, address _buyer) external returns(bool)
+    {
+        uint256 index;
+        bool productExist = false;
+        if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
+            revert("Name cannot be empty");
+        }
+        for(index = 0; index < products.length;index++)
+        {
+            if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[index].name)))
+            {
+                    productExist = true;
+                    break;
+            }
+        }
+        if(!productExist)
+            revert("Such a product does not exist");
+
+        if(Token(tokenAddress).balanceOf(_buyer) < products[index].cost)
+            return false;
+
+        Token(tokenAddress).transferFrom(_buyer,ticketAddress,products[index].cost);
+        
+        userProducts[_buyer].push(products[index]);
+
+        return true;
+    }
     
 
     function addProduct(string memory _name, uint256 _cost,string memory _url) external  returns(bool) {
@@ -82,7 +115,7 @@ contract Market {
         revert("No such product exists");
     }
 
-    function getProducts() external view returns(Product[] memory)
+    function getAllProducts() external view returns(Product[] memory)
     {
         //ten require sprawdza czy więcej niż 0 produktów, do wywalenia jeśli się coś w związku z tym sypie
         require(products.length > 0);
@@ -107,6 +140,12 @@ contract Market {
         }
         return result;
     }
+
+    function getUserProducts() external view returns(Product[] memory)
+    {
+        return userProducts[msg.sender];
+    }
+
 
     
     

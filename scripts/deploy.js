@@ -36,7 +36,7 @@ async function main() {
   await token.deployed();
 
   const Market = await ethers.getContractFactory("Market");
-  const market = await Market.deploy();
+  const market = await Market.deploy(token.address,ticket.address);
   await market.deployed();
 
   console.log("All contracts depolyed");
