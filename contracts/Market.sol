@@ -27,9 +27,11 @@ contract Market {
     {
         uint256 index;
         bool productExist = false;
+
         if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
             revert("Name cannot be empty");
         }
+
         for(index = 0; index < products.length;index++)
         {
             if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(products[index].name)))
@@ -38,6 +40,7 @@ contract Market {
                     break;
             }
         }
+
         if(!productExist)
             revert("Such a product does not exist");
 
@@ -52,7 +55,7 @@ contract Market {
     }
     
 
-    function addProduct(string memory _name, uint256 _cost,string memory _url) external  returns(bool) {
+    function addProduct(string memory _name, uint256 _cost, string memory _url) external  returns(bool) {
         if(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked(""))) {
             revert("Name cannot be empty");
         }

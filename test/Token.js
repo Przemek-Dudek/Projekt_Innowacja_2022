@@ -9,17 +9,18 @@ describe("Token Deployment", function () {
     const Ticket = await ethers.getContractFactory("ticketsDeploy");
     const ticket = await Ticket.deploy();
     await ticket.deployed();
-
+  
     const DataBase = await ethers.getContractFactory("dataBase");
     const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
     await dataBase.deployed();
     
+  
     const Token = await ethers.getContractFactory("Token");
     const token = await Token.deploy(ticket.address);
     await token.deployed();
-
+  
     const Market = await ethers.getContractFactory("Market");
-    const market = await Market.deploy();
+    const market = await Market.deploy(token.address,ticket.address);
     await market.deployed();
 
     return { addr1, addr2, ticket, dataBase, token, market };
@@ -52,17 +53,18 @@ describe("Token Deployment", function () {
       const Ticket = await ethers.getContractFactory("ticketsDeploy");
       const ticket = await Ticket.deploy();
       await ticket.deployed();
-  
+    
       const DataBase = await ethers.getContractFactory("dataBase");
       const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
       await dataBase.deployed();
       
+    
       const Token = await ethers.getContractFactory("Token");
       const token = await Token.deploy(ticket.address);
       await token.deployed();
-  
+    
       const Market = await ethers.getContractFactory("Market");
-      const market = await Market.deploy();
+      const market = await Market.deploy(token.address,ticket.address);
       await market.deployed();
   
       return { addr1, addr2, ticket, dataBase, token, market };
@@ -94,25 +96,26 @@ describe("Token Deployment", function () {
 
   describe("Market" , function() {
     async function deployTokenFixture() {
-       const [addr1, addr2] = await ethers.getSigners();
+      const [addr1, addr2] = await ethers.getSigners();
+  
+      const Ticket = await ethers.getContractFactory("ticketsDeploy");
+      const ticket = await Ticket.deploy();
+      await ticket.deployed();
     
-       const Ticket = await ethers.getContractFactory("ticketsDeploy");
-       const ticket = await Ticket.deploy();
-       await ticket.deployed();
+      const DataBase = await ethers.getContractFactory("dataBase");
+      const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
+      await dataBase.deployed();
+      
     
-       const DataBase = await ethers.getContractFactory("dataBase");
-       const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
-       await dataBase.deployed();
-        
-       const Token = await ethers.getContractFactory("Token");
-       const token = await Token.deploy(ticket.address);
-       await token.deployed();
+      const Token = await ethers.getContractFactory("Token");
+      const token = await Token.deploy(ticket.address);
+      await token.deployed();
     
-       const Market = await ethers.getContractFactory("Market");
-       const market = await Market.deploy();
-       await market.deployed();
-    
-       return { addr1, addr2, ticket, dataBase, token, market };
+      const Market = await ethers.getContractFactory("Market");
+      const market = await Market.deploy(token.address,ticket.address);
+      await market.deployed();
+  
+      return { addr1, addr2, ticket, dataBase, token, market };
     }
     
     //addProduct()
@@ -132,18 +135,18 @@ describe("Token Deployment", function () {
         await expect( market.addProduct("Item", Number(10), "")).to.be.rejected;
     });
 
-    //getProducts()
+    //getAllProducts()
 
-    it("Checking behavior of getProducts() with 0 products", async function(){
+    it("Checking behavior of getAllProducts() with 0 products", async function(){
         const { market } = await loadFixture(deployTokenFixture);
-        await expect(market.getProducts()).to.be.rejected;
+        await expect(market.getAllProducts()).to.be.rejected;
       });
 
-    it("Checking behavior of getProducts() after addProduct() being used correctly once", async function() {
+    it("Checking behavior of getAllProducts() after addProduct() being used correctly once", async function() {
       const { market } = await loadFixture(deployTokenFixture);  
       await market.addProduct("Item 1", Number(1), "pic.jpg");
 
-      const products = await market.getProducts();
+      const products = await market.getAllProducts();
 
       expect(products.length).to.equal(1);
       expect(products[0].name).to.equal("Item 1");
@@ -151,12 +154,12 @@ describe("Token Deployment", function () {
       expect(products[0].url).to.equal("pic.jpg");
     });
 
-    it("Checking behavior of getProducts() after addProduct() being used correctly twice", async function() {
+    it("Checking behavior of getAllProducts() after addProduct() being used correctly twice", async function() {
       const { market } = await loadFixture(deployTokenFixture);  
       await market.addProduct("Item 1", Number(4), "url1.jpg");
       await market.addProduct("Item 2", Number(12), "url2.jpg");
 
-      const products = await market.getProducts();
+      const products = await market.getAllProducts();
 
       expect(products.length).to.equal(2);
 
@@ -191,7 +194,7 @@ describe("Token Deployment", function () {
 
         await market.deleteProduct("Item 1");
 
-        await expect(market.getProducts()).to.be.rejected;
+        await expect(market.getAllProducts()).to.be.rejected;
     });
 
     it("Checking behavior of deleteProduct() - correct usage", async function() {
@@ -200,7 +203,7 @@ describe("Token Deployment", function () {
         await market.addProduct("Item 2", Number(12), "url2.jpg");
         await market.addProduct("Item 3", Number(36), "url3.jpg");
 
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products.length).to.equal(3);
 
@@ -220,7 +223,7 @@ describe("Token Deployment", function () {
 
         await expect(market.deleteProduct("product")).to.be.rejected;
 
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products.length).to.equal(2);
 
@@ -236,7 +239,7 @@ describe("Token Deployment", function () {
 
         await expect(market.deleteProduct("product")).to.be.rejected;
 
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products.length).to.equal(1);
 
@@ -246,7 +249,7 @@ describe("Token Deployment", function () {
 
         await market.deleteProduct("Item 3");
 
-        await expect(market.getProducts()).to.be.rejected;
+        await expect(market.getAllProducts()).to.be.rejected;
 
         await expect(market.deleteProduct("product")).to.be.rejected;
     });
@@ -276,7 +279,7 @@ describe("Token Deployment", function () {
         const { market } = await loadFixture(deployTokenFixture);
         await market.addProduct("Item 1", Number(4), "url1.jpg");
         
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products[0].name).to.equal("Item 1");
         expect(products[0].cost).to.equal(Number(4));
@@ -284,7 +287,7 @@ describe("Token Deployment", function () {
 
         await market.editProduct("Item 1", 12, "");
 
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products[0].name).to.equal("Item 1");
         expect(products[0].cost).to.equal(Number(12));
@@ -297,7 +300,7 @@ describe("Token Deployment", function () {
         await market.addProduct("Item 2", Number(12), "url2.jpg");
         await market.addProduct("Item 3", Number(36), "url3.jpg");
         
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products.length).to.equal(3);
 
@@ -315,7 +318,7 @@ describe("Token Deployment", function () {
 
         await market.editProduct("Item 1", 16, "newName 1");
 
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products.length).to.equal(3);
 
@@ -333,7 +336,7 @@ describe("Token Deployment", function () {
 
         await market.editProduct("Item 2", 0, "newName 2");
 
-        products = await market.getProducts();
+        products = await market.getAllProducts();
 
         expect(products.length).to.equal(3);
 
@@ -350,5 +353,39 @@ describe("Token Deployment", function () {
         expect(products[2].url).to.equal("url3.jpg");
     });
 
-    //transaction tests here
+    //buyProduct
+
+    it("Checking behavior of buyProduct() with 0 products", async function() {
+      const { market, addr1 } = await loadFixture(deployTokenFixture);  
+      await expect(market.buyProduct("name", addr1.address)).to.be.rejectedWith("Such a product does not exist");
+    });
+
+    it("Checking behavior of buyProduct() with no product name", async function() {
+      const { market, addr1 } = await loadFixture(deployTokenFixture);  
+      await expect(market.buyProduct("", addr1.address)).to.be.rejectedWith("Name cannot be empty");
+    });
+
+    it("Checking behavior of buyProduct() - one item aviable", async function() {
+      const { market, ticket, addr1 } = await loadFixture(deployTokenFixture);
+      await market.addProduct("Item 1", Number(4), "url1.jpg");
+
+      products = await market.getAllProducts();
+
+      expect(products.length).to.equal(1);
+
+      expect(products[0].name).to.equal("Item 1");
+      expect(products[0].cost).to.equal(Number(4));
+      expect(products[0].url).to.equal("url1.jpg");
+
+      await market.buyProduct("Item 1", addr1.address);
+
+      userProducts = await market.getUserProducts();
+
+      expect(userProducts.length).to.equal(1);
+
+      expect(userProducts[0].name).to.equal("Item 1");
+      expect(userProducts[0].cost).to.equal(Number(4));
+      expect(userProducts[0].url).to.equal("url1.jpg");
+    });
+
   });
