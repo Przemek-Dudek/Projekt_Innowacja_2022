@@ -30,6 +30,8 @@ import { Ticket } from "./Ticket";
 import { PreviousPage } from "./PreviousPage";
 import { Button } from "./Button";
 import { AddProduct } from "./AddProduct";
+import { Navigation } from "./Navigation";
+import { UserProducts } from "./UserProducts";
 
 
 const HARDHAT_NETWORK_ID = '80001';
@@ -56,7 +58,8 @@ export class Dapp extends React.Component {
       ticketsArray: [],
       currentTicket: 0,
       products: [],
-      allEmails: []
+      allEmails: [],
+      userProducts: []
     };
 
     this.state = this.initialState;
@@ -88,7 +91,7 @@ export class Dapp extends React.Component {
       this.isTokenAddressSet = true
     }
 
-    if(this.state.pageDisplay === undefined)
+    if(this.state.pageDisplay === undefined && this.state.accountType === 3)
     {
       return <ChoosePage 
       register={() => this._register()}
@@ -97,6 +100,7 @@ export class Dapp extends React.Component {
       ticketAccept={() => this.ticketAccepting()}
       currentUser={this.state.accountType}
       market = {() => this.marketPlace()}
+      userView = {() => this._userView()}
       />;
     }
     
@@ -354,7 +358,8 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "MARKET")
     {
       this.giveAllProducts();
-      if(this.state.products !== undefined)
+      console.log(this.state.products)
+      if(this.state.products !== undefined && this.state.products.length>0)
       {
         return(
           <div className="mainMarketPlace">
@@ -387,9 +392,6 @@ export class Dapp extends React.Component {
                       <div className="boxBody" key={index} style={{ clear: 'both' }}>
                         <div className="box" key={index} data-index={index}>
                           <div className="boxTitle">{this.state.products[index].name}</div>
-                          <div className="boxImage">
-                              <img src="product.jpg" alt="product"/>
-                          </div>
                           <div className="boxFooter">
                               <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
                               <button className="boxButton" onClick={
@@ -406,12 +408,13 @@ export class Dapp extends React.Component {
                             data-index={index + 1}
                           >
                             <div className="boxTitle">{this.state.products[index + 1].name}</div>
-                            <div className="boxImage">
-                                <img src="product.jpg" alt="product"/>
-                            </div>
                             <div className="boxFooter">
                                 <div className="boxDescription">{Number(this.state.products[index + 1].cost)} $TTPSC</div>
-                                <button className="boxButton">Kup teraz</button>
+                                <button className="boxButton"  onClick={
+                                () => {
+                                  this.buyProduct(struct.name, struct.cost)
+                                }
+                              }>Kup</button>
                             </div>
                           </div>
                         )}
@@ -422,12 +425,13 @@ export class Dapp extends React.Component {
                             data-index={index + 2}
                           >
                             <div className="boxTitle">{this.state.products[index + 2].name}</div>
-                            <div className="boxImage">
-                                <img src="product.jpg" alt="product"/>
-                            </div>
                             <div className="boxFooter">
                                 <div className="boxDescription">{Number(this.state.products[index + 2].cost)} $TTPSC</div>
-                                <button className="boxButton">Kup teraz</button>
+                                <button className="boxButton"  onClick={
+                                () => {
+                                  this.buyProduct(struct.name, struct.cost)
+                                }
+                              }>Kup</button>
                             </div>
                           </div>
                           
@@ -451,10 +455,12 @@ export class Dapp extends React.Component {
                 prevPage={() => this._pageReset()}
               />
             )}
-            <Button 
-              something={() => this._addProduct()}
-              text={"Dodaj produkt"}
-            />
+             <div className="buttons">
+              <Button 
+                something={() => this._addProduct()}
+                text={"Dodaj produkt"}
+              />
+            </div>
             <p>Market jest pusty</p>
           </div>
         )
@@ -535,7 +541,7 @@ export class Dapp extends React.Component {
                 </div>
                 <div className="form-group">
                     <label>Nowa nazwa - w przypadku podania pustego stara nazwa pozostanie</label>
-                    <input className="form-control" type="text" name="newName" required />
+                    <input className="form-control" type="text" name="newName"  />
                 </div>
                 <div className="form-group btn">
                     <input className="button" type="submit" value="Zmień"/>
@@ -589,6 +595,120 @@ export class Dapp extends React.Component {
           </div>
         </div>
       )}
+      // USER PART
+    else if(this.state.accountType <= 2 || this.state.pageDisplay === "USERVIEW" || this.state.pageDisplay === "MAINPAGE")
+    {
+      return (
+        <div>
+          <Navigation 
+          mainPage={() => this._mainPage()}
+          myProducts={() => this._myProducts()}
+          myTickets={() => this._myTickets()}
+          myProfile={() => this._myProfile()}
+          />
+
+
+
+
+        </div>
+      )
+    }
+    else if(this.state.pageDisplay === "MYPRODUCTS")
+    {
+      this.getUserProducts()
+      console.log(this.state.userProducts)
+      return (
+        <div>
+          
+          <Navigation 
+          mainPage={() => this._mainPage()}
+          myProducts={() => this._myProducts()}
+          myTickets={() => this._myTickets()}
+          myProfile={() => this._myProfile()}
+          />
+          <PreviousPage 
+              prevPage={() => this._pageReset()}
+            />
+          {/* <UserProducts 
+          myTickets = {this.state.userProducts}
+          /> */}
+
+          <div className="mainMarketPlace">
+              {this.state.userProducts.length > 0 &&(
+                this.state.userProducts.map((struct, index) => {
+                  if (index % 3 === 0) {
+                    return (
+                      <div className="boxBody" key={index} style={{ clear: 'both' }}>
+                        <div className="box" key={index} data-index={index}>
+                          <div className="boxTitle">{this.state.userProducts[index].name}</div>
+                          <div className="boxFooter">
+                              <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
+                          </div>
+                        </div>
+                        {this.state.userProducts[index + 1] && (
+                          <div
+                            className="box"
+                            key={index + 1}
+                            data-index={index + 1}
+                          >
+                            <div className="boxTitle">{this.state.userProducts[index + 1].name}</div>
+                            <div className="boxFooter">
+                                <div className="boxDescription">{Number(this.state.userProducts[index + 1].cost)} $TTPSC</div>
+                            </div>
+                          </div>
+                        )}
+                        {this.state.userProducts[index + 2] && (
+                          <div
+                            className="box"
+                            key={index + 2}
+                            data-index={index + 2}
+                          >
+                            <div className="boxTitle">{this.state.userProducts[index + 2].name}</div>
+                            <div className="boxFooter">
+                              <div className="boxDescription">
+                                {Number(this.state.products[index + 2].cost)} $TTPSC
+                              </div>
+                            </div>
+                          </div>
+                          
+                        )}
+                      </div>
+                    );
+                  }
+                })
+              )}
+            </div>
+
+
+        </div>
+      )
+    }
+    else if(this.state.pageDisplay === "MYTICKETS")
+    {
+      return (
+        <div>
+          <Navigation 
+          mainPage={() => this._mainPage()}
+          myProducts={() => this._myProducts()}
+          myTickets={() => this._myTickets()}
+          myProfile={() => this._myProfile()}
+          />
+        </div>
+      )
+    }
+    else if(this.state.pageDisplay === "MYPROFILE")
+    {
+      return (
+        <div>
+          <Navigation 
+          mainPage={() => this._mainPage()}
+          myProducts={() => this._myProducts()}
+          myTickets={() => this._myTickets()}
+          myProfile={() => this._myProfile()}
+          />
+        </div>
+      )
+    }
   }
   
     
@@ -758,6 +878,36 @@ export class Dapp extends React.Component {
     this._startPollingData();
   }
 
+  async _userView() {
+    const pageDisplay = "USERVIEW";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
+  async _mainPage() {
+    const pageDisplay = "MAINPAGE";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
+  async _myProducts() {
+    const pageDisplay = "MYPRODUCTS";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
+  async _myTickets() {
+    const pageDisplay = "MYTICKETS";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
+  async _myProfile() {
+    const pageDisplay = "MYPROFILE";
+    this.setState({ pageDisplay });
+    this._startPollingData();
+  }
+
   async _pageReset(){
     const pageDisplay = undefined;
     this.setState({ pageDisplay });
@@ -788,6 +938,16 @@ export class Dapp extends React.Component {
     this._market.getAllProducts().then((result) => {
       const products = result;
       this.setState({ products })
+    }).catch((err) =>{
+      console.log(err)
+    })
+  }
+
+  getUserProducts()
+  {
+    this._market.getUserProducts().then((result) => {
+      const userProducts = result;
+      this.setState({ userProducts })
     }).catch((err) =>{
       console.log(err)
     })
@@ -883,7 +1043,7 @@ export class Dapp extends React.Component {
     try{
       this._dismissTransactionError();
 
-      const txApprove = await this._token.approve(this.state.selectedAddress, cost)
+      const txApprove = await this._token.approve(this._market.address, cost)
       this.setState({ txBeingSent: txApprove.hash });
 
       const receiptA = await txApprove.wait();

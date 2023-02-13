@@ -2,7 +2,7 @@ import React from "react";
 import "./ChoosePage.css"
 
 
-export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser, market }) {
+export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUser, market, userView }) {
   return (
     <div className="container">
       <div className="container-choose-box">
@@ -25,6 +25,9 @@ export function ChoosePage({ register, transfer, ticket, ticketAccept,currentUse
           <input className="btn btn-primary" type="button" value="Acceptance" onClick={ticketAccept} />
         </div>
         )}
+        <div className="form-group">
+          <input className="btn btn-warning" type="button" value="User view" onClick={userView} />
+        </div>
       </div>      
     </div>
   );

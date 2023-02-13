@@ -120,10 +120,10 @@ export function AddProduct({addProduct}) {
                         const formData = new FormData(event.target);
                         const name = formData.get("name")
                         const cost = formData.get("cost")
-                        const url = formData.get("url")
+                        
 
-                        if (name && cost && url) {
-                            addProduct(name, cost, cost)
+                        if (name && cost) {
+                            addProduct(name, cost, name)
                         }                      
 
                     }}
@@ -135,10 +135,6 @@ export function AddProduct({addProduct}) {
                 <div className="form-group">
                     <label>Kwota</label>
                     <input className="form-control" type="number" name="cost" required />
-                </div>
-                <div className="form-group">
-                    <label>Nazwa zdjęcia</label>
-                    <input className="form-control" type="text" name="url" required />
                 </div>
                 
                 <div className="form-group btn">
