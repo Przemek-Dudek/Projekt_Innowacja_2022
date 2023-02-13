@@ -6,10 +6,15 @@
 .buttons {
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    left: 50%;
+    top: 1%;
+    transform: translate(-50%,-1%);
 }
 .buttons .btn-product {
     width: auto;
     height: auto;
+    margin-left: 2%;
     background: transparent;
     border: 2px solid rgb(0, 151, 230);
     color: rgb(0, 151, 230);

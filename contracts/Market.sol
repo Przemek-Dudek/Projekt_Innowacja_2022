@@ -121,7 +121,7 @@ contract Market {
     function getAllProducts() external view returns(Product[] memory)
     {
         //ten require sprawdza czy więcej niż 0 produktów, do wywalenia jeśli się coś w związku z tym sypie
-        require(products.length > 0);
+        //require(products.length > 0);
 
         Product[] memory temp = new Product[](products.length);
         uint tempCounter = 0;
@@ -134,7 +134,7 @@ contract Market {
              }
         }
 
-        require(tempCounter > 0);
+        //require(tempCounter > 0);
 
         Product[] memory result = new Product[](tempCounter);
         for(uint i=0; i<tempCounter; ++i)

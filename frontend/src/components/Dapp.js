@@ -392,7 +392,11 @@ export class Dapp extends React.Component {
                           </div>
                           <div className="boxFooter">
                               <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
-                              <button className="boxButton">Kup</button>
+                              <button className="boxButton" onClick={
+                                () => {
+                                  this.buyProduct(struct.name, struct.cost)
+                                }
+                              }>Kup</button>
                           </div>
                         </div>
                         {this.state.products[index + 1] && (
@@ -508,9 +512,10 @@ export class Dapp extends React.Component {
                 const formData = new FormData(event.target);
                 const product = formData.get("product")
                 const cost = formData.get("cost")
+                const newName = formData.get("newName")
 
                 if (product && cost) {
-                    this.editProduct(this.state.products[product].name, cost)
+                    this.editProduct(this.state.products[product].name, cost, newName)
                 }
 
             }}>
@@ -527,6 +532,10 @@ export class Dapp extends React.Component {
                 <div className="form-group">
                     <label>Nowa kwota</label>
                     <input className="form-control" type="number" name="cost" required />
+                </div>
+                <div className="form-group">
+                    <label>Nowa nazwa - w przypadku podania pustego stara nazwa pozostanie</label>
+                    <input className="form-control" type="text" name="newName" required />
                 </div>
                 <div className="form-group btn">
                     <input className="button" type="submit" value="Zmień"/>
@@ -776,7 +785,7 @@ export class Dapp extends React.Component {
 
   giveAllProducts()
   {
-    this._market.getProducts().then((result) => {
+    this._market.getAllProducts().then((result) => {
       const products = result;
       this.setState({ products })
     }).catch((err) =>{
@@ -857,6 +866,40 @@ export class Dapp extends React.Component {
 
       if (receipt.status === 0) {
         throw new Error("Transaction failed");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    finally {
+      this.setState({ txBeingSent: undefined });
+
+    }
+  }
+
+  async buyProduct(name, cost)
+  {
+    try{
+      this._dismissTransactionError();
+
+      const txApprove = await this._token.approve(this.state.selectedAddress, cost)
+      this.setState({ txBeingSent: txApprove.hash });
+
+      const receiptA = await txApprove.wait();
+
+      if (receiptA.status === 0) {
+        throw new Error("Approve failed");
+      }
+
+      const tx = await this._market.buyProduct(name, this.state.selectedAddress, {gasLimit: 540000});
+      
+      this.setState({ txBeingSent: tx.hash });
+
+      const receipt = await tx.wait();
+
+      if (receipt.status === 0) {
+        throw new Error("Buy product failed");
       }
     }
     catch(error)
