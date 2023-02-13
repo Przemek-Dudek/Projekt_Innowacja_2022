@@ -43,4 +43,191 @@ describe("Tickets", function () {
 
         expect(addr1Balance).to.equal(50);
     });
+
+    it("Checking behavior of addTicket() and getAllTickets() - single ticket", async function () {
+      const { ticket, addr1 } = await loadFixture(deployTokenFixture);
+
+      await ticket.addTicket("explenation", addr1.address, 10);
+
+      const tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(1);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+    });
+
+    it("Checking behavior of addTicket() and getAllTickets() - multiple tickets", async function () {
+      const { ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
+
+      await ticket.addTicket("explenation", addr1.address, 10);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(1);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      await ticket.addTicket("explenation2", addr2.address, 20);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(2);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      expect(tickets[1].walletAddress).to.equal(addr2.address);
+      expect(tickets[1].numberOfTokens).to.equal(20);
+      expect(tickets[1].id).to.equal(1);
+      expect(tickets[1].explanation).to.equal("explenation2");
+
+      await ticket.addTicket("explenation3", addr1.address, 30);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(3);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      expect(tickets[1].walletAddress).to.equal(addr2.address);
+      expect(tickets[1].numberOfTokens).to.equal(20);
+      expect(tickets[1].id).to.equal(1);
+      expect(tickets[1].explanation).to.equal("explenation2");
+
+      expect(tickets[2].walletAddress).to.equal(addr1.address);
+      expect(tickets[2].numberOfTokens).to.equal(30);
+      expect(tickets[2].id).to.equal(2);
+      expect(tickets[2].explanation).to.equal("explenation3");
+    });
+
+    it("Checking behavior of approve()", async function () {
+      const { ticket, addr1, token } = await loadFixture(deployTokenFixture);
+
+      await ticket.addTicket("explenation", addr1.address, 10);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(1);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      await ticket.approve(0, true, "You get some tokens");
+
+      tickets = await ticket.getAllTickets();
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(10);
+    });
+
+    it("Checking behavior of addTicket() and getAllTickets() - multiple tickets", async function () {
+      const { ticket, addr1, addr2, token } = await loadFixture(deployTokenFixture);
+
+      await ticket.addTicket("explenation", addr1.address, 10);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(1);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      await ticket.addTicket("explenation2", addr2.address, 20);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(2);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      expect(tickets[1].walletAddress).to.equal(addr2.address);
+      expect(tickets[1].numberOfTokens).to.equal(20);
+      expect(tickets[1].id).to.equal(1);
+      expect(tickets[1].explanation).to.equal("explenation2");
+
+      await ticket.addTicket("explenation3", addr1.address, 30);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(3);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      expect(tickets[1].walletAddress).to.equal(addr2.address);
+      expect(tickets[1].numberOfTokens).to.equal(20);
+      expect(tickets[1].id).to.equal(1);
+      expect(tickets[1].explanation).to.equal("explenation2");
+
+      expect(tickets[2].walletAddress).to.equal(addr1.address);
+      expect(tickets[2].numberOfTokens).to.equal(30);
+      expect(tickets[2].id).to.equal(2);
+      expect(tickets[2].explanation).to.equal("explenation3");
+
+      await ticket.approve(1, true, "You get some tokens");
+
+      tickets = await ticket.getAllTickets();
+
+      addr2Balance = await token.balanceOf(addr2.address);
+      expect(addr2Balance).to.equal(20);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(2);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      expect(tickets[1].walletAddress).to.equal(addr1.address);
+      expect(tickets[1].numberOfTokens).to.equal(30);
+      expect(tickets[1].id).to.equal(2);
+      expect(tickets[1].explanation).to.equal("explenation3");
+
+      await ticket.approve(2, true, "You get some tokens2");
+
+      tickets = await ticket.getAllTickets();
+
+      addr2Balance = await token.balanceOf(addr2.address);
+      expect(addr2Balance).to.equal(20);
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(30);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(1);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      myTickets = await ticket.connect(addr1).getMyTickets();
+     
+      expect(myTickets[0].)
+    });
+    
+    
   });

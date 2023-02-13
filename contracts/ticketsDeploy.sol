@@ -99,13 +99,13 @@ contract ticketsDeploy {
         return result;
     }
 
-    function getMyTickets() external view returns(Ticket[] memory)
+    function getAddressTickets(address wallet) external view returns(Ticket[] memory)
     {
         Ticket[] memory temp = new Ticket[](tickets.length);
         uint tempCounter = 0;
         for(uint i=0; i<tickets.length; ++i)
         {
-             if(ticketsToOwner[tempCounter] == msg.sender)
+             if(tickets[i].walletAddress == wallet)
              {
                  temp[tempCounter] = tickets[i];
                  tempCounter++;
