@@ -45,7 +45,7 @@ contract Market {
             revert("Such a product does not exist");
 
         if(Token(tokenAddress).balanceOf(_buyer) < products[index].cost)
-            return false;
+            revert("Insufficient funds");
 
         Token(tokenAddress).transferFrom(_buyer,ticketAddress,products[index].cost);
         
