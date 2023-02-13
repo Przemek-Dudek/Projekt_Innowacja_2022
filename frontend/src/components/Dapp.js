@@ -31,7 +31,7 @@ import { PreviousPage } from "./PreviousPage";
 import { Button } from "./Button";
 import { AddProduct } from "./AddProduct";
 import { Navigation } from "./Navigation";
-import { UserProducts } from "./UserProducts";
+import { Footer } from "./Footer";
 
 
 const HARDHAT_NETWORK_ID = '80001';
@@ -107,7 +107,7 @@ export class Dapp extends React.Component {
     if( this.state.pageDisplay === "REGISTER")
     {
       return (
-        <div>
+        <div className="manager">
               {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
@@ -183,7 +183,7 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "TICKET")
     {
       return (
-        <div>
+        <div className="manager">
               {(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
@@ -607,16 +607,15 @@ export class Dapp extends React.Component {
           myProfile={() => this._myProfile()}
           />
 
-
-
-
+          
+        <Footer />
         </div>
+        
       )
     }
     else if(this.state.pageDisplay === "MYPRODUCTS")
     {
       this.getUserProducts()
-      console.log(this.state.userProducts)
       return (
         <div>
           
@@ -679,7 +678,7 @@ export class Dapp extends React.Component {
               )}
             </div>
 
-
+            <Footer />
         </div>
       )
     }
@@ -693,6 +692,8 @@ export class Dapp extends React.Component {
           myTickets={() => this._myTickets()}
           myProfile={() => this._myProfile()}
           />
+
+          <Footer />
         </div>
       )
     }

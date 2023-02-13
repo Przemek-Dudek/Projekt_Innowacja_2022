@@ -13,9 +13,16 @@ html, body {
 }
 
 body {
-    display: flex;
+    /* display: flex;
     justify-content: center;
+    align-items: center; */
+}
+
+.manager{
+    height: 100vh;
+    display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .button {
@@ -63,12 +70,17 @@ input[type=text], input[type=number], input[type=email], select, option {
     border-radius: 30px;
 }
 
- .containerA {
+ .container {
     width: 100vw;
+    padding: 0;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.container{
+    
 }
 
 .container-info {
@@ -208,3 +220,66 @@ input[type=text], input[type=number], input[type=email], select, option {
     border-radius: 5px;
     cursor: pointer;
   }
+
+
+
+  /* footer */
+  footer {
+    width: 100vw;
+    height: auto;
+    background: rgb(142, 68, 173);
+}
+
+footer section {
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: row wrap;
+    color: rgb(255, 255, 255);
+}
+
+.section-1 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3)
+}
+
+.section-1 .section-1-item {
+    width: 200px;
+    height: 100px;
+    background: rgb(39, 174, 96);
+}
+
+.section-1 .socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+}
+
+.socials i {
+    margin: 0 10px;
+}
+
+.section-1 .info {
+    width: auto;
+    text-align: center;
+}
+
+.section-1 .telephone {
+    font-size: 23px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.section-2 .section-2-item  {
+    width: 300px;
+    height: 100px;
+    background: rgb(39, 174, 96);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
