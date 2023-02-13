@@ -1,52 +1,7 @@
 const { expect } = require("chai");
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
-
-describe("Token Deployment", function () {
-  async function deployTokenFixture() {
-    const [addr1, addr2] = await ethers.getSigners();
-
-    const Ticket = await ethers.getContractFactory("ticketsDeploy");
-    const ticket = await Ticket.deploy();
-    await ticket.deployed();
-  
-    const DataBase = await ethers.getContractFactory("dataBase");
-    const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
-    await dataBase.deployed();
-    
-  
-    const Token = await ethers.getContractFactory("Token");
-    const token = await Token.deploy(ticket.address);
-    await token.deployed();
-  
-    const Market = await ethers.getContractFactory("Market");
-    const market = await Market.deploy(token.address,ticket.address);
-    await market.deployed();
-
-    return { addr1, addr2, ticket, dataBase, token, market };
-  }
-
-  it("Deploys contract and token with correct values", async function(){
-    const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.symbol()).to.equal("$TTPSC");
-    expect(await token.name()).to.equal("Transition Technologies");
-  });
-
-  it("Should set the right owner", async function(){
-    const { token, ticket, owner } = await loadFixture(deployTokenFixture);
-    expect(await token.owner()).to.equal(ticket.address);
-  });
-
-  it("Should assign the total supply of tokens to the ticket.address", async function () {
-    const { token, ticket } = await loadFixture(deployTokenFixture);
-    const ownerBalance = await token.balanceOf(ticket.address);
-    expect(await token.totalSupply()).to.equal(ownerBalance);
-  });
-});
-
-
-  //Tu beda testy do ticketDeploy
-  describe("Tickets", function () {
+describe("Market" , function() {
     async function deployTokenFixture() {
       const [addr1, addr2] = await ethers.getSigners();
   
@@ -66,55 +21,8 @@ describe("Token Deployment", function () {
       const Market = await ethers.getContractFactory("Market");
       const market = await Market.deploy(token.address,ticket.address);
       await market.deployed();
-  
-      return { addr1, addr2, ticket, dataBase, token, market };
-    }
-  
-    it("Checking behavior of sendToken() executed by wrong adress", async function () {
-        const { token, ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
-    
-        await expect(ticket.sendToken(addr1.address, 50)).to.be.rejected;
-    });
 
-
-    it("Checking behavior of sendToken()", async function () {
-        const { token, ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
-    
-
-
-        //problem z niewlasciwym msgsenderem
-        await ticket.connect(token.owner()).sendToken(addr1.address, 50);
-
-        const ownerBalance = await token.balanceOf(ticket.address);
-        const addr1Balance = await token.balanceOf(addr1.address);
-
-        expect(ownerBalance).to.equal(await token.totalSupply() - 50);
-        expect(addr1Balance).to.equal(50);
-    });
-
-    
-  });
-
-  describe("Market" , function() {
-    async function deployTokenFixture() {
-      const [addr1, addr2] = await ethers.getSigners();
-  
-      const Ticket = await ethers.getContractFactory("ticketsDeploy");
-      const ticket = await Ticket.deploy();
-      await ticket.deployed();
-    
-      const DataBase = await ethers.getContractFactory("dataBase");
-      const dataBase = await DataBase.deploy("admin","admin2","malpa@wp.pl");
-      await dataBase.deployed();
-      
-    
-      const Token = await ethers.getContractFactory("Token");
-      const token = await Token.deploy(ticket.address);
-      await token.deployed();
-    
-      const Market = await ethers.getContractFactory("Market");
-      const market = await Market.deploy(token.address,ticket.address);
-      await market.deployed();
+      await ticket.setTokenAddress(token.address);
   
       return { addr1, addr2, ticket, dataBase, token, market };
     }
@@ -369,9 +277,14 @@ describe("Token Deployment", function () {
       await expect(market.buyProduct("", addr1.address)).to.be.rejectedWith("Name cannot be empty");
     });
 
-    it("Checking behavior of buyProduct() - one item aviable", async function() {
-      const { market, ticket, addr1 } = await loadFixture(deployTokenFixture);
+    it("Checking behavior of buyProduct() - correct usage", async function() {
+      const { token, market, ticket, addr1 } = await loadFixture(deployTokenFixture);
       await market.addProduct("Item 1", Number(4), "url1.jpg");
+
+      await ticket.sendToken(addr1.address, parseInt(50));
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(50);
 
       products = await market.getAllProducts();
 
@@ -381,7 +294,11 @@ describe("Token Deployment", function () {
       expect(products[0].cost).to.equal(Number(4));
       expect(products[0].url).to.equal("url1.jpg");
 
-      await market.buyProduct("Item 1", addr1.address);
+      await token.connect(addr1).approve(market.address, parseInt(50));
+      await market.connect(addr1).buyProduct("Item 1", addr1.address);
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(46);
 
       userProducts = await market.getUserProducts();
 
@@ -392,4 +309,113 @@ describe("Token Deployment", function () {
       expect(userProducts[0].url).to.equal("url1.jpg");
     });
 
+    it("Checking behavior of buyProduct() - insufficient funds", async function() {
+      const { token, market, ticket, addr1 } = await loadFixture(deployTokenFixture);
+      await market.addProduct("Item 1", Number(4), "url1.jpg");
+
+      products = await market.getAllProducts();
+
+      expect(products.length).to.equal(1);
+
+      expect(products[0].name).to.equal("Item 1");
+      expect(products[0].cost).to.equal(Number(4));
+      expect(products[0].url).to.equal("url1.jpg");
+
+      await token.connect(addr1).approve(market.address, parseInt(50));
+      await expect(market.connect(addr1).buyProduct("Item 1", addr1.address)).to.be.rejected;
+
+      userProducts = await market.getUserProducts();
+
+      expect(userProducts.length).to.equal(0);
+    });
+
+    it("Checking behavior of getUserProducts() - correct usage", async function() {
+      const { token, market, ticket, addr1 } = await loadFixture(deployTokenFixture);
+      await market.addProduct("Item 1", Number(4), "url1.jpg");
+      await market.addProduct("Item 2", Number(12), "url2.jpg");
+      await market.addProduct("Item 3", Number(36), "url3.jpg");
+        
+      products = await market.getAllProducts();
+
+      expect(products.length).to.equal(3);
+
+      expect(products[0].name).to.equal("Item 1");
+      expect(products[0].cost).to.equal(Number(4));
+      expect(products[0].url).to.equal("url1.jpg");
+
+      expect(products[1].name).to.equal("Item 2");
+      expect(products[1].cost).to.equal(Number(12));
+      expect(products[1].url).to.equal("url2.jpg");
+
+      expect(products[2].name).to.equal("Item 3");
+      expect(products[2].cost).to.equal(Number(36));
+      expect(products[2].url).to.equal("url3.jpg");
+
+      await ticket.sendToken(addr1.address, parseInt(50));
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(50);
+
+      products = await market.getAllProducts();
+
+      expect(products.length).to.equal(3);
+
+      expect(products[0].name).to.equal("Item 1");
+      expect(products[0].cost).to.equal(Number(4));
+      expect(products[0].url).to.equal("url1.jpg");
+
+      await token.connect(addr1).approve(market.address, parseInt(50));
+      await market.connect(addr1).buyProduct("Item 1", addr1.address);
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(46);
+
+      userProducts = await market.getUserProducts();
+
+      expect(userProducts.length).to.equal(1);
+
+      expect(userProducts[0].name).to.equal("Item 1");
+      expect(userProducts[0].cost).to.equal(Number(4));
+      expect(userProducts[0].url).to.equal("url1.jpg");
+
+      await token.connect(addr1).approve(market.address, parseInt(50));
+      await market.connect(addr1).buyProduct("Item 1", addr1.address);
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(42);
+
+      userProducts = await market.getUserProducts();
+
+      expect(userProducts.length).to.equal(2);
+
+      expect(userProducts[0].name).to.equal("Item 1");
+      expect(userProducts[0].cost).to.equal(Number(4));
+      expect(userProducts[0].url).to.equal("url1.jpg");
+
+      expect(userProducts[1].name).to.equal("Item 1");
+      expect(userProducts[1].cost).to.equal(Number(4));
+      expect(userProducts[1].url).to.equal("url1.jpg");
+
+      await token.connect(addr1).approve(market.address, parseInt(50));
+      await market.connect(addr1).buyProduct("Item 2", addr1.address);
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(30);
+
+      userProducts = await market.getUserProducts();
+
+      expect(userProducts.length).to.equal(3);
+
+      expect(userProducts[0].name).to.equal("Item 1");
+      expect(userProducts[0].cost).to.equal(Number(4));
+      expect(userProducts[0].url).to.equal("url1.jpg");
+
+      expect(userProducts[1].name).to.equal("Item 1");
+      expect(userProducts[1].cost).to.equal(Number(4));
+      expect(userProducts[1].url).to.equal("url1.jpg");
+
+      expect(userProducts[2].name).to.equal("Item 2");
+      expect(userProducts[2].cost).to.equal(Number(12));
+      expect(userProducts[2].url).to.equal("url2.jpg");
+    });
   });

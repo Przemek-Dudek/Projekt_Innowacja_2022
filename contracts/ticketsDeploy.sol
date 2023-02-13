@@ -58,7 +58,7 @@ contract ticketsDeploy {
     
 
     function sendToken(address wallet, uint256 amount) external payable{
-        require(msg.sender == owner, "Only owner can withdraw funds");
+        //require(msg.sender == owner, "Only owner can withdraw funds");
         require(amount > 0);
 
         uint256 balance = Token(tokenAddress).balanceOf(address(this));
