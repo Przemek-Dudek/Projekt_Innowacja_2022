@@ -15,7 +15,6 @@
 .container {
     width: 100vw;
     height: auto;
-    padding: 100px 0;
     background: transparent;
     display: flex;
     justify-content: space-around;

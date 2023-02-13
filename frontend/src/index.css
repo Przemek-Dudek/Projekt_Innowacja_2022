@@ -13,9 +13,20 @@ html, body {
 }
 
 body {
-    display: flex;
+    /* display: flex;
     justify-content: center;
+    align-items: center; */
+}
+
+.alert-info{
+    margin-top: 60px;
+}
+
+.manager{
+    height: 100vh;
+    display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .button {
@@ -63,13 +74,15 @@ input[type=text], input[type=number], input[type=email], select, option {
     border-radius: 30px;
 }
 
- .containerA {
+ .container {
     width: 100vw;
+    padding: 0;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 
 .container-info {
     width: 100vw;
@@ -85,6 +98,16 @@ input[type=text], input[type=number], input[type=email], select, option {
     .container-info {
         transform: scale(0.7);
     }
+}
+
+.containerA
+{
+    width: 100vw;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .containerA .raportsA {

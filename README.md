@@ -29,3 +29,11 @@ cd frontend
 npm install
 npm start
 ```
+
+## Testowanie
+
+Po sklonowaniu repozytorium w folderze głównym wpisujemy komendę:
+
+```sh
+npx hardhat test
+```

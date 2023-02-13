@@ -31,7 +31,7 @@ import { PreviousPage } from "./PreviousPage";
 import { Button } from "./Button";
 import { AddProduct } from "./AddProduct";
 import { Navigation } from "./Navigation";
-import { UserProducts } from "./UserProducts";
+import { Footer } from "./Footer";
 
 
 const HARDHAT_NETWORK_ID = '80001';
@@ -124,12 +124,15 @@ export class Dapp extends React.Component {
                 dismiss={() => this._dismissTransactionError()}
               />
             )}
+            <div className="manager">
               {(
-                <Account 
-                  createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
-                  user={this.state.accountType}
-                />
-              )};
+              <Account 
+                createAccount={(address, name, lastname, email, accountType) => this._addAccount(address, name, lastname, email, accountType)}
+                user={this.state.accountType}
+              />
+            )};
+            </div>
+            
         </div>
       );
       
@@ -168,8 +171,8 @@ export class Dapp extends React.Component {
             {this._token.balanceOf(this._ticket.address) === 0 && (
               <NoTokensMessage selectedAddress={this.state.selectedAddress} />
             )}
-
-            {(
+            <div className="manager">
+              {(
               <Transfer
                 transferTokens={(to, amount) =>
                   this._transferTokens(to, amount)
@@ -177,6 +180,8 @@ export class Dapp extends React.Component {
                 tokenSymbol={this.state.tokenData.symbol}
               />
             )}
+            </div>
+            
             </div>
     )
     }
@@ -200,7 +205,8 @@ export class Dapp extends React.Component {
                 dismiss={() => this._dismissTransactionError()}
               />
             )}
-            {this.getAllEmails()}
+            <div className="manager">
+              {this.getAllEmails()}
              {(
                 
                 <Ticket 
@@ -208,6 +214,8 @@ export class Dapp extends React.Component {
                 mail={this.state.allEmails}
                 /> 
               )}
+            </div>
+            
               
         </div>
       );
@@ -317,13 +325,12 @@ export class Dapp extends React.Component {
                 const id = document.querySelector('.info-id-value');
 
                 if (explanation && hay && name && reason && id) {
-                    this._acceptTicket(Number(id.textContent),!checked,explanation)
+                    this._acceptTicket(Number(id.textContent), !checked, explanation)
                 }
                 else if(!explanation)
                 {
                   this._acceptTicket(Number(id.textContent) - 1,!checked, "")
                 }
-                console.log(Number(id.textContent) - 1);
 
                 hay.textContent = ""
                 id.textContent = ""
@@ -358,11 +365,11 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "MARKET")
     {
       this.giveAllProducts();
-      console.log(this.state.products)
+      
       if(this.state.products !== undefined && this.state.products.length>0)
       {
         return(
-          <div className="mainMarketPlace">
+          <div className="manager">
             {(
             <PreviousPage 
               prevPage={() => this._pageReset()}
@@ -394,11 +401,19 @@ export class Dapp extends React.Component {
                           <div className="boxTitle">{this.state.products[index].name}</div>
                           <div className="boxFooter">
                               <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
-                              <button className="boxButton" onClick={
+                             
+                              {Number(this.state.balance) >= struct.cost &&(
+                                <button className="boxButton" onClick={
                                 () => {
-                                  this.buyProduct(struct.name, struct.cost)
+                                  const a = this.buyProduct(struct.name, struct.cost)
+                                  console.log(a)
                                 }
                               }>Kup</button>
+                              )}
+                              {Number(this.state.balance) < struct.cost &&(
+                                <p className="boxButtonN">Kup</p>
+                              )}
+                              
                           </div>
                         </div>
                         {this.state.products[index + 1] && (
@@ -412,7 +427,8 @@ export class Dapp extends React.Component {
                                 <div className="boxDescription">{Number(this.state.products[index + 1].cost)} $TTPSC</div>
                                 <button className="boxButton"  onClick={
                                 () => {
-                                  this.buyProduct(struct.name, struct.cost)
+                                  const a = this.buyProduct(this.state.products[index + 1].name, Number(this.state.products[index + 1].cost))
+                                  console.log(a)
                                 }
                               }>Kup</button>
                             </div>
@@ -429,7 +445,7 @@ export class Dapp extends React.Component {
                                 <div className="boxDescription">{Number(this.state.products[index + 2].cost)} $TTPSC</div>
                                 <button className="boxButton"  onClick={
                                 () => {
-                                  this.buyProduct(struct.name, struct.cost)
+                                  this.buyProduct(this.state.products[index + 2].name, Number(this.state.products[index + 2].cost))
                                 }
                               }>Kup</button>
                             </div>
@@ -607,16 +623,15 @@ export class Dapp extends React.Component {
           myProfile={() => this._myProfile()}
           />
 
-
-
-
+          
+        <Footer />
         </div>
+        
       )
     }
     else if(this.state.pageDisplay === "MYPRODUCTS")
     {
       this.getUserProducts()
-      console.log(this.state.userProducts)
       return (
         <div>
           
@@ -679,7 +694,7 @@ export class Dapp extends React.Component {
               )}
             </div>
 
-
+            <Footer />
         </div>
       )
     }
@@ -693,6 +708,8 @@ export class Dapp extends React.Component {
           myTickets={() => this._myTickets()}
           myProfile={() => this._myProfile()}
           />
+
+          <Footer />
         </div>
       )
     }
@@ -991,7 +1008,16 @@ export class Dapp extends React.Component {
   async _addTicket(shortInfo, email, nubmerToGain)
   {
     try{
-      this._dismissTransactionError();
+      this._dismissTransactionError();    
+
+      this._dataBase.getAddressFromEmail(email).then((result) => {
+        const addres = result;
+        console.log(addres)
+      }).catch((err) =>{
+        console.log(err)
+      })
+
+      console.log(email)
 
       const tx = await this._ticket.addTicket(shortInfo, this._dataBase.getAddressFromEmail(email), nubmerToGain, {gasLimit: 540000});
       
@@ -1072,12 +1098,12 @@ export class Dapp extends React.Component {
     }
   }
 
-  async editProduct(name, cost)
+  async editProduct(name, cost, newName)
   {
     try{
       this._dismissTransactionError();
 
-      const tx = await this._market.editProduct(name, cost, {gasLimit: 540000});
+      const tx = await this._market.editProduct(name, cost, newName, {gasLimit: 540000});
       
       this.setState({ txBeingSent: tx.hash });
 
