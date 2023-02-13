@@ -81,8 +81,9 @@ describe("Token Deployment", function () {
         const { token, ticket, addr1, addr2 } = await loadFixture(deployTokenFixture);
     
 
+
         //problem z niewlasciwym msgsenderem
-        await ticket.connect(ticket.address).sendToken(addr1.address, 50);
+        await ticket.connect(token.owner()).sendToken(addr1.address, 50);
 
         const ownerBalance = await token.balanceOf(ticket.address);
         const addr1Balance = await token.balanceOf(addr1.address);
@@ -139,7 +140,8 @@ describe("Token Deployment", function () {
 
     it("Checking behavior of getAllProducts() with 0 products", async function(){
         const { market } = await loadFixture(deployTokenFixture);
-        await expect(market.getAllProducts()).to.be.rejected;
+        products = await market.getAllProducts();
+        expect(products.length).to.equal(0);
       });
 
     it("Checking behavior of getAllProducts() after addProduct() being used correctly once", async function() {
@@ -194,7 +196,8 @@ describe("Token Deployment", function () {
 
         await market.deleteProduct("Item 1");
 
-        await expect(market.getAllProducts()).to.be.rejected;
+        products = await market.getAllProducts();
+        expect(products.length).to.equal(0);
     });
 
     it("Checking behavior of deleteProduct() - correct usage", async function() {
@@ -249,7 +252,8 @@ describe("Token Deployment", function () {
 
         await market.deleteProduct("Item 3");
 
-        await expect(market.getAllProducts()).to.be.rejected;
+        products = await market.getAllProducts();
+        expect(products.length).to.equal(0);
 
         await expect(market.deleteProduct("product")).to.be.rejected;
     });

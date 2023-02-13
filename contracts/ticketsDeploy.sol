@@ -63,7 +63,7 @@ contract ticketsDeploy {
 
         uint256 balance = Token(tokenAddress).balanceOf(address(this));
 
-        require(amount <= balance, "balance is low");
+        require(amount <= balance, "balance is too low");
         Token(tokenAddress).transfer(wallet, amount);
         //emit TransferSent(msg.sender, wallet, amount);
     }
