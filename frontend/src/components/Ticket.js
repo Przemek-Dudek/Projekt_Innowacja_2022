@@ -124,7 +124,6 @@ export function Ticket({addTicket, mail}) {
 
                         if (email && amount && explanation) {
                             addTicket(explanation, email, amount)
-                            
                         }
                         //formData.append('email')
                         formData.delete("amount")
@@ -136,9 +135,9 @@ export function Ticket({addTicket, mail}) {
                 <div className="form-group" >
                   <label>Nazwa przedmiotu</label>
                   <select className="form-select" name="email" required >
-                    {mail.map((struct, index) => {
+                    {mail.map((emailAddress) => {
                       return(
-                        <option value={index} >{struct}</option>
+                        <option value={emailAddress} >{emailAddress}</option>
                       )
                     })}
                   </select>
