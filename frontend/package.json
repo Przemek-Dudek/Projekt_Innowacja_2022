@@ -8,6 +8,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "bootstrap": "^5.2.3",
     "react-scripts": "5.0.1",
     "three": "^0.148.0"
   },

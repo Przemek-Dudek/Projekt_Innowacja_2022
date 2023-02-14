@@ -88,7 +88,7 @@ export class Dapp extends React.Component {
 
     if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
     {
-      //this._ticket.setTokenAddress(this._token.address)
+      this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
     }
 
@@ -291,7 +291,7 @@ export class Dapp extends React.Component {
               )}
           </div>
           <div class="form-group">
-            <div class="info">
+            <div class="info-group">
                   <div class="info-id">
                       <b>Zgłoszenie: </b> <span class="info-id-value"> </span>
                   </div>
@@ -476,10 +476,6 @@ export class Dapp extends React.Component {
                 })
               )}
             </div>
-            
-            {(
-              <Footer />
-            )}
             
           </div>
             
@@ -791,7 +787,7 @@ export class Dapp extends React.Component {
       if(this.state.myTickets.length > 0)
       {
         return (
-          <div>
+          <div className="mainMarketPlace">
             <Navigation 
             mainPage={() => this._userView()}
             myProducts={() => this._myProducts()}

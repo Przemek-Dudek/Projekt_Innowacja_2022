@@ -1,11 +1,17 @@
 
 .mainMarketPlace {
   width: 100%;
-  }
-  .myTicketsMain{
-    height: 90vh;
-    overflow: scroll; 
-  }
+}
+
+.myTicketsMain{
+    width: 100%;
+    height: calc(100vh - 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    overflow-y: scroll;
+}
   
   .boxBody {
     display: flex;
@@ -14,11 +20,12 @@
     align-items: center;
     width: 100%;
     height: auto;
+    margin: 10px 0;
   }
   
   .box {
     width: 300px;
-    height: 50vh;
+    height: auto;
     margin: 10px;
     background-color: rgb(240, 237, 237);
     display: flex;

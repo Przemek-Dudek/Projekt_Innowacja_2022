@@ -1,5 +1,5 @@
 footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100vw;
     height: 150px;
@@ -19,7 +19,6 @@ footer section {
 
 .section-2 {
     border-top: 1px solid rgba(255, 255, 255, 0.3);
-    margin-top: 30px;
     padding: 0;
 }
 
@@ -34,10 +33,6 @@ footer section {
     justify-content: center;
     align-items: center;
     font-size: 17px;
-}
-
-.socials i {
-    margin: 0 10px;
 }
 
 .section-1 .info {
