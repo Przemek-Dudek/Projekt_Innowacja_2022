@@ -804,7 +804,7 @@ export class Dapp extends React.Component {
                 text={"Dodaj zgłoszenie"}
               />
             </div>
-            <div className="mainMarketPlace">
+            <div className="myTicketsMain">
                 {this.state.myTickets.length > 0 &&(
                   this.state.myTickets.map((struct, index) => {
                     if (index % 3 === 0) {
