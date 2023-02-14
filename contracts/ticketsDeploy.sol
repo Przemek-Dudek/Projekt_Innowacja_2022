@@ -10,6 +10,7 @@ contract ticketsDeploy {
         address walletAddress;
         uint256 numberOfTokens;
         bool approved;
+        bool checked;
         string explanationIfNot;
         uint256 id;
     }
@@ -38,7 +39,7 @@ contract ticketsDeploy {
 
     function addTicket(string calldata contractInfo, address wallet, uint256 numberOfTokens) external payable {
         uint256 ticketID = tickets.length;
-        tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false,"",ticketID));
+        tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false, false, "",ticketID));
         ticketsToOwner[ticketID] = msg.sender;
         emit AddTicket(msg.sender, ticketID);
     }
@@ -46,6 +47,7 @@ contract ticketsDeploy {
     function approve(uint ticketID, bool decision, string memory _explanation) external 
     {
         tickets[ticketID].approved = decision;
+        tickets[ticketID].checked = true;
         if(decision)
         {
             Token(tokenAddress).transfer(tickets[ticketID].walletAddress, tickets[ticketID].numberOfTokens);
@@ -84,7 +86,7 @@ contract ticketsDeploy {
         uint tempCounter = 0;
         for(uint i=0; i<tickets.length; ++i)
         {
-             if(tickets[i].approved == false)
+             if(tickets[i].checked == false)
              {
                  temp[tempCounter] = tickets[i];
                  tempCounter++;
