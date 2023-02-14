@@ -111,7 +111,7 @@ describe("Tickets", function () {
       expect(tickets[2].explanation).to.equal("explenation3");
     });
 
-    it("Checking behavior of approve()", async function () {
+    it("Checking behavior of approve() - ticket approved", async function () {
       const { ticket, addr1, token } = await loadFixture(deployTokenFixture);
 
       await ticket.addTicket("explenation", addr1.address, 10);
@@ -129,8 +129,54 @@ describe("Tickets", function () {
 
       tickets = await ticket.getAllTickets();
 
+      expect(tickets.length).to.equal(0);
+
+      addr1Tickets = await ticket.getAddressTickets(addr1.address);
+
+      expect(addr1Tickets[0].walletAddress).to.equal(addr1.address);
+      expect(addr1Tickets[0].numberOfTokens).to.equal(10);
+      expect(addr1Tickets[0].id).to.equal(0);
+      expect(addr1Tickets[0].explanation).to.equal("explenation");
+      expect(addr1Tickets[0].explanationIfNot).to.equal("");
+      expect(addr1Tickets[0].approved).to.equal(true);
+      expect(addr1Tickets[0].checked).to.equal(true);
+
       addr1Balance = await token.balanceOf(addr1.address);
       expect(addr1Balance).to.equal(10);
+    });
+
+    it("Checking behavior of approve() - ticket declined", async function () {
+      const { ticket, addr1, token } = await loadFixture(deployTokenFixture);
+
+      await ticket.addTicket("explenation", addr1.address, 10);
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(1);
+
+      expect(tickets[0].walletAddress).to.equal(addr1.address);
+      expect(tickets[0].numberOfTokens).to.equal(10);
+      expect(tickets[0].id).to.equal(0);
+      expect(tickets[0].explanation).to.equal("explenation");
+
+      await ticket.approve(0, false, "I dont like you");
+
+      tickets = await ticket.getAllTickets();
+
+      expect(tickets.length).to.equal(0);
+
+      addr1Tickets = await ticket.getAddressTickets(addr1.address);
+
+      expect(addr1Tickets[0].walletAddress).to.equal(addr1.address);
+      expect(addr1Tickets[0].numberOfTokens).to.equal(10);
+      expect(addr1Tickets[0].id).to.equal(0);
+      expect(addr1Tickets[0].explanation).to.equal("explenation");
+      expect(addr1Tickets[0].explanationIfNot).to.equal("I dont like you");
+      expect(addr1Tickets[0].approved).to.equal(false);
+      expect(addr1Tickets[0].checked).to.equal(true);
+
+      addr1Balance = await token.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(0);
     });
 
     it("Checking behavior of getAddressTickets()", async function () {
