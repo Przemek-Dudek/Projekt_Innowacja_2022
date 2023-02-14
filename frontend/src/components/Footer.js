@@ -10,8 +10,7 @@ export function Footer({}) {
                 <i class="fa-brands fa-instagram"></i>
             </div>
             <div class="section-1-item info">
-                <h3>lorem Ipsum</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. pulvinar neque accumsan, pretium libero.</p>
+                <h3>TPPSC</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. pulvinar neque accumsan, pretium libero.</p>
             </div>
             <div class="section-1-item telephone">

@@ -1,6 +1,3 @@
-body{
-    width: 100%;
-}
 
 .mainMarketPlace {
   width: 100%;
@@ -10,8 +7,9 @@ body{
     display: flex;
     flex-direction: wrap;
     justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 100%;
+    height: 100vh;
   }
   
   .box {

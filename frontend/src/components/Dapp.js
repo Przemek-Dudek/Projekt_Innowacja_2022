@@ -239,7 +239,7 @@ export class Dapp extends React.Component {
             id.textContent = Number(event.target.dataset.index) + 1
             hay.textContent = this.state.ticketsArray[i].numberOfTokens;
             
-            this._dataBase.getString(this.state.selectedAddress).then((result) => {
+            this._dataBase.getString(this.state.ticketsArray[i].walletAddress).then((result) => {
               name.textContent = result;
             }).catch((err) => {
               console.log(err)
@@ -623,8 +623,7 @@ export class Dapp extends React.Component {
           myProfile={() => this._myProfile()}
           />
 
-          
-        <Footer />
+          <Footer />
         </div>
         
       )

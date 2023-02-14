@@ -1,7 +1,9 @@
 footer {
+    position: absolute;
+    bottom: 0;
     width: 100vw;
-    height: auto;
-    background: rgb(142, 68, 173);
+    height: 150px;
+    background: linear-gradient(33deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(0,151,230,1) 100%);
 }
 
 footer section {
@@ -15,21 +17,23 @@ footer section {
     color: rgb(255, 255, 255);
 }
 
-.section-1 {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3)
+.section-2 {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: 30px;
+    padding: 0;
 }
 
 .section-1 .section-1-item {
     width: 200px;
-    height: 100px;
-    background: rgb(39, 174, 96);
+    height: 20px;
+    
 }
 
 .section-1 .socials {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 23px;
+    font-size: 17px;
 }
 
 .socials i {
@@ -42,7 +46,7 @@ footer section {
 }
 
 .section-1 .telephone {
-    font-size: 23px;
+    font-size: 17px;
     padding: 10px;
     display: flex;
     justify-content: space-around;
@@ -51,8 +55,7 @@ footer section {
 
 .section-2 .section-2-item  {
     width: 300px;
-    height: 100px;
-    background: rgb(39, 174, 96);
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
