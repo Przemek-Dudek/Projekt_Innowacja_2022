@@ -331,12 +331,12 @@ export class Dapp extends React.Component {
                 const id = document.querySelector('.info-id-value');
 
                 if (explanation && hay && name && reason && id) {
-                    this._acceptTicket(Number(id.textContent), !checked, explanation)
+                    this._acceptTicket(this.state.ticketsArray[Number(id.textContent)].id, !checked, explanation)
                 }
                 else if(!explanation)
                 {
         
-                  this._acceptTicket(Number(id.textContent), !checked, "")
+                  this._acceptTicket(this.state.ticketsArray[Number(id.textContent)].id, !checked, "")
                 }
 
                 hay.textContent = ""
