@@ -133,7 +133,7 @@ describe("Tickets", function () {
       expect(addr1Balance).to.equal(10);
     });
 
-    it("Checking behavior of addTicket() and getAllTickets() - multiple tickets", async function () {
+    it("Checking behavior of getAddressTickets()", async function () {
       const { ticket, addr1, addr2, token } = await loadFixture(deployTokenFixture);
 
       await ticket.addTicket("explenation", addr1.address, 10);
@@ -224,10 +224,33 @@ describe("Tickets", function () {
       expect(tickets[0].id).to.equal(0);
       expect(tickets[0].explanation).to.equal("explenation");
 
-      myTickets = await ticket.connect(addr1).getMyTickets();
+      myTickets = await ticket.getAddressTickets(addr1.address);
      
-      expect(myTickets[0].)
+      expect(myTickets.length).to.equal(2);
+    
+      expect(myTickets[0].walletAddress).to.equal(addr1.address);
+      expect(myTickets[0].numberOfTokens).to.equal(10);
+      expect(myTickets[0].id).to.equal(0);
+      expect(myTickets[0].explanation).to.equal("explenation");
+      expect(myTickets[0].explanationIfNot).to.equal("");
+      expect(myTickets[0].approved).to.equal(false);
+
+      expect(myTickets[1].walletAddress).to.equal(addr1.address);
+      expect(myTickets[1].numberOfTokens).to.equal(30);
+      expect(myTickets[1].id).to.equal(2);
+      expect(myTickets[1].explanation).to.equal("explenation3");
+      expect(myTickets[1].explanationIfNot).to.equal("");
+      expect(myTickets[1].approved).to.equal(true);
+
+      myTickets2 = await ticket.getAddressTickets(addr2.address);
+
+      expect(myTickets2.length).to.equal(1);
+    
+      expect(myTickets2[0].walletAddress).to.equal(addr2.address);
+      expect(myTickets2[0].numberOfTokens).to.equal(20);
+      expect(myTickets2[0].id).to.equal(1);
+      expect(myTickets2[0].explanation).to.equal("explenation2");
+      expect(myTickets2[0].explanationIfNot).to.equal("");
+      expect(myTickets2[0].approved).to.equal(true);
     });
-    
-    
   });
