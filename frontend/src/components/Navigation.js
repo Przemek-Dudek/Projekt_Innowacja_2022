@@ -2,7 +2,7 @@ import {React} from "react";
 
 import "./Navigation.css"
 
-export function Navigation({ mainPage, myProducts, myTickets, myProfile }) {
+export function Navigation({ mainPage, myProducts, myTickets, logout }) {
     // function myFunction() {
     //     var x = document.getElementById("myTopnav");
     //     if (x.className === "topnav") {
@@ -16,7 +16,7 @@ export function Navigation({ mainPage, myProducts, myTickets, myProfile }) {
             <input className="btn linkToPage" type="button" value="Strona główna" onClick={mainPage} />
             <input className="btn linkToPage" type="button" value="Moje produkty" onClick={myProducts} />
             <input className="btn linkToPage" type="button" value="Moje zgłoszenia" onClick={myTickets} />
-            <input className="btn linkToPage" type="button"value="Mój profil" onClick={myProfile} />
+            <input className="btn linkToPage" type="button" value="Wyloguj" onClick={logout} />
         </nav>
     )
 }

@@ -57,7 +57,7 @@ contract dataBase {
         return false;
     }
 
-     function getAddressFromEmail(string memory email) public view returns(address)
+    function getAddressFromEmail(string memory email) public view returns(address)
     {
         for(uint i = 0; i < addressIndices.length;i++)
         {
@@ -66,7 +66,7 @@ contract dataBase {
         }
         return msg.sender;
     }
-
+    
     function getAllEmails() external view returns(string[] memory)
     {
         string[] memory emailTab = new string[](addressIndices.length);

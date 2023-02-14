@@ -59,7 +59,8 @@ export class Dapp extends React.Component {
       currentTicket: 0,
       products: [],
       allEmails: [],
-      userProducts: []
+      userProducts: [],
+      myTickets: [] 
     };
 
     this.state = this.initialState;
@@ -189,9 +190,14 @@ export class Dapp extends React.Component {
     {
       return (
         <div>
-              {(
+              {this.state.accountType > 1 &&(
                 <PreviousPage 
                   prevPage={() => this._pageReset()}
+                />
+              )}
+              {this.state.accountType <= 1 &&(
+                <PreviousPage 
+                  prevPage={() => this._myTickets()}
                 />
               )}
               
@@ -290,7 +296,7 @@ export class Dapp extends React.Component {
                       <b>Zgłoszenie: </b> <span class="info-id-value"> </span>
                   </div>
                   <div class="info-hay">
-                      <b>Siano: </b> <span class="info-hay-value"></span>
+                      <b>Tokeny: </b> <span class="info-hay-value"></span>
                   </div>
                   <div class="info-name">
                       <b>Imie i nazwisko: </b> <span class="info-name-value"></span>
@@ -329,7 +335,8 @@ export class Dapp extends React.Component {
                 }
                 else if(!explanation)
                 {
-                  this._acceptTicket(Number(id.textContent) - 1,!checked, "")
+        
+                  this._acceptTicket(Number(id.textContent), !checked, "")
                 }
 
                 hay.textContent = ""
@@ -343,7 +350,6 @@ export class Dapp extends React.Component {
                     <textarea name="reason" id="reason" cols="30" rows="10"></textarea>
                     
                   )}
-                  {console.log()}
                   {isChosen && this.state.ticketsArray.length > 0 &&(
                     <div class="btns">
                         <button class="reject" type="submit">Submit</button>
@@ -364,18 +370,27 @@ export class Dapp extends React.Component {
     }
     else if(this.state.pageDisplay === "MARKET")
     {
-      this.giveAllProducts();
-      
+      this.giveAllProducts();     
       if(this.state.products !== undefined && this.state.products.length>0)
       {
-        return(
+        return(        
           <div className="manager">
-            {(
+            <div>
+              {this.state.accountType <= 1 &&(
+              
+                <PreviousPage 
+                  prevPage={() => this._myProducts()}
+                />          
+              
+              )}
+            </div>
+            {this.state.accountType >= 2 &&(
             <PreviousPage 
               prevPage={() => this._pageReset()}
             />
             )}
-            <div className="buttons">
+            {this.state.accountType >= 2 &&(
+              <div className="buttons">
               <Button 
                 something={() => this._addProduct()}
                 text={"Dodaj produkt"}
@@ -389,6 +404,11 @@ export class Dapp extends React.Component {
                 text={"Usuń produkt"}
               />
             </div>
+            )}
+
+            <p className="info">Twój balans: {Number(this.state.balance)} $TTPSC</p>
+            
+            
             
     
             <div className="mainMarketPlace">
@@ -405,8 +425,7 @@ export class Dapp extends React.Component {
                               {Number(this.state.balance) >= struct.cost &&(
                                 <button className="boxButton" onClick={
                                 () => {
-                                  const a = this.buyProduct(struct.name, struct.cost)
-                                  console.log(a)
+                                  this.buyProduct(struct.name, struct.cost)    
                                 }
                               }>Kup</button>
                               )}
@@ -427,8 +446,7 @@ export class Dapp extends React.Component {
                                 <div className="boxDescription">{Number(this.state.products[index + 1].cost)} $TTPSC</div>
                                 <button className="boxButton"  onClick={
                                 () => {
-                                  const a = this.buyProduct(this.state.products[index + 1].name, Number(this.state.products[index + 1].cost))
-                                  console.log(a)
+                                  this.buyProduct(this.state.products[index + 1].name, Number(this.state.products[index + 1].cost))
                                 }
                               }>Kup</button>
                             </div>
@@ -458,6 +476,11 @@ export class Dapp extends React.Component {
                 })
               )}
             </div>
+            
+            {(
+              <Footer />
+            )}
+            
           </div>
             
           )
@@ -477,7 +500,10 @@ export class Dapp extends React.Component {
                 text={"Dodaj produkt"}
               />
             </div>
-            <p>Market jest pusty</p>
+            <div className="manager">
+               <p>Market jest pusty</p>
+            </div>
+           
           </div>
         )
       }
@@ -612,17 +638,40 @@ export class Dapp extends React.Component {
         </div>
       )}
       // USER PART
-    else if(this.state.accountType <= 2 || this.state.pageDisplay === "USERVIEW" || this.state.pageDisplay === "MAINPAGE")
+    else if((this.state.accountType <= 1  && this.state.pageDisplay === undefined) || this.state.pageDisplay === "USERVIEW")
     {
+      this._getString()
+      this._updateBalance()
       return (
         <div>
           <Navigation 
-          mainPage={() => this._mainPage()}
+          mainPage={() => this._userView()}
           myProducts={() => this._myProducts()}
           myTickets={() => this._myTickets()}
-          myProfile={() => this._myProfile()}
+          logout={() => this._logout()}
           />
+          <div class="container-profile">
+              <h2><b>Witaj, </b></h2>
+              <h4>{this.state.userName}</h4>
+              <div class="profile-info-1">
+                <div class="info-block">
+                  <h4>Twój balans wynosi: {Number(this.state.balance)}</h4>
+                    {this.state.accountType === 3 &&(
+                      <h4>Typ Konta: ADMIN</h4>
+                    )}
+                    {this.state.accountType === 2 &&(
+                      <h4>Typ Konta: HR</h4>
+                    )}
+                    {this.state.accountType === 1 &&(
+                      <h4>Typ Konta: PRACOWNIK</h4>
+                    )}
+                    <h4>Adres konta: {this.state.selectedAddress}</h4>
+                </div>
+              </div>
 
+              <div class="profile-settings-2"></div>
+          </div>
+          
           <Footer />
         </div>
         
@@ -631,99 +680,254 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "MYPRODUCTS")
     {
       this.getUserProducts()
-      return (
-        <div>
-          
-          <Navigation 
-          mainPage={() => this._mainPage()}
-          myProducts={() => this._myProducts()}
-          myTickets={() => this._myTickets()}
-          myProfile={() => this._myProfile()}
-          />
-          <PreviousPage 
-              prevPage={() => this._pageReset()}
+      if(this.state.userProducts.length > 0)
+      {
+        return (
+          <div>
+            <Navigation 
+              mainPage={() => this._userView()}
+              myProducts={() => this._myProducts()}
+              myTickets={() => this._myTickets()}
+              logout={() => this._logout()}
             />
-          {/* <UserProducts 
-          myTickets = {this.state.userProducts}
-          /> */}
-
-          <div className="mainMarketPlace">
-              {this.state.userProducts.length > 0 &&(
-                this.state.userProducts.map((struct, index) => {
-                  if (index % 3 === 0) {
-                    return (
-                      <div className="boxBody" key={index} style={{ clear: 'both' }}>
-                        <div className="box" key={index} data-index={index}>
-                          <div className="boxTitle">{this.state.userProducts[index].name}</div>
-                          <div className="boxFooter">
-                              <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
-                          </div>
-                        </div>
-                        {this.state.userProducts[index + 1] && (
-                          <div
-                            className="box"
-                            key={index + 1}
-                            data-index={index + 1}
-                          >
-                            <div className="boxTitle">{this.state.userProducts[index + 1].name}</div>
+            {this.state.accountType >= 2 &&(
+              <PreviousPage 
+                prevPage={() => this._pageReset()}
+              />
+            )}
+            
+            <div className="btn-handler">
+              <Button 
+                something={() => this.marketPlace()}
+                text={"Do Marketu"}
+              />
+            </div>
+            
+            <div className="mainMarketPlace">
+                {this.state.userProducts.length > 0 &&(
+                  this.state.userProducts.map((struct, index) => {
+                    if (index % 3 === 0) {
+                      return (
+                        <div className="boxBody" key={index} style={{ clear: 'both' }}>
+                          <div className="box" key={index} data-index={index}>
+                            <div className="boxTitle">{this.state.userProducts[index].name}</div>
                             <div className="boxFooter">
-                                <div className="boxDescription">{Number(this.state.userProducts[index + 1].cost)} $TTPSC</div>
+                                <div className="boxDescription">{Number(struct.cost)} $TTPSC</div>
                             </div>
                           </div>
-                        )}
-                        {this.state.userProducts[index + 2] && (
-                          <div
-                            className="box"
-                            key={index + 2}
-                            data-index={index + 2}
-                          >
-                            <div className="boxTitle">{this.state.userProducts[index + 2].name}</div>
-                            <div className="boxFooter">
-                              <div className="boxDescription">
-                                {Number(this.state.products[index + 2].cost)} $TTPSC
+                          {this.state.userProducts[index + 1] && (
+                            <div
+                              className="box"
+                              key={index + 1}
+                              data-index={index + 1}
+                            >
+                              <div className="boxTitle">{this.state.userProducts[index + 1].name}</div>
+                              <div className="boxFooter">
+                                  <div className="boxDescription">{Number(this.state.userProducts[index + 1].cost)} $TTPSC</div>
                               </div>
                             </div>
-                          </div>
-                          
-                        )}
-                      </div>
-                    );
-                  }
-                })
-              )}
+                          )}
+                          {this.state.userProducts[index + 2] && (
+                            <div
+                              className="box"
+                              key={index + 2}
+                              data-index={index + 2}
+                            >
+                              <div className="boxTitle">{this.state.userProducts[index + 2].name}</div>
+                              <div className="boxFooter">
+                                <div className="boxDescription">
+                                  {Number(this.state.products[index + 2].cost)} $TTPSC
+                                </div>
+                              </div>
+                            </div>
+                            
+                          )}
+                        </div>
+                      );
+                    }
+                  })
+                )}
+              </div>
+  
+              <Footer />
+          </div>
+        )
+      }
+      else
+      {
+        return(
+          <div>
+            <Navigation 
+              mainPage={() => this._userView()}
+              myProducts={() => this._myProducts()}
+              myTickets={() => this._myTickets()}
+              logout={() => this._logout()}
+            />
+            {this.state.accountType >= 2 &&(
+              <PreviousPage 
+                prevPage={() => this._pageReset()}
+              />
+            )}
+            
+            <div className="btn-handler">
+              <Button 
+                something={() => this.marketPlace()}
+                text={"Do Marketu"}
+              />
+            </div>
+            <div className="manager">
+               <p>Nie masz żadnych produktów</p>
             </div>
 
             <Footer />
-        </div>
-      )
+          </div>
+        )
+      }
+      
     }
     else if(this.state.pageDisplay === "MYTICKETS")
     {
-      return (
-        <div>
-          <Navigation 
-          mainPage={() => this._mainPage()}
-          myProducts={() => this._myProducts()}
-          myTickets={() => this._myTickets()}
-          myProfile={() => this._myProfile()}
-          />
+      this.getMyTickets(this.state.selectedAddress)
+      if(this.state.myTickets.length > 0)
+      {
+        return (
+          <div>
+            <Navigation 
+            mainPage={() => this._userView()}
+            myProducts={() => this._myProducts()}
+            myTickets={() => this._myTickets()}
+            logout={() => this._logout()}
+            />
+            <div className="btn-handler">
+              <Button 
+                something={() => this._addingTicket()}
+                text={"Dodaj zgłoszenie"}
+              />
+            </div>
+            <div className="mainMarketPlace">
+                {this.state.myTickets.length > 0 &&(
+                  this.state.myTickets.map((struct, index) => {
+                    if (index % 3 === 0) {
+                      return (
+                        <div className="boxBody" key={index} style={{ clear: 'both' }}>
+                          <div className="ticketBox" key={index} data-index={index}>
+                            <div className="boxTitle">
+                              Zgłoszenie {index + 1}
+                              <br />
+                              Uzasadnienie: {this.state.myTickets[index].explanation}
+                            </div>
+                            <div className="boxFooter">
+                                <div className="boxDescription"> 
+                                {this.state.myTickets[index].approved && this.state.myTickets[index].explanationIfNot === "" &&(
+                                  <p>Zatwierdzone: Tak</p>
+                                )}
+                                {!this.state.myTickets[index].approved && this.state.myTickets[index].explanationIfNot === "" &&(
+                                 <p>Zatwierdzone: Nie</p>
+                                )}
+                                 {this.state.myTickets[index].explanationIfNot !== ""&&(
+                                  <p>Zatwierdzone: Odrzucone</p>
+                                )}
+                                {this.state.myTickets[index].explanationIfNot !== ""&&(
+                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[index].explanationIfNot}</p>
+                                )}
+                                </div>
+                            </div>
+                          </div>
+                          {this.state.myTickets[index + 1] && (
+                            <div className="ticketBox" key={index + 1} data-index={index + 1}>
+                            <div className="boxTitle">
+                              Zgłoszenie {index + 2}
+                              <br />
+                              Uzasadnienie: {this.state.myTickets[index + 1].explanation}
+                            </div>
+                            <div className="boxFooter">
+                                <div className="boxDescription"> 
+                                {this.state.myTickets[index + 1].approved && this.state.myTickets[index + 1].explanationIfNot === "" &&(
+                                  <p>Zatwierdzone: Tak</p>
+                                )}
+                                {!this.state.myTickets[index + 1].approved && this.state.myTickets[index + 1].explanationIfNot === "" &&(
+                                 <p>Zatwierdzone: Nie</p>
+                                )}
+                                 {this.state.myTickets[index + 1].explanationIfNot !== ""&&(
+                                  <p>Zatwierdzone: Odrzucone</p>
+                                )}
+                                {this.state.myTickets[index + 1].explanationIfNot !== ""&&(
+                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[index + 1].explanationIfNot}</p>
+                                )}
+                                </div>
+                            </div>
+                          </div>
+                          )}
+                          {this.state.myTickets[index + 2] && (
+                            <div
+                              className="ticketBox"
+                              key={index + 2}
+                              data-index={index + 2}
+                            >
+                              <div className="boxTitle">
+                                Zgłoszenie {index + 3}
+                                <br />
+                                Uzasadnienie: {this.state.myTickets[index + 2].explanation}
+                              </div>
+                              <div className="boxFooter">
+                                  <div className="boxDescription"> 
+                                  {this.state.myTickets[index + 2].approved && this.state.myTickets[index + 2].explanationIfNot === "" &&(
+                                    <p>Zatwierdzone: Tak</p>
+                                  )}
+                                  {!this.state.myTickets[index + 2].approved && this.state.myTickets[index + 2].explanationIfNot === "" &&(
+                                  <p>Zatwierdzone: Nie</p>
+                                  )}
+                                  {this.state.myTickets[index + 2].explanationIfNot !== ""&&(
+                                    <p>Zatwierdzone: Odrzucone</p>
+                                  )}
+                                  {this.state.myTickets[index + 2].explanationIfNot !== ""&&(
+                                    <p>Uzasadnienie odrzucenia: {this.state.myTickets[index + 2].explanationIfNot}</p>
+                                  )}
+                                  </div>
+                              </div>
+                            </div>
+                            
+                          )}
+                        </div>
+                      );
+                    }
+                  })
+                )}
+              </div>
+            <Footer />
+          </div>
+        )
+      }
+      else
+      {
+        return(
+          <div>
+            <Navigation 
+              mainPage={() => this._userView()}
+              myProducts={() => this._myProducts()}
+              myTickets={() => this._myTickets()}
+              logout={() => this._logout()}
+            />
+            {this.state.accountType >= 2 &&(
+              <PreviousPage 
+                prevPage={() => this._pageReset()}
+              />
+            )}
+            
+            <div className="btn-handler">
+              <Button 
+                something={() => this.marketPlace()}
+                text={"Do Marketu"}
+              />
+            </div>
+            <div className="manager">
+               <p>Nie masz żadnych zgłoszeń!</p>
+            </div>
 
-          <Footer />
-        </div>
-      )
-    }
-    else if(this.state.pageDisplay === "MYPROFILE")
-    {
-      return (
-        <div>
-          <Navigation 
-          mainPage={() => this._mainPage()}
-          myProducts={() => this._myProducts()}
-          myTickets={() => this._myTickets()}
-          myProfile={() => this._myProfile()}
-          />
-        </div>
-      )
+            <Footer />
+          </div>
+        )
+      }
     }
   }
   
@@ -930,6 +1134,14 @@ export class Dapp extends React.Component {
     this._stopPollingData();
   }
 
+  async _logout(){
+    
+    const selectedAddress = undefined;
+    this.setState({ selectedAddress });
+    this._stopPollingData();
+    this._resetState()
+  }
+
   _getString() {
     this._dataBase.getString(this.state.selectedAddress).then((result) => {
       const userName = result;
@@ -958,6 +1170,20 @@ export class Dapp extends React.Component {
       console.log(err)
     })
   }
+
+  getMyTickets(address)
+  {
+    {
+      this._ticket.getAddressTickets(address).then((result) => {
+        const myTickets = result;
+        this.setState({ myTickets })
+      }).catch((err) =>{
+        console.log(err)
+      })
+    }
+  }
+
+
 
   getUserProducts()
   {
@@ -1007,16 +1233,7 @@ export class Dapp extends React.Component {
   async _addTicket(shortInfo, email, nubmerToGain)
   {
     try{
-      this._dismissTransactionError();    
-
-      this._dataBase.getAddressFromEmail(email).then((result) => {
-        const addres = result;
-        console.log(addres)
-      }).catch((err) =>{
-        console.log(err)
-      })
-
-      console.log(email)
+      this._dismissTransactionError();      
 
       const tx = await this._ticket.addTicket(shortInfo, this._dataBase.getAddressFromEmail(email), nubmerToGain, {gasLimit: 540000});
       
