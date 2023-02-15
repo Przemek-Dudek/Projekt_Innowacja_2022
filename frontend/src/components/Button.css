@@ -1,0 +1,28 @@
+.form-select{
+    height: auto;
+    width: auto;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    left: 50%;
+    top: 1%;
+    transform: translate(-50%,-1%);
+}
+.buttons .btn-product {
+    width: auto;
+    height: auto;
+    margin-left: 2%;
+    background: transparent;
+    border: 2px solid rgb(0, 151, 230);
+    color: rgb(0, 151, 230);
+    font-weight: 600;
+    text-align: center;
+    line-height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: 0.3s ease;
+}

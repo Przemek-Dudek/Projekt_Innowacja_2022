@@ -1,8 +1,9 @@
 import {React, useEffect, useRef} from "react";
 import * as THREE from 'three';
+import "./Ticket.css"
 
-export function Transfer({ transferTokens, tokenSymbol }) {
-  const canvas = useRef(null);
+export function Ticket({addTicket, mail}) {
+    const canvas = useRef(null);
     useEffect(() => {
         // Sizes
         const sizes = {
@@ -107,41 +108,55 @@ export function Transfer({ transferTokens, tokenSymbol }) {
         return () => renderer.domElement.parentNode.removeChild(renderer.domElement);
     }, []);
 
-  return (
-    <div className="container">
-      <div className="container-box">
-        <h2>Transfer</h2>
-          <form
-            onSubmit={(event) => {
-              // This function just calls the transferTokens callback with the
-              // form's data.
-              event.preventDefault();
+    return (
+        <div className="container">
+            <div className="container-box">
+                <h2>Dodanie ticketu</h2>
+                <form
+                    onSubmit={(event) => {
+                        
+                        event.preventDefault();
 
-              const formData = new FormData(event.target);
-              const to = formData.get("to");
-              const amount = formData.get("amount");
+                        const formData = new FormData(event.target);
+                        const email = formData.get("email")
+                        const amount = formData.get("amount")
+                        const explanation = formData.get("explanation")
 
-              if (to && amount) {
-                transferTokens(to, amount);
-              }
-            }}
-            >
-            <div className="form-group">
-              <label>Amount of {tokenSymbol}</label>
-              <input type="number" step="1" name="amount" placeholder="1" required />
+                        if (email && amount && explanation) {
+                            addTicket(explanation, email, amount)
+                        }
+                        //formData.append('email')
+                        formData.delete("amount")
+                        formData.delete("explanation")
+                        
+
+                    }}
+                >
+                <div className="form-group" >
+                  <label>Nazwa przedmiotu</label>
+                  <select className="form-select" name="email" required >
+                    {mail.map((emailAddress) => {
+                      return(
+                        <option value={emailAddress} >{emailAddress}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div className="form-group">
+                    <label>Kwota</label>
+                    <input className="form-control" type="number" name="amount" required />
+                </div>
+                <div className="form-group">
+                    <label>Uzasadnienie</label>
+                    <input className="form-control" type="text" name="explanation" required />
+                </div>
+                
+                <div className="form-group btn">
+                    <input type="submit" className="button" value="addTicket" />
+                </div>
+                </form>
             </div>
-            <div className="form-group">
-              <label>Recipient address</label>
-              <input className="form-control" type="text" name="to" required />
-            </div>
-            <div className="form-group btn">
-              <input className="button" type="submit" value="Transfer" />
-            </div>
-        </form>
-      </div>
-      <div className="canvas"ref={canvas}></div>
-    </div>
-  );
+            <div className="canvas"ref={canvas}></div>
+        </div>
+    )
 }
-
-

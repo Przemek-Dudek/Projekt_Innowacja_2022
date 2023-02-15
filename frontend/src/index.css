@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+html, body {
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+body {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
+.alert-info{
+    margin-top: 60px;
+}
+
+.manager{
+    height: calc(100vh - 228px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.button {
+    width: 150px;
+    height: 40px;
+    outline: none;
+    background: transparent;
+    border: 2px solid rgb(0, 151, 230);
+    color: rgb(0, 151, 230);
+    font-weight: 900;
+    letter-spacing: 2px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: rgb(0, 151, 230);
+    color: rgb(255, 255, 255);
+}
+
+textarea {
+    width: 400px;
+    height: 300px;
+    resize: none;
+    outline: none;
+    border: 1px solid #121618;
+    background: ghostwhite;
+    padding: 5px;
+    font-size: 21px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=text], input[type=number], input[type=email], select, option {
+    width: 200px;
+    height: 30px;
+    padding: 0 5px;
+    outline: none;
+    border: 1.5px solid rgb(236, 240, 241);
+    background: rgb(236, 240, 241);
+    border-radius: 30px;
+}
+
+ .container {
+    width: 100vw;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.container-info {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    text-align: center;
+}
+
+@media only screen and (max-width: 675px) {
+    .container-info {
+        transform: scale(0.7);
+    }
+}
+
+.containerA
+{
+    width: 100vw;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-flow: row wrap;
+    background: linear-gradient(33deg, rgb(56, 52, 52) 0%, rgba(255,255,255,1) 0%, rgba(0,151,230,1) 100%);
+}
+
+.containerA .raportsA {
+    width: 400px;
+    height: auto;
+    background: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 10px;
+}
+
+.raportsA .raportA {
+    width: calc(100% - 25px);
+    height: 40px;
+    background: #5284f0;
+    margin: auto;
+    border-radius: 5px;
+    margin: 10px auto;
+    transition: ease-in-out 200ms;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.raportsA .raportA:hover {
+    background: #164cb1;
+    transform: scale(1.05);
+}
+
+.containerA .raportsA::-webkit-scrollbar {
+    width: 7px;
+    background: ghostwhite;
+    border-radius: 7px;
+}
+   
+.containerA .raportsA::-webkit-scrollbar-track {
+    border-radius: 7px;
+}
+
+.containerA .raportsA::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    outline: none;
+}
+
+.containerA .form-group {
+    width: 600px;
+    height: auto;
+    background: #5284f0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    padding: 20px 0;
+    font-size: 20px;
+    border: 12px solid white;
+    color: rgb(255, 255, 255);
+}
+
+.form-group .info {
+    width: 400px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.form-group .form-data  {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+
+.form-data .btns {
+    width: 300px;
+    height: auto;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.reject{
+    border: 2px solid white;
+    background: white;
+
+}
+
+
+/* MARKETPLACE */
+
+.product {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    vertical-align: top;
+    margin: 10px;
+    background-color: white;
+    border: 1px solid lightgray;
+  }
+  
+  .product img {
+    width: 100%;
+    height: calc(100% - 40px);
+    object-fit: cover;
+  }
+  
+  .product h2 {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+  
+  .product h3 {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 18px;
+  }
+  
+  .product button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+    padding: 5px 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+/* DANE PROFIL */
+.container-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: calc(100vh - 228px);
+    border-radius: 10px;
+    padding: 40px;
+    color: rgb(0, 0, 0);
+}
+
+.container-profile .profile-info-1 {
+    width: calc(100% - 50px);
+    height: auto;
+    border: 1px solid rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    padding: 5px 0;
+    margin: 10px 0;
+}
+.container-profile .profile-info-1 h4{
+    padding: 10px;
+}
+
+/* P INFO */
+
+.info{
+    width: auto;
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
+    left: 100px;
+}

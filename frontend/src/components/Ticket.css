@@ -1,0 +1,40 @@
+.container-box form {
+    min-width: 400px;
+}
+
+.container-box form .form-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-box form .form-group.btn {
+    padding: 15px 0;
+    justify-content: center;
+}
+
+.container {
+    width: 100vw;
+    height: auto;
+    background: transparent;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: row-reverse wrap;
+}
+
+.container form {
+    width: auto;
+    border-radius: 30px;
+    background: transparent;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+    border: solid 1px rgba(255, 255, 255, 0.05);
+    color:rgb(0, 0, 0);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(9.6px);
+    padding: 30px;
+    gap: 10px;
+}
+
+.container form .form-control{
+    margin-left: 10px;
+}

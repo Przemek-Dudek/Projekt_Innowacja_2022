@@ -1,6 +1,10 @@
 ## Konfiguracja
 
-W pliku hardhat.config.js w pole Key wpisujemy nasz numer walleta
+Należy zmodyfikowac nazwe pliku secured_template.js na secured.js oraz dodac swoj prywatny klucz jak poniżej:
+
+```sh
+module.exports = 'Your private key here';
+```
 
 ## Uruchomienie
 
@@ -12,7 +16,7 @@ cd Projekt_Innowacja_2022
 npm install
 ```
 
-Następnie w nowym terminalu/powershellu wpisać komendę:
+Następnie w nowym terminalu/powershellu wpisać komendę (deployowanie kontraktów):
 
 ```sh
 npx hardhat run scripts/deploy.js --network Mumbai
@@ -24,4 +28,12 @@ Na końcu uruchamiamy część frontendową:
 cd frontend
 npm install
 npm start
+```
+
+## Testowanie
+
+Po sklonowaniu repozytorium w folderze głównym wpisujemy komendę:
+
+```sh
+npx hardhat test
 ```

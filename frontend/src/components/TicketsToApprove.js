@@ -1,13 +1,14 @@
-import {React, useEffect, useRef} from "react";
+import { useState, useEffect, useRef, React} from "react";
 import * as THREE from 'three';
+import "./TicketsToApprove.css"
 
-export function Transfer({ transferTokens, tokenSymbol }) {
-  const canvas = useRef(null);
+export function TicketsToApprove({ }) {
+    const canvas = useRef(null);
     useEffect(() => {
         // Sizes
         const sizes = {
-        width: window.innerWidth,
-        height: window.innerHeight
+            width: window.innerWidth,
+            height: window.innerHeight
         };
 
         // Scene
@@ -28,8 +29,8 @@ export function Transfer({ transferTokens, tokenSymbol }) {
 
         // Renderer
         const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true
+            antialias: true,
+            alpha: true
         });
 
         renderer.setSize(sizes.width, sizes.height);
@@ -38,14 +39,14 @@ export function Transfer({ transferTokens, tokenSymbol }) {
 
         // Canvas Size Settings
         const sizeSetting = () => {
-        sizes.width = window.innerWidth;
-        sizes.height = window.innerHeight;
+            sizes.width = window.innerWidth;
+            sizes.height = window.innerHeight;
 
-        camera.aspect = sizes.width / sizes.height;
-        camera.updateProjectionMatrix();
+            camera.aspect = sizes.width / sizes.height;
+            camera.updateProjectionMatrix();
 
-        renderer.setSize(sizes.width, sizes.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(sizes.width, sizes.height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
 
         // Interacting With Mesh
@@ -55,7 +56,7 @@ export function Transfer({ transferTokens, tokenSymbol }) {
         const meshes = [];
 
         const randomNumber = (max) => {
-        return Math.floor(Math.random() * max);
+            return Math.floor(Math.random() * max);
         }
 
         (function createMeshes() {
@@ -107,41 +108,15 @@ export function Transfer({ transferTokens, tokenSymbol }) {
         return () => renderer.domElement.parentNode.removeChild(renderer.domElement);
     }, []);
 
-  return (
-    <div className="container">
-      <div className="container-box">
-        <h2>Transfer</h2>
-          <form
-            onSubmit={(event) => {
-              // This function just calls the transferTokens callback with the
-              // form's data.
-              event.preventDefault();
+    let isChecked = false
+    function handleChange(e) {
+        isChecked = true;
+    }
+    // console.log(arr);
 
-              const formData = new FormData(event.target);
-              const to = formData.get("to");
-              const amount = formData.get("amount");
-
-              if (to && amount) {
-                transferTokens(to, amount);
-              }
-            }}
-            >
-            <div className="form-group">
-              <label>Amount of {tokenSymbol}</label>
-              <input type="number" step="1" name="amount" placeholder="1" required />
-            </div>
-            <div className="form-group">
-              <label>Recipient address</label>
-              <input className="form-control" type="text" name="to" required />
-            </div>
-            <div className="form-group btn">
-              <input className="button" type="submit" value="Transfer" />
-            </div>
-        </form>
-      </div>
-      <div className="canvas"ref={canvas}></div>
-    </div>
-  );
+    return (
+        <div className="container">
+            <div className="canvas"ref={canvas}></div>
+        </div>
+    )
 }
-
-

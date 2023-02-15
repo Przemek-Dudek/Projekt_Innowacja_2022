@@ -8,18 +8,21 @@ require("./tasks/faucet");
 
 
 //Place for your private account key abcasd
-const KEY = "";
-
+const KEY = require('./secured.js');
 
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.9",
+  solidity: "0.8.12",
   networks: {
+    //allowUnlimitedContractSize: true,
     Mumbai: {
-      chainId: 0x13881, // We set 1337 to make interacting with MetaMask simpler
+      allowUnlimitedContractSize: true,
+      chainId: 80001, 
       url : 'https://matic-mumbai.chainstacklabs.com',
-      accounts: [KEY]
+      accounts: [KEY],
+      gas: 9007199254740,
+      gasPrice: 8000000000
     }
   }
 };

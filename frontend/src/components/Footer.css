@@ -1,0 +1,57 @@
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100vw;
+    height: 150px;
+    background: linear-gradient(33deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(0,151,230,1) 100%);
+}
+
+footer section {
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: row wrap;
+    color: rgb(255, 255, 255);
+}
+
+.section-2 {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0;
+}
+
+.section-1 .section-1-item {
+    width: 200px;
+    height: 20px;
+    
+}
+
+.section-1 .socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+}
+
+.section-1 .info {
+    width: auto;
+    text-align: center;
+}
+
+.section-1 .telephone {
+    font-size: 17px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.section-2 .section-2-item  {
+    width: 300px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

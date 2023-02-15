@@ -1,0 +1,21 @@
+.prev-button {
+    width: 60px;
+    height: 25px;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: transparent;
+    border: 2px solid rgb(0, 151, 230);
+    color: rgb(0, 151, 230);
+    font-weight: 600;
+    text-align: center;
+    line-height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 25px 0 0 25px;
+    transition: 0.3s ease;
+}
+
+.prev-button:hover {
+    left: 10px
+}

@@ -1,1 +1,7 @@
-hardhat.config.js
+./frontend/package-lock.json
+package-lock.json
+node_modules
+secured.js
+.idea
+artifacts
+cache

@@ -1,8 +1,9 @@
 import {React, useEffect, useRef} from "react";
 import * as THREE from 'three';
+import "./Ticket.css"
 
-export function Transfer({ transferTokens, tokenSymbol }) {
-  const canvas = useRef(null);
+export function AddProduct({addProduct}) {
+    const canvas = useRef(null);
     useEffect(() => {
         // Sizes
         const sizes = {
@@ -107,41 +108,45 @@ export function Transfer({ transferTokens, tokenSymbol }) {
         return () => renderer.domElement.parentNode.removeChild(renderer.domElement);
     }, []);
 
-  return (
-    <div className="container">
-      <div className="container-box">
-        <h2>Transfer</h2>
-          <form
-            onSubmit={(event) => {
-              // This function just calls the transferTokens callback with the
-              // form's data.
-              event.preventDefault();
+    return (
+        <div className="container">
+            <div className="container-box">
+                <h2>Edycja przedmiotu</h2>
+                <form
+                    onSubmit={(event) => {
+                        
+                        event.preventDefault();
 
-              const formData = new FormData(event.target);
-              const to = formData.get("to");
-              const amount = formData.get("amount");
+                        const formData = new FormData(event.target);
+                        const name = formData.get("name")
+                        const cost = formData.get("cost")
+                        const url = formData.get("url")
 
-              if (to && amount) {
-                transferTokens(to, amount);
-              }
-            }}
-            >
-            <div className="form-group">
-              <label>Amount of {tokenSymbol}</label>
-              <input type="number" step="1" name="amount" placeholder="1" required />
+                        if (name && cost && url) {
+                            addProduct(name, cost, cost)
+                        }                      
+
+                    }}
+                >
+                <div className="form-group">
+                    <label>Nazwa przedmiotu</label>
+                    <input className="form-control" type="text" name="name" required />
+                </div>
+                <div className="form-group">
+                    <label>Kwota</label>
+                    <input className="form-control" type="number" name="cost" required />
+                </div>
+                <div className="form-group">
+                    <label>Nazwa zdjęcia</label>
+                    <input className="form-control" type="text" name="url" required />
+                </div>
+                
+                <div className="form-group btn">
+                    <input type="submit" className="button" value="addProduct" />
+                </div>
+                </form>
             </div>
-            <div className="form-group">
-              <label>Recipient address</label>
-              <input className="form-control" type="text" name="to" required />
-            </div>
-            <div className="form-group btn">
-              <input className="button" type="submit" value="Transfer" />
-            </div>
-        </form>
-      </div>
-      <div className="canvas"ref={canvas}></div>
-    </div>
-  );
+            <div className="canvas"ref={canvas}></div>
+        </div>
+    )
 }
-
-

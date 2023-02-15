@@ -1,8 +1,8 @@
 import {React, useEffect, useRef} from "react";
 import * as THREE from 'three';
 
-export function Transfer({ transferTokens, tokenSymbol }) {
-  const canvas = useRef(null);
+export function Account({createAccount, user}) {
+    const canvas = useRef(null);
     useEffect(() => {
         // Sizes
         const sizes = {
@@ -107,41 +107,65 @@ export function Transfer({ transferTokens, tokenSymbol }) {
         return () => renderer.domElement.parentNode.removeChild(renderer.domElement);
     }, []);
 
-  return (
-    <div className="container">
-      <div className="container-box">
-        <h2>Transfer</h2>
-          <form
-            onSubmit={(event) => {
-              // This function just calls the transferTokens callback with the
-              // form's data.
-              event.preventDefault();
+    return (
+        <div className="container">
+            <div className="container-box">
+                <h3>Set up an account</h3>
+                <form
+                onSubmit={(event) => {
+                    
+                    event.preventDefault();
 
-              const formData = new FormData(event.target);
-              const to = formData.get("to");
-              const amount = formData.get("amount");
+                    const formData = new FormData(event.target);
+                    const address = formData.get("address")
+                    const name = formData.get("name")
+                    const lastName = formData.get("lastName")
+                    const email = formData.get("email")
+                    const accountType = formData.get("typeAccount")
 
-              if (to && amount) {
-                transferTokens(to, amount);
-              }
-            }}
-            >
-            <div className="form-group">
-              <label>Amount of {tokenSymbol}</label>
-              <input type="number" step="1" name="amount" placeholder="1" required />
+                    if (address && name && lastName && email && accountType) {
+                        createAccount(address, name, lastName, email, accountType)
+                    }
+
+                }}
+                >
+                    <div className="form-group">
+                        <label>Address</label>
+                        <input className="form-control" type="text" name="address" required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Name</label>
+                        <input className="form-control" type="text" name="name" required />
+                    </div>
+                    <div className="form-group">
+                        <label>Last Name</label>
+                        <input className="form-control" type="text" name="lastName" required />
+                    </div>
+                    <div className="form-group">
+                        <label>E-mail</label>
+                        <input className="form-control" type="email" name="email" required />
+                    </div>
+                    
+                    <div className="form-group" >
+                        <label>Account type</label>
+                    
+                        <select className="form-select" name="typeAccount" required >
+                            <option value="1" >PRACOWNIK</option>
+                        {user >= 1 &&(
+                            <option value="2">HR</option>
+                        )}
+                        {user >= 2 &&(
+                            <option value="3">ADMIN</option>
+                        )}
+                        </select>
+                    </div>
+                    <div className="form-group btn">
+                        <input className="button" type="submit" value="Register"/>
+                    </div>
+                </form>
             </div>
-            <div className="form-group">
-              <label>Recipient address</label>
-              <input className="form-control" type="text" name="to" required />
-            </div>
-            <div className="form-group btn">
-              <input className="button" type="submit" value="Transfer" />
-            </div>
-        </form>
-      </div>
-      <div className="canvas"ref={canvas}></div>
-    </div>
-  );
+            <div className="canvas"ref={canvas}></div>
+        </div>
+    )
 }
-
-
+/**/

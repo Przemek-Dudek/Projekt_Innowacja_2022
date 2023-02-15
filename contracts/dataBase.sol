@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.12;
 
 contract dataBase {
     enum accountType{ PRACOWNIK, HR, ADMIN,HEAD_ADMIN }
@@ -26,9 +26,9 @@ contract dataBase {
         addressIndices.push(owner);
     }
 
-    function addPerson(address  user,string memory name,string memory lastName,string memory email, accountType  typeAccount) public returns(bool)
+    function addPerson(address user, string memory name, string memory lastName, string memory email, accountType  typeAccount) external returns(bool)
     {
-        if(_dataBase[msg.sender].accountType == accountType.PRACOWNIK)
+        if(_dataBase[msg.sender].accountType == accountType.PRACOWNIK || getActivate(user))
             return false;
         _dataBase[user].activate = true;
         _dataBase[user].firstName = name;
@@ -41,6 +41,12 @@ contract dataBase {
         
     }
 
+    function length() external view returns(uint)
+    {
+        uint size = addressIndices.length;
+        return size;
+    }
+
     function doesHeExist(string memory email) public view returns(bool)
     {
         for(uint i = 0; i < addressIndices.length;i++)
@@ -51,7 +57,7 @@ contract dataBase {
         return false;
     }
 
-     function getAddressFromEmail(string memory email) public view returns(address)
+    function getAddressFromEmail(string memory email) public view returns(address)
     {
         for(uint i = 0; i < addressIndices.length;i++)
         {
@@ -60,23 +66,35 @@ contract dataBase {
         }
         return msg.sender;
     }
-
-    function getActivate() public view returns (bool)
+    
+    function getAllEmails() external view returns(string[] memory)
     {
-        return _dataBase[msg.sender].activate;
+        string[] memory emailTab = new string[](addressIndices.length);
+        for(uint i = 0; i<addressIndices.length; ++i)
+        {
+            emailTab[i] = _dataBase[addressIndices[i]].email;
+        }
 
+        return emailTab;
+    } 
+
+    function getActivate(address wallet) public view returns (bool)
+    {
+        return _dataBase[wallet].activate;
     }
 
 
-    function getString() public view returns(string memory) {
-        return _dataBase[msg.sender].firstName;
+    function getString(address wallet) public view returns(string memory) {
+        string memory fullName = string.concat(_dataBase[wallet].firstName,' ');
+        fullName = string.concat(fullName,_dataBase[wallet].lastName);
+        
+        return fullName;
     }
 
 
-     function getType() public view returns (accountType)
+     function getType() external view returns (accountType)
     {
         return _dataBase[msg.sender].accountType;
-
     }
 
   
