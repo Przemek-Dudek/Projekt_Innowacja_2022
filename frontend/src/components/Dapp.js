@@ -89,7 +89,7 @@ export class Dapp extends React.Component {
     this.addressSet()
     if(this.state.accountType === 3 && this.isTokenAddressSet === undefined && !this.isTokenAddressSet)
     {
-      // this._ticket.setTokenAddress(this._token.address)
+      this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
     }
 
@@ -106,7 +106,7 @@ export class Dapp extends React.Component {
       />;
     }
     
-    if( this.state.pageDisplay === "REGISTER")
+    else if( this.state.pageDisplay === "REGISTER")
     {
       return (
         <div>
@@ -335,11 +335,11 @@ export class Dapp extends React.Component {
                 //console.log(Number(this.state.ticketsArray[Number(id.textContent) - 1].id))
 
                 if (explanation && hay && name && reason && id) {
-                  this._acceptTicket(parseInt(id.textContent), !checked, explanation)
+                  this._acceptTicket(parseInt(id.textContent), false, explanation)
                 }
                 else if(!explanation)
                 {
-                  this._acceptTicket(parseInt(id.textContent), checked, "")
+                  this._acceptTicket(parseInt(id.textContent), true, "")
                 }
 
                 hay.textContent = ""
@@ -358,11 +358,6 @@ export class Dapp extends React.Component {
                         <button class="reject" type="submit">Submit</button>
                     </div>
                   )}
-                  {/* {isChosen && !checked &&(
-                    <div class="btns">
-                        <button class="accpet" type="submit">Accept</button>
-                    </div>
-                  )} */}
               </form >
             </div>  
             </div>
@@ -447,11 +442,17 @@ export class Dapp extends React.Component {
                             <div className="boxTitle">{this.state.products[index + 1].name}</div>
                             <div className="boxFooter">
                                 <div className="boxDescription">{Number(this.state.products[index + 1].cost)} $TTPSC</div>
-                                <button className="boxButton"  onClick={
+                                {Number(this.state.balance) >= Number(this.state.products[index + 1].cost) &&(
+                                <button className="boxButton" onClick={
                                 () => {
-                                  this.buyProduct(this.state.products[index + 1].name, Number(this.state.products[index + 1].cost))
+                                  this.buyProduct(this.state.products[index + 1].name , Number(this.state.products[index + 1].cost))    
                                 }
-                              }>Kup</button>
+                                }>Kup</button>
+                                )}
+                                {Number(this.state.balance) < Number(this.state.products[index + 1].cost) &&(
+                                  <p className="boxButtonN">Kup</p>
+                                )}
+                              
                             </div>
                           </div>
                         )}
@@ -464,11 +465,16 @@ export class Dapp extends React.Component {
                             <div className="boxTitle">{this.state.products[index + 2].name}</div>
                             <div className="boxFooter">
                                 <div className="boxDescription">{Number(this.state.products[index + 2].cost)} $TTPSC</div>
-                                <button className="boxButton"  onClick={
+                                {Number(this.state.balance) >= Number(this.state.products[index + 2].cost) &&(
+                                <button className="boxButton" onClick={
                                 () => {
-                                  this.buyProduct(this.state.products[index + 2].name, Number(this.state.products[index + 2].cost))
+                                  this.buyProduct(this.state.products[index + 2].name , Number(this.state.products[index + 2].cost))    
                                 }
-                              }>Kup</button>
+                                }>Kup</button>
+                                )}
+                                {Number(this.state.balance) < Number(this.state.products[index + 2].cost) &&(
+                                  <p className="boxButtonN">Kup</p>
+                                )}
                             </div>
                           </div>
                           
@@ -641,40 +647,55 @@ export class Dapp extends React.Component {
     {
       this._getString()
       this._updateBalance()
-      return (
-        <div>
-          <Navigation 
-          mainPage={() => this._userView()}
-          myProducts={() => this._myProducts()}
-          myTickets={() => this._myTickets()}
-          logout={() => this._logout()}
-          />
-          <div class="container-profile">
-              <h2><b>Witaj, </b></h2>
-              <h4>{this.state.userName}</h4>
-              <div class="profile-info-1">
-                <div class="info-block">
-                  <h4>Twój balans wynosi: {Number(this.state.balance)}</h4>
-                    {this.state.accountType === 3 &&(
-                      <h4>Typ Konta: ADMIN</h4>
-                    )}
-                    {this.state.accountType === 2 &&(
-                      <h4>Typ Konta: HR</h4>
-                    )}
-                    {this.state.accountType === 1 &&(
-                      <h4>Typ Konta: PRACOWNIK</h4>
-                    )}
-                    <h4>Adres konta: {this.state.selectedAddress}</h4>
+      if(this.state.userName !== " ")
+      {
+        return (
+          <div>
+            <Navigation 
+            mainPage={() => this._userView()}
+            myProducts={() => this._myProducts()}
+            myTickets={() => this._myTickets()}
+            logout={() => this._logout()}
+            />
+            <div class="container-profile">
+                <h2><b>Witaj, </b></h2>
+                <h4>{this.state.userName}</h4>
+                <div class="profile-info-1">
+                  <div class="info-block">
+                    <h4>Twój balans wynosi: {Number(this.state.balance)}</h4>
+                      {this.state.accountType === 3 &&(
+                        <h4>Typ Konta: ADMIN</h4>
+                      )}
+                      {this.state.accountType === 2 &&(
+                        <h4>Typ Konta: HR</h4>
+                      )}
+                      {this.state.accountType === 1 &&(
+                        <h4>Typ Konta: PRACOWNIK</h4>
+                      )}
+                      <h4>Adres konta: {this.state.selectedAddress}</h4>
+                  </div>
                 </div>
-              </div>
-
-              <div class="profile-settings-2"></div>
+  
+                <div class="profile-settings-2"></div>
+            </div>
+            
+            <Footer />
           </div>
           
-          <Footer />
-        </div>
-        
-      )
+        )
+      }
+      else
+      {
+        return(
+          <div className="myTicketsMain">
+            <h1>Nie jesteś w bazie danych. Skontaktuj się z IT.</h1>
+            <PreviousPage 
+            prevPage={() => this._logout()}
+            />
+          </div>
+        )
+      }
+      
     }
     else if(this.state.pageDisplay === "MYPRODUCTS")
     {
@@ -702,7 +723,7 @@ export class Dapp extends React.Component {
               />
             </div>
             
-            <div className="mainMarketPlace">
+            <div className="myTicketsMain">
                 {this.state.userProducts.length > 0 &&(
                   this.state.userProducts.map((struct, index) => {
                     if (index % 3 === 0) {
@@ -735,7 +756,7 @@ export class Dapp extends React.Component {
                               <div className="boxTitle">{this.state.userProducts[index + 2].name}</div>
                               <div className="boxFooter">
                                 <div className="boxDescription">
-                                  {Number(this.state.products[index + 2].cost)} $TTPSC
+                                    {Number(this.state.userProducts[index + 2].cost)} $TTPSC
                                 </div>
                               </div>
                             </div>
@@ -787,6 +808,7 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "MYTICKETS")
     {
       this.getMyTickets(this.state.selectedAddress)
+      
       if(this.state.myTickets.length > 0)
       {
         return (
@@ -798,10 +820,13 @@ export class Dapp extends React.Component {
             logout={() => this._logout()}
             />
             <div className="btn-handler">
-              <Button 
+              {/* <Button 
                 something={() => this._addingTicket()}
                 text={"Dodaj zgłoszenie"}
-              />
+              /> */}
+              <input className="btn btn-product" type="button" value="Dodaj zgłoszenie" onClick={() => {
+                this._addingTicket();
+              }} />
             </div>
             <div className="myTicketsMain">
                 {this.state.myTickets.length > 0 &&(
@@ -813,21 +838,22 @@ export class Dapp extends React.Component {
                             <div className="boxTitle">
                               Zgłoszenie {Number(struct.id)}
                               <br />
-                              Uzasadnienie: {this.state.myTickets[Number(struct.id)].explanation}
+                              Uzasadnienie: {this.state.myTickets[Number(index)].explanation}
+                              <p>Kwota: {Number(this.state.myTickets[Number(index)].numberOfTokens)}</p> 
                             </div>
                             <div className="boxFooter">
                                 <div className="boxDescription"> 
-                                {this.state.myTickets[Number(struct.id)].approved && this.state.myTickets[Number(struct.id)].explanationIfNot === "" &&(
+                                {this.state.myTickets[Number(index)].approved && this.state.myTickets[Number(index)].explanationIfNot === "" &&(
                                   <p>Zatwierdzone: Tak</p>
                                 )}
-                                {!this.state.myTickets[Number(struct.id)].approved && this.state.myTickets[Number(struct.id)].explanationIfNot === "" &&(
+                                {!this.state.myTickets[Number(index)].approved && this.state.myTickets[Number(index)].explanationIfNot === "" &&(
                                  <p>Zatwierdzone: Nie</p>
                                 )}
-                                 {this.state.myTickets[Number(struct.id)].explanationIfNot !== ""&&(
+                                 {this.state.myTickets[Number(index)].explanationIfNot !== ""&&(
                                   <p>Zatwierdzone: Odrzucone</p>
                                 )}
-                                {this.state.myTickets[Number(struct.id)].explanationIfNot !== ""&&(
-                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(struct.id)].explanationIfNot}</p>
+                                {this.state.myTickets[Number(index)].explanationIfNot !== ""&&(
+                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(index)].explanationIfNot}</p>
                                 )}
                                 </div>
                             </div>
@@ -837,21 +863,22 @@ export class Dapp extends React.Component {
                             <div className="boxTitle">
                               Zgłoszenie {Number(struct.id) + 1}
                               <br />
-                              Uzasadnienie: {this.state.myTickets[Number(struct.id) + 1].explanation}
+                              Uzasadnienie: {this.state.myTickets[Number(index) + 1].explanation}
+                              <p>Kwota: {Number(this.state.myTickets[Number(index) + 1].numberOfTokens)}</p> 
                             </div>
                             <div className="boxFooter">
                                 <div className="boxDescription"> 
-                                {this.state.myTickets[Number(struct.id) + 1].approved && this.state.myTickets[Number(struct.id) + 1].explanationIfNot === "" &&(
+                                {this.state.myTickets[Number(index) + 1].approved && this.state.myTickets[Number(index) + 1].explanationIfNot === "" &&(
                                   <p>Zatwierdzone: Tak</p>
                                 )}
-                                {!this.state.myTickets[Number(struct.id) + 1].approved && this.state.myTickets[Number(struct.id) + 1].explanationIfNot === "" &&(
+                                {!this.state.myTickets[Number(index) + 1].approved && this.state.myTickets[Number(index) + 1].explanationIfNot === "" &&(
                                  <p>Zatwierdzone: Nie</p>
                                 )}
-                                 {this.state.myTickets[Number(struct.id) + 1].explanationIfNot !== ""&&(
+                                 {this.state.myTickets[Number(index) + 1].explanationIfNot !== ""&&(
                                   <p>Zatwierdzone: Odrzucone</p>
                                 )}
-                                {this.state.myTickets[Number(struct.id) + 1].explanationIfNot !== ""&&(
-                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(struct.id) + 1].explanationIfNot}</p>
+                                {this.state.myTickets[Number(index) + 1].explanationIfNot !== ""&&(
+                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(index) + 1].explanationIfNot}</p>
                                 )}
                                 </div>
                             </div>
@@ -866,21 +893,22 @@ export class Dapp extends React.Component {
                               <div className="boxTitle">
                                 Zgłoszenie {Number(struct.id) + 2}
                                 <br />
-                                Uzasadnienie: {this.state.myTickets[Number(struct.id) + 2].explanation}
+                                Uzasadnienie: {this.state.myTickets[Number(index) + 2].explanation}
+                                <p>Kwota: {Number(this.state.myTickets[Number(index) + 2].numberOfTokens)}</p> 
                               </div>
                               <div className="boxFooter">
                                   <div className="boxDescription"> 
-                                  {this.state.myTickets[Number(struct.id) + 2].approved && this.state.myTickets[Number(struct.id) + 2].explanationIfNot === "" &&(
+                                  {this.state.myTickets[Number(index) + 2].approved && this.state.myTickets[Number(index) + 2].explanationIfNot === "" &&(
                                     <p>Zatwierdzone: Tak</p>
                                   )}
-                                  {!this.state.myTickets[Number(struct.id) + 2].approved && this.state.myTickets[Number(struct.id) + 2].explanationIfNot === "" &&(
+                                  {!this.state.myTickets[Number(index) + 2].approved && this.state.myTickets[Number(index) + 2].explanationIfNot === "" &&(
                                   <p>Zatwierdzone: Nie</p>
                                   )}
-                                  {this.state.myTickets[Number(struct.id) + 2].explanationIfNot !== ""&&(
+                                  {this.state.myTickets[Number(index) + 2].explanationIfNot !== ""&&(
                                     <p>Zatwierdzone: Odrzucone</p>
                                   )}
-                                  {this.state.myTickets[Number(struct.id) + 2].explanationIfNot !== ""&&(
-                                    <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(struct.id) + 2].explanationIfNot}</p>
+                                  {this.state.myTickets[Number(index) + 2].explanationIfNot !== ""&&(
+                                    <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(index) + 2].explanationIfNot}</p>
                                   )}
                                   </div>
                               </div>
@@ -915,8 +943,8 @@ export class Dapp extends React.Component {
             
             <div className="btn-handler">
               <Button 
-                something={() => this.marketPlace()}
-                text={"Do Marketu"}
+                something={() => this._addingTicket()}
+                text={"Dodaj zgłoszenie"}
               />
             </div>
             <div className="manager">
@@ -1144,7 +1172,15 @@ export class Dapp extends React.Component {
   _getString() {
     this._dataBase.getString(this.state.selectedAddress).then((result) => {
       const userName = result;
-      this.setState({ userName })
+      if(userName === "")
+      {
+        this.setState({ userName: undefined })
+      }
+      else
+      {
+        this.setState({ userName })
+      }
+      
     }).catch((err) => {
       console.log(err)
     });

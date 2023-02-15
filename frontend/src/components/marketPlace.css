@@ -1,11 +1,12 @@
 
 .mainMarketPlace {
   width: 100%;
+  /* height: calc(100vh - 228px); */
 }
 
 .myTicketsMain{
     width: 100%;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 228px);
     display: flex;
     justify-content: center;
     align-items: center;

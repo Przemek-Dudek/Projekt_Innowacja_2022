@@ -30,7 +30,7 @@ contract ticketsDeploy {
     Ticket[] private tickets;
     mapping (uint256 => address) public ticketsToOwner;
     
-    function addTicket(string calldata contractInfo, address wallet, uint256 numberOfTokens) external payable {
+    function addTicket(string calldata contractInfo, address wallet, uint256 numberOfTokens) external {
         uint256 ticketID = tickets.length;
         tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false, false, "",ticketID));
         ticketsToOwner[ticketID] = msg.sender;
@@ -49,7 +49,7 @@ contract ticketsDeploy {
         }
     }
 
-    function sendToken(address wallet, uint256 amount) external payable{
+    function sendToken(address wallet, uint256 amount) external{
         //require(msg.sender == owner, "Only owner can withdraw funds");
         require(amount > 0);
 

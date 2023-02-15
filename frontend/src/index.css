@@ -23,7 +23,7 @@ body {
 }
 
 .manager{
-    height: 100vh;
+    height: calc(100vh - 228px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,7 +252,7 @@ input[type=text], input[type=number], input[type=email], select, option {
     align-items: center;
     flex-direction: column;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 228px);
     border-radius: 10px;
     padding: 40px;
     color: rgb(0, 0, 0);
