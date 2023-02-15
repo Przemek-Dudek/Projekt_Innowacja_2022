@@ -136,12 +136,12 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
         </div>
         <div className="header">
           <header>
-            <p>Please connect to your wallet.</p>
+            <p>Połącz swój portfel.</p>
           </header>
         </div>
         <div className="connect-box">
           <button type="button" className="button" onClick={connectWallet}>
-            Connect Wallet
+            Połącz
           </button>
         </div>
       </div>
