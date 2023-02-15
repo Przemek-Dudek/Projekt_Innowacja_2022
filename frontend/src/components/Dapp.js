@@ -246,16 +246,16 @@ export class Dapp extends React.Component {
             i = event.target.dataset.index
             console.log(event.target.key)
             id.textContent = Number(event.target.dataset.index)
-            console.log(Number(this.state.ticketsArray[i].numberOfTokens))
-            hay.textContent = Number(this.state.ticketsArray[i].numberOfTokens);
+            console.log(Number(this.state.ticketsArrayAll[i].numberOfTokens))
+            hay.textContent = Number(this.state.ticketsArrayAll[i].numberOfTokens);
             
-            this._dataBase.getString(this.state.ticketsArray[i].walletAddress).then((result) => {
+            this._dataBase.getString(this.state.ticketsArrayAll[i].walletAddress).then((result) => {
               name.textContent = result;
             }).catch((err) => {
               console.log(err)
             });
             
-            reason.textContent = this.state.ticketsArray[i].explanation;
+            reason.textContent = this.state.ticketsArrayAll[i].explanation;
           });
         });
 
@@ -289,7 +289,7 @@ export class Dapp extends React.Component {
               {this.state.ticketsArray.length > 0 &&(
                 this.state.ticketsArray.map((struct, index) => {
                   return(
-                    <div class="raportA" key={Number(struct.id)} data-index={index} >Zgłoszenie {Number(struct.id)}</div>
+                    <div class="raportA" key={Number(struct.id)} data-index={Number(struct.id)} >Zgłoszenie {Number(struct.id)}</div>
                   )
                 })
               )}
@@ -337,11 +337,11 @@ export class Dapp extends React.Component {
                 //console.log(Number(this.state.ticketsArray[Number(id.textContent) - 1].id))
 
                 if (explanation && hay && name && reason && id) {
-                  this._acceptTicket(id.textContent, !checked, explanation)
+                  this._acceptTicket(paresInt(id.textContent), !checked, explanation)
                 }
                 else if(!explanation)
                 {
-                  this._acceptTicket(id.textContent, checked, "")
+                  this._acceptTicket(paresInt(id.textContent), checked, "")
                 }
 
                 hay.textContent = ""
