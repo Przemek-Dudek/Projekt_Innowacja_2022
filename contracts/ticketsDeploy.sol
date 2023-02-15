@@ -30,19 +30,10 @@ contract ticketsDeploy {
     Ticket[] private tickets;
     mapping (uint256 => address) public ticketsToOwner;
     
-
-    event AddTicket(address recipent, uint ticketID);
-    event TransferSent(address from, address to, uint amount);
-    event Received(address, uint);
-    receive() external payable {
-        emit Received(msg.sender, msg.value);
-    }
-
     function addTicket(string calldata contractInfo, address wallet, uint256 numberOfTokens) external payable {
         uint256 ticketID = tickets.length;
         tickets.push(Ticket(contractInfo,wallet,numberOfTokens, false, false, "",ticketID));
         ticketsToOwner[ticketID] = msg.sender;
-        emit AddTicket(msg.sender, ticketID);
     }
 
     function approve(uint ticketID, bool decision, string memory _explanation) external 
@@ -104,6 +95,11 @@ contract ticketsDeploy {
              result[i] = temp[i];
         }
         return result;
+    }
+
+    function getAllTicketsTable() external view returns(Ticket[] memory)
+    {
+        return tickets;
     }
 
     function getAddressTickets(address wallet) external view returns(Ticket[] memory)

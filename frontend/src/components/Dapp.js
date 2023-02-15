@@ -56,6 +56,7 @@ export class Dapp extends React.Component {
       accountType: undefined,
       isTokenAddressSet: undefined,
       ticketsArray: [],
+      ticketsArrayAll: [],
       currentTicket: 0,
       products: [],
       allEmails: [],
@@ -88,7 +89,7 @@ export class Dapp extends React.Component {
     this.addressSet()
     if(this.state.accountType === 3 && this.isTokenAddressSet === undefined && !this.isTokenAddressSet)
     {
-      this._ticket.setTokenAddress(this._token.address)
+      // this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
     }
 
@@ -230,6 +231,7 @@ export class Dapp extends React.Component {
     else if(this.state.pageDisplay === "TICKETACC")
     {
       this.giveAllTickets()
+      this.getAllTickets()
       if(this.state.ticketsArray !== undefined)
       {
         let i = 0;
@@ -242,8 +244,10 @@ export class Dapp extends React.Component {
         document.querySelectorAll('.raportA').forEach(div => {
           div.addEventListener('click', event => {
             i = event.target.dataset.index
+            console.log(event.target.key)
             id.textContent = Number(event.target.dataset.index)
-            hay.textContent = this.state.ticketsArray[i].numberOfTokens;
+            console.log(Number(this.state.ticketsArray[i].numberOfTokens))
+            hay.textContent = Number(this.state.ticketsArray[i].numberOfTokens);
             
             this._dataBase.getString(this.state.ticketsArray[i].walletAddress).then((result) => {
               name.textContent = result;
@@ -285,7 +289,7 @@ export class Dapp extends React.Component {
               {this.state.ticketsArray.length > 0 &&(
                 this.state.ticketsArray.map((struct, index) => {
                   return(
-                    <div class="raportA" key={Number(struct.id)} data-index={Number(struct.id)} >Zgłoszenie {Number(struct.id)}</div>
+                    <div class="raportA" key={Number(struct.id)} data-index={index} >Zgłoszenie {Number(struct.id)}</div>
                   )
                 })
               )}
@@ -337,7 +341,6 @@ export class Dapp extends React.Component {
                 }
                 else if(!explanation)
                 {
-        
                   this._acceptTicket(id.textContent, checked, "")
                 }
 
@@ -810,23 +813,23 @@ export class Dapp extends React.Component {
                         <div className="boxBody" key={index} style={{ clear: 'both' }}>
                           <div className="ticketBox" key={index} data-index={index}>
                             <div className="boxTitle">
-                              Zgłoszenie {index + 1}
+                              Zgłoszenie {Number(struct.id)}
                               <br />
-                              Uzasadnienie: {this.state.myTickets[index].explanation}
+                              Uzasadnienie: {this.state.myTickets[Number(struct.id)].explanation}
                             </div>
                             <div className="boxFooter">
                                 <div className="boxDescription"> 
-                                {this.state.myTickets[index].approved && this.state.myTickets[index].explanationIfNot === "" &&(
+                                {this.state.myTickets[Number(struct.id)].approved && this.state.myTickets[Number(struct.id)].explanationIfNot === "" &&(
                                   <p>Zatwierdzone: Tak</p>
                                 )}
-                                {!this.state.myTickets[index].approved && this.state.myTickets[index].explanationIfNot === "" &&(
+                                {!this.state.myTickets[Number(struct.id)].approved && this.state.myTickets[Number(struct.id)].explanationIfNot === "" &&(
                                  <p>Zatwierdzone: Nie</p>
                                 )}
-                                 {this.state.myTickets[index].explanationIfNot !== ""&&(
+                                 {this.state.myTickets[Number(struct.id)].explanationIfNot !== ""&&(
                                   <p>Zatwierdzone: Odrzucone</p>
                                 )}
-                                {this.state.myTickets[index].explanationIfNot !== ""&&(
-                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[index].explanationIfNot}</p>
+                                {this.state.myTickets[Number(struct.id)].explanationIfNot !== ""&&(
+                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(struct.id)].explanationIfNot}</p>
                                 )}
                                 </div>
                             </div>
@@ -834,23 +837,23 @@ export class Dapp extends React.Component {
                           {this.state.myTickets[index + 1] && (
                             <div className="ticketBox" key={index + 1} data-index={index + 1}>
                             <div className="boxTitle">
-                              Zgłoszenie {index + 2}
+                              Zgłoszenie {Number(struct.id) + 1}
                               <br />
-                              Uzasadnienie: {this.state.myTickets[index + 1].explanation}
+                              Uzasadnienie: {this.state.myTickets[Number(struct.id) + 1].explanation}
                             </div>
                             <div className="boxFooter">
                                 <div className="boxDescription"> 
-                                {this.state.myTickets[index + 1].approved && this.state.myTickets[index + 1].explanationIfNot === "" &&(
+                                {this.state.myTickets[Number(struct.id) + 1].approved && this.state.myTickets[Number(struct.id) + 1].explanationIfNot === "" &&(
                                   <p>Zatwierdzone: Tak</p>
                                 )}
-                                {!this.state.myTickets[index + 1].approved && this.state.myTickets[index + 1].explanationIfNot === "" &&(
+                                {!this.state.myTickets[Number(struct.id) + 1].approved && this.state.myTickets[Number(struct.id) + 1].explanationIfNot === "" &&(
                                  <p>Zatwierdzone: Nie</p>
                                 )}
-                                 {this.state.myTickets[index + 1].explanationIfNot !== ""&&(
+                                 {this.state.myTickets[Number(struct.id) + 1].explanationIfNot !== ""&&(
                                   <p>Zatwierdzone: Odrzucone</p>
                                 )}
-                                {this.state.myTickets[index + 1].explanationIfNot !== ""&&(
-                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[index + 1].explanationIfNot}</p>
+                                {this.state.myTickets[Number(struct.id) + 1].explanationIfNot !== ""&&(
+                                  <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(struct.id) + 1].explanationIfNot}</p>
                                 )}
                                 </div>
                             </div>
@@ -860,26 +863,26 @@ export class Dapp extends React.Component {
                             <div
                               className="ticketBox"
                               key={index + 2}
-                              data-index={index + 2}
+                              data-index={Number(struct.id) + 2}
                             >
                               <div className="boxTitle">
-                                Zgłoszenie {index + 3}
+                                Zgłoszenie {Number(struct.id) + 2}
                                 <br />
-                                Uzasadnienie: {this.state.myTickets[index + 2].explanation}
+                                Uzasadnienie: {this.state.myTickets[Number(struct.id) + 2].explanation}
                               </div>
                               <div className="boxFooter">
                                   <div className="boxDescription"> 
-                                  {this.state.myTickets[index + 2].approved && this.state.myTickets[index + 2].explanationIfNot === "" &&(
+                                  {this.state.myTickets[Number(struct.id) + 2].approved && this.state.myTickets[Number(struct.id) + 2].explanationIfNot === "" &&(
                                     <p>Zatwierdzone: Tak</p>
                                   )}
-                                  {!this.state.myTickets[index + 2].approved && this.state.myTickets[index + 2].explanationIfNot === "" &&(
+                                  {!this.state.myTickets[Number(struct.id) + 2].approved && this.state.myTickets[Number(struct.id) + 2].explanationIfNot === "" &&(
                                   <p>Zatwierdzone: Nie</p>
                                   )}
-                                  {this.state.myTickets[index + 2].explanationIfNot !== ""&&(
+                                  {this.state.myTickets[Number(struct.id) + 2].explanationIfNot !== ""&&(
                                     <p>Zatwierdzone: Odrzucone</p>
                                   )}
-                                  {this.state.myTickets[index + 2].explanationIfNot !== ""&&(
-                                    <p>Uzasadnienie odrzucenia: {this.state.myTickets[index + 2].explanationIfNot}</p>
+                                  {this.state.myTickets[Number(struct.id) + 2].explanationIfNot !== ""&&(
+                                    <p>Uzasadnienie odrzucenia: {this.state.myTickets[Number(struct.id) + 2].explanationIfNot}</p>
                                   )}
                                   </div>
                               </div>
@@ -1158,6 +1161,16 @@ export class Dapp extends React.Component {
     });
     
   }
+
+  getAllTickets() {
+    this._ticket.getAllTicketsTable().then((result) => {
+      const ticketsArrayAll = result;
+      this.setState({ ticketsArrayAll })
+  }).catch((err) => {
+    console.log(err)
+  });
+  
+}
 
   giveAllProducts()
   {
