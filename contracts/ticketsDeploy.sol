@@ -21,6 +21,7 @@ contract ticketsDeploy {
     address public tokenAddress;
     uint256 currentBalance;
     address owner;
+    bool isAddressSet;
 
     constructor () { 
         owner = msg.sender;
@@ -70,12 +71,18 @@ contract ticketsDeploy {
 
     function setTokenAddress(address _address) public
     {
+       isAddressSet = true;
        tokenAddress = _address;
     }
 
     function giveTokenAddress() external view returns(address)
     {
         return tokenAddress;
+    }
+
+    function getIsAddressSet() external view returns(bool)
+    {
+        return isAddressSet;
     }
 
     function getAllTickets() external view returns(Ticket[] memory)

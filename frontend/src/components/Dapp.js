@@ -85,8 +85,8 @@ export class Dapp extends React.Component {
     if (this.state.tokenData === undefined) {
       return <Loading />;
     }
-
-    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined)
+    this.addressSet()
+    if(this.state.accountType === 3 && this.isTokenAddressSet === undefined && !this.isTokenAddressSet)
     {
       this._ticket.setTokenAddress(this._token.address)
       this.isTokenAddressSet = true
@@ -242,7 +242,7 @@ export class Dapp extends React.Component {
         document.querySelectorAll('.raportA').forEach(div => {
           div.addEventListener('click', event => {
             i = event.target.dataset.index
-            id.textContent = Number(event.target.dataset.index) + 1
+            id.textContent = Number(event.target.dataset.index)
             hay.textContent = this.state.ticketsArray[i].numberOfTokens;
             
             this._dataBase.getString(this.state.ticketsArray[i].walletAddress).then((result) => {
@@ -285,7 +285,7 @@ export class Dapp extends React.Component {
               {this.state.ticketsArray.length > 0 &&(
                 this.state.ticketsArray.map((struct, index) => {
                   return(
-                    <div class="raportA" key={index} data-index={index} >Zgłoszenie {index + 1}</div>
+                    <div class="raportA" key={Number(struct.id)} data-index={Number(struct.id)} >Zgłoszenie {Number(struct.id)}</div>
                   )
                 })
               )}
@@ -329,14 +329,16 @@ export class Dapp extends React.Component {
                 const name = document.querySelector('.info-name-value');
                 const reason = document.querySelector('.info-reason-value');
                 const id = document.querySelector('.info-id-value');
+                
+                //console.log(Number(this.state.ticketsArray[Number(id.textContent) - 1].id))
 
                 if (explanation && hay && name && reason && id) {
-                    this._acceptTicket(this.state.ticketsArray[Number(id.textContent)].id, !checked, explanation)
+                  this._acceptTicket(id.textContent, !checked, explanation)
                 }
                 else if(!explanation)
                 {
         
-                  this._acceptTicket(this.state.ticketsArray[Number(id.textContent)].id, !checked, "")
+                  this._acceptTicket(id.textContent, checked, "")
                 }
 
                 hay.textContent = ""
@@ -1162,6 +1164,16 @@ export class Dapp extends React.Component {
     this._market.getAllProducts().then((result) => {
       const products = result;
       this.setState({ products })
+    }).catch((err) =>{
+      console.log(err)
+    })
+  }
+
+  addressSet()
+  {
+    this._ticket.getIsAddressSet().then((result) => {
+      const isTokenAddressSet = result;
+      this.setState({ isTokenAddressSet })
     }).catch((err) =>{
       console.log(err)
     })
