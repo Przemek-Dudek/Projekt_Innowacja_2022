@@ -244,9 +244,7 @@ export class Dapp extends React.Component {
         document.querySelectorAll('.raportA').forEach(div => {
           div.addEventListener('click', event => {
             i = event.target.dataset.index
-            console.log(event.target.key)
             id.textContent = Number(event.target.dataset.index)
-            console.log(Number(this.state.ticketsArrayAll[i].numberOfTokens))
             hay.textContent = Number(this.state.ticketsArrayAll[i].numberOfTokens);
             
             this._dataBase.getString(this.state.ticketsArrayAll[i].walletAddress).then((result) => {
