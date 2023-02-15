@@ -140,7 +140,7 @@ export class Dapp extends React.Component {
       
 
     }
-    else if(this.state.pageDisplay === "TRANSFER")
+    else if(this.state.pageDisplay === "TRANSFER" && this.state.accountType >= 3)
     {
       return (
         <div>
