@@ -337,11 +337,11 @@ export class Dapp extends React.Component {
                 //console.log(Number(this.state.ticketsArray[Number(id.textContent) - 1].id))
 
                 if (explanation && hay && name && reason && id) {
-                  this._acceptTicket(paresInt(id.textContent), !checked, explanation)
+                  this._acceptTicket(parseInt(id.textContent), !checked, explanation)
                 }
                 else if(!explanation)
                 {
-                  this._acceptTicket(paresInt(id.textContent), checked, "")
+                  this._acceptTicket(parseInt(id.textContent), checked, "")
                 }
 
                 hay.textContent = ""
